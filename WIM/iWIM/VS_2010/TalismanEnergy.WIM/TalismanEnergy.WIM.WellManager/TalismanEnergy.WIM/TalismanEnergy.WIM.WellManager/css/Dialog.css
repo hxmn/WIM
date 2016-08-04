@@ -1,0 +1,256 @@
+﻿/* Dialogue titlebar */
+.dlgHeader
+{
+	width:100%;
+	height:38px;
+	cursor:move;
+}
+
+    /* Close button */
+.dlgHeader a
+{
+	margin-top:4px;
+	display:block;
+	float:right;
+	width:23px;
+	height:21px;
+	background:transparent url("../images/dialog/BlackIce/static.png") no-repeat -18px 0;
+	cursor:default;
+}
+
+.dlgHeader a:hover
+{
+	background-position:-18px -21px;
+}
+
+.dlgHeader a:active
+{
+	background-position:-18px -42px;
+	outline:none;
+}
+
+.dlgHeader .ttlt
+{
+	width:100%;
+	height:30px;
+}
+
+.dlgHeader .ttlt-l
+{
+	width:9px;
+	height:30px;
+	background:transparent url("../images/dialog/BlackIce/static.png") no-repeat;
+	float:left;
+}
+
+.dlgHeader .ttlt-m
+{
+	height:30px;
+	background:#000 url("../images/dialog/BlackIce/horizontal.png") repeat-x;
+	float:left;
+}
+/* width is dialogue width (450px) - 18px (the left & right divs are 9px each) */
+#ctl00_ContentPlaceHolder1_dlgFind .ttlt-m
+{ width:432px; }
+#ctl00_ctl00_ContentPlaceHolder1_dlgNode .ttlt-m
+{ width:532px; }
+#ctl00_ctl00_ContentPlaceHolder1_dlgRemark .ttlt-m
+{ width:532px; }
+
+.dlgHeader .ttlt-r
+{
+	width:9px;
+	height:30px;
+	background:transparent url("../images/dialog/BlackIce/static.png") no-repeat -9px 0;
+	float:left;
+}
+
+.dlgHeader .ttlt span
+{
+	cursor:inherit;
+	margin-left:4px;
+	line-height:30px;
+	color:#fff;
+	font-weight:bold;
+	font-size:11px;
+}
+
+.dlgHeader .ttlb
+{
+	width:100%;
+	height:8px;
+}
+
+.dlgHeader .ttlb span
+{
+	display:none;
+}
+
+.dlgHeader .ttlb-l
+{
+	width:9px;
+	height:8px;
+	background:#000 url("../images/dialog/BlackIce/static.png") no-repeat 0 -30px;
+	float:left;
+}
+
+.dlgHeader .ttlb-m
+{
+	height:8px;
+	background:#fff url("../images/dialog/BlackIce/horizontal.png") repeat-x 0 -67px;
+	float:left;
+}
+/* width is dialogue width (450px) - 18px (the left & right divs are 9px each) */
+#ctl00_ContentPlaceHolder1_dlgFind .ttlb-m
+{ width:432px; }
+#ctl00_ctl00_ContentPlaceHolder1_dlgNode .ttlb-m
+{ width:532px; }
+#ctl00_ctl00_ContentPlaceHolder1_dlgRemark .ttlb-m
+{ width:532px; }
+
+.dlgHeader .ttlb-r
+{
+	width:9px;
+	height:8px;
+	background:#000 url("../images/dialog/BlackIce/static.png") no-repeat -9px -30px;
+	float:left;
+}
+
+/* Dialogue contents */
+
+.dlgContent
+{
+	width:100%;
+	background-color:#fff;
+	font-size:11px;
+}
+#ctl00_ContentPlaceHolder1_dlgFind .dlgContent
+{ height:100px; }
+#ctl00_ctl00_ContentPlaceHolder1_dlgNode .dlgContent
+{ height:400px; }
+#ctl00_ctl00_ContentPlaceHolder1_dlgRemark .dlgContent
+{ height:200px; }
+
+.dlgContent .con-l
+{
+	width:9px;
+	height:100%;
+	background:#000 url("../images/dialog/BlackIce/vertical.png") repeat-y;
+	float:left;
+}
+.dlgContent .con-m
+{
+	height:100%;
+	background-color:#fff;
+	float:left;
+}
+/* width is dialogue width (450px) - 18px (the left & right divs are 9px each) */
+#ctl00_ContentPlaceHolder1_dlgFind .con-m
+{ width:432px; }
+#ctl00_ctl00_ContentPlaceHolder1_dlgNode .con-m
+{ width:532px; }
+#ctl00_ctl00_ContentPlaceHolder1_dlgRemark .con-m
+{ width:532px; }
+
+.dlgContent .con-m p
+{
+	font-size:12px;
+}
+
+.dlgContent .con-m .top
+{
+	margin-top:2px;
+}
+
+.dlgContent .con-r
+{
+	width:9px;
+	height:100%;
+	background:#000 url("../images/dialog/BlackIce/vertical.png") repeat-y -9px 0;
+	float:left;
+}
+
+/* Dialogue footer */
+.dlgFooter
+{
+	width:100%;
+	height:37px;
+	font-size:11px;
+}
+
+.dlgFooter .ftr-l
+{
+	width:9px;
+	height:37px;
+	background:transparent url("../images/dialog/BlackIce/static.png") no-repeat 0 -75px;
+	float:left;
+}
+
+.dlgFooter .ftr-m
+{
+	height:37px;
+	background:#eee url("../images/dialog/BlackIce/horizontal.png") repeat-x 0 -30px;
+	float:left;
+}
+/* width is dialogue width (450px) - 18px (the left & right divs are 9px each) */
+#ctl00_ContentPlaceHolder1_dlgFind .ftr-m
+{ width:432px; }
+#ctl00_ctl00_ContentPlaceHolder1_dlgNode .ftr-m
+{ width:532px; }
+#ctl00_ctl00_ContentPlaceHolder1_dlgRemark .ftr-m
+{ width:532px; }
+
+.dlgFooter .ftr-r
+{
+	width:9px;
+	height:37px;
+	background:transparent url("../images/dialog/BlackIce/static.png") no-repeat -9px -75px;
+	float:left;
+}
+
+.findErr
+{
+	color: #933;
+}
+
+.dlg a.btn
+{
+	margin:4px 0 0 0;
+	width:70px;
+	height:25px;
+	background:transparent url("../images/dialog/BlackIce/static.png") no-repeat -41px 0;
+	display:block;
+	padding:0;
+	text-decoration:none;
+	cursor:default;
+	float:right;
+}
+
+.dlg a.btn span
+{
+	width:70px;
+	text-align:center;
+	display:block;
+	background-color:transparent;
+	color:#333;
+	line-height:24px;
+	padding:0;
+}
+
+.dlg a.btn:hover
+{ background-position:-41px -25px; }
+
+.dlg a.btn:hover span
+{ color:#000; }
+
+.dlg a.btn:active
+{ outline:none; }
+
+.dlg a.btn:active span
+{ padding-top:1px; }
+
+.dlg textarea
+{
+ resize: none;
+ font-family:Consolas, monospace;
+}

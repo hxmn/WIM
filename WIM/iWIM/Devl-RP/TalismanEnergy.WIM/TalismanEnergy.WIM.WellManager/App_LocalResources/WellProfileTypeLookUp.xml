@@ -1,0 +1,47 @@
+<?xml version="1.0" standalone="yes"?>
+<WIMLookUpTables>
+  <xs:schema id="WIMLookUpTables" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="WIMLookUpTables" msdata:IsDataSet="true" msdata:MainDataTable="WellProfileTypeLookUp" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="WellProfileTypeLookUp">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="WELL_PROFILE_TYPE">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="20" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="LONG_NAME" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="60" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <WellProfileTypeLookUp>
+    <WELL_PROFILE_TYPE>D</WELL_PROFILE_TYPE>
+    <LONG_NAME>DEVIATED</LONG_NAME>
+  </WellProfileTypeLookUp>
+  <WellProfileTypeLookUp>
+    <WELL_PROFILE_TYPE>H</WELL_PROFILE_TYPE>
+    <LONG_NAME>HORIZONTAL</LONG_NAME>
+  </WellProfileTypeLookUp>
+  <WellProfileTypeLookUp>
+    <WELL_PROFILE_TYPE>S</WELL_PROFILE_TYPE>
+    <LONG_NAME>SLANT</LONG_NAME>
+  </WellProfileTypeLookUp>
+  <WellProfileTypeLookUp>
+    <WELL_PROFILE_TYPE>V</WELL_PROFILE_TYPE>
+    <LONG_NAME>VERTICAL</LONG_NAME>
+  </WellProfileTypeLookUp>
+</WIMLookUpTables>

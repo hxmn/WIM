@@ -1,0 +1,27 @@
+WIM Houskeeping 2016.03
+QC1805: r_id 015: modify check for wells requiring nad27
+QC1806: r_id 016: modify check for wells with auto-nad27 where other source has changed
+QC1807: r_id 020 and 021: use new view for CWS well versions without a matching public (IHS) version
+QC1810: r_id 019 and 045: modify clean-up of orphaned well-header data
+QC1811: r_id 018: redundant
+
+
+Vault\WIM\Views
+ ** PPDM to grant select WITH GRANT OPTION on ppdm.well_area to WIM
+
+ 01) rpt_cws_unmatched_vw.sql  [QC1807]
+ 02) rpt_orphan_wnv_vw.sql  [QC1810]
+ 03) rpt_orphan_wn_vw.sql  [QC1810]
+ 04) rpt_orphan_license_vw.sql  [QC1810]
+ 05) rpt_orphan_warea_vw.sql  [QC1810]
+ 06) rpt_orphan_status_vw.sql  [QC1810]
+ 07) rpt_bad_activeind_warea_vw.sql  [QC1810]
+ 08) wim_nad27_conv_stage_vw.sql  [QC1805]
+ 09) wim_nad27_conv_stage_updt_vw.sql  [QC1806]
+
+Vault\WIM\report_objects\tis_summary
+ 10) 01_tables_data.sql
+ 
+Vault\WIM\Housekeeping Process
+ 11) wim_housekeeping.prc  [all QC tickets]
+

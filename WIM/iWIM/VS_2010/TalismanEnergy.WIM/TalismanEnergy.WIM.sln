@@ -1,0 +1,121 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TalismanEnergy.WIM.iWIM", "TalismanEnergy.WIM.WellManager\TalismanEnergy.WIM.iWIM.vbproj", "{7604AC0B-7B1E-4DB2-969E-44EFE9682B57}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TalismanEnergy.WIM.Common", "TalismanEnergy.WIM.Common\TalismanEnergy.WIM.Common.vbproj", "{487E20A2-6F16-4346-8056-734A3038C47D}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TalismanEnergy.WIM.GatewayProxy", "TalismanEnergy.WIM.GatewayProxy\TalismanEnergy.WIM.GatewayProxy.vbproj", "{60958830-CC83-4EA3-94DC-19F5FDFA37A2}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TalismanEnergy.WIM.DataAccess", "TalismanEnergy.WIM.DataAccess\TalismanEnergy.WIM.DataAccess.vbproj", "{ADC8F014-3E05-4733-9A0B-948DDB256C84}"
+EndProject
+Project("{00000000-0000-0000-0000-000000000000}") = "TalismanEnergy.WIM.iWIMSecurity", "TalismanEnergy.WIM.WellManager.Security\TalismanEnergy.WIM.iWIMSecurity.vbproj", "{5319DD03-75F2-4E5D-8F7E-48C3B9BDB3F3}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TalismanEnergy.WIM.iWIMLookUpsRefresh", "TalismanEnergy.WIM.iWIMLookUpsRefresh\TalismanEnergy.WIM.iWIMLookUpsRefresh.vbproj", "{0B37DAA4-7AEB-419B-BE9B-3B717CA9EAEE}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 7
+		SccProjectName0 = $/iWIM/VS_2010/TalismanEnergy.WIM/TalismanEnergy.WIM.WellManager/TalismanEnergy.WIM
+		SccLocalPath0 = .
+		SccProvider0 = MSSCCI:SourceGear\u0020Vault\u0020Standard\u0020Classic\u0020Client
+		CanCheckoutShared = false
+		SccProjectUniqueName1 = TalismanEnergy.WIM.Common\\TalismanEnergy.WIM.Common.vbproj
+		SccLocalPath1 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection1 = TalismanEnergy.WIM.Common\\
+		SccProjectUniqueName2 = TalismanEnergy.WIM.DataAccess\\TalismanEnergy.WIM.DataAccess.vbproj
+		SccLocalPath2 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection2 = TalismanEnergy.WIM.DataAccess\\
+		SccProjectUniqueName3 = TalismanEnergy.WIM.GatewayProxy\\TalismanEnergy.WIM.GatewayProxy.vbproj
+		SccLocalPath3 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection3 = TalismanEnergy.WIM.GatewayProxy\\
+		SccProjectUniqueName4 = TalismanEnergy.WIM.iWIMLookUpsRefresh\\TalismanEnergy.WIM.iWIMLookUpsRefresh.vbproj
+		SccLocalPath4 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection4 = TalismanEnergy.WIM.iWIMLookUpsRefresh\\
+		SccProjectUniqueName5 = TalismanEnergy.WIM.WellManager.Security\\TalismanEnergy.WIM.iWIMSecurity.vbproj
+		SccLocalPath5 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection5 = TalismanEnergy.WIM.WellManager.Security\\
+		SccProjectUniqueName6 = TalismanEnergy.WIM.WellManager\\TalismanEnergy.WIM.iWIM.vbproj
+		SccLocalPath6 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection6 = TalismanEnergy.WIM.WellManager\\
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Release|.NET = Release|.NET
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7604AC0B-7B1E-4DB2-969E-44EFE9682B57}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{7604AC0B-7B1E-4DB2-969E-44EFE9682B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7604AC0B-7B1E-4DB2-969E-44EFE9682B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7604AC0B-7B1E-4DB2-969E-44EFE9682B57}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7604AC0B-7B1E-4DB2-969E-44EFE9682B57}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7604AC0B-7B1E-4DB2-969E-44EFE9682B57}.Release|.NET.ActiveCfg = Release|Any CPU
+		{7604AC0B-7B1E-4DB2-969E-44EFE9682B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7604AC0B-7B1E-4DB2-969E-44EFE9682B57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7604AC0B-7B1E-4DB2-969E-44EFE9682B57}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7604AC0B-7B1E-4DB2-969E-44EFE9682B57}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{487E20A2-6F16-4346-8056-734A3038C47D}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{487E20A2-6F16-4346-8056-734A3038C47D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{487E20A2-6F16-4346-8056-734A3038C47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{487E20A2-6F16-4346-8056-734A3038C47D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{487E20A2-6F16-4346-8056-734A3038C47D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{487E20A2-6F16-4346-8056-734A3038C47D}.Release|.NET.ActiveCfg = Release|Any CPU
+		{487E20A2-6F16-4346-8056-734A3038C47D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{487E20A2-6F16-4346-8056-734A3038C47D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{487E20A2-6F16-4346-8056-734A3038C47D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{487E20A2-6F16-4346-8056-734A3038C47D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{60958830-CC83-4EA3-94DC-19F5FDFA37A2}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{60958830-CC83-4EA3-94DC-19F5FDFA37A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60958830-CC83-4EA3-94DC-19F5FDFA37A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60958830-CC83-4EA3-94DC-19F5FDFA37A2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{60958830-CC83-4EA3-94DC-19F5FDFA37A2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{60958830-CC83-4EA3-94DC-19F5FDFA37A2}.Release|.NET.ActiveCfg = Release|Any CPU
+		{60958830-CC83-4EA3-94DC-19F5FDFA37A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60958830-CC83-4EA3-94DC-19F5FDFA37A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60958830-CC83-4EA3-94DC-19F5FDFA37A2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{60958830-CC83-4EA3-94DC-19F5FDFA37A2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ADC8F014-3E05-4733-9A0B-948DDB256C84}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{ADC8F014-3E05-4733-9A0B-948DDB256C84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC8F014-3E05-4733-9A0B-948DDB256C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADC8F014-3E05-4733-9A0B-948DDB256C84}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ADC8F014-3E05-4733-9A0B-948DDB256C84}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ADC8F014-3E05-4733-9A0B-948DDB256C84}.Release|.NET.ActiveCfg = Release|Any CPU
+		{ADC8F014-3E05-4733-9A0B-948DDB256C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC8F014-3E05-4733-9A0B-948DDB256C84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADC8F014-3E05-4733-9A0B-948DDB256C84}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ADC8F014-3E05-4733-9A0B-948DDB256C84}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5319DD03-75F2-4E5D-8F7E-48C3B9BDB3F3}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{5319DD03-75F2-4E5D-8F7E-48C3B9BDB3F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5319DD03-75F2-4E5D-8F7E-48C3B9BDB3F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5319DD03-75F2-4E5D-8F7E-48C3B9BDB3F3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5319DD03-75F2-4E5D-8F7E-48C3B9BDB3F3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5319DD03-75F2-4E5D-8F7E-48C3B9BDB3F3}.Release|.NET.ActiveCfg = Release|Any CPU
+		{5319DD03-75F2-4E5D-8F7E-48C3B9BDB3F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5319DD03-75F2-4E5D-8F7E-48C3B9BDB3F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5319DD03-75F2-4E5D-8F7E-48C3B9BDB3F3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5319DD03-75F2-4E5D-8F7E-48C3B9BDB3F3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0B37DAA4-7AEB-419B-BE9B-3B717CA9EAEE}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{0B37DAA4-7AEB-419B-BE9B-3B717CA9EAEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B37DAA4-7AEB-419B-BE9B-3B717CA9EAEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B37DAA4-7AEB-419B-BE9B-3B717CA9EAEE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0B37DAA4-7AEB-419B-BE9B-3B717CA9EAEE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0B37DAA4-7AEB-419B-BE9B-3B717CA9EAEE}.Release|.NET.ActiveCfg = Release|Any CPU
+		{0B37DAA4-7AEB-419B-BE9B-3B717CA9EAEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B37DAA4-7AEB-419B-BE9B-3B717CA9EAEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B37DAA4-7AEB-419B-BE9B-3B717CA9EAEE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0B37DAA4-7AEB-419B-BE9B-3B717CA9EAEE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

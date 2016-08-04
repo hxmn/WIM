@@ -1,0 +1,715 @@
+<?xml version="1.0" standalone="yes"?>
+<WIMLookUpTables>
+  <xs:schema id="WIMLookUpTables" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="WIMLookUpTables" msdata:IsDataSet="true" msdata:MainDataTable="CoordinateSystemLookUp" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="CoordinateSystemLookUp">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="COORD_SYSTEM_ID">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="20" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="COORD_SYSTEM_NAME" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="60" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>4202</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>AGD66</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>4218</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>Bogota 1975</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>4238</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>ID74</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>4686</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>MAGNA-SIRGAS</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>3116</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>MAGNA-SIRGAS / Colombia Bogota zone</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>3117</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>MAGNA-SIRGAS / Colombia East Central zone</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>3115</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>MAGNA-SIRGAS / Colombia West zone</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>4267</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26734</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / Alaska zone 4</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26735</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / Alaska zone 5</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26710</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 10N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26711</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 11N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26712</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 12N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26713</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 13N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26714</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 14N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26715</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 15N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26716</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 16N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26717</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 17N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26718</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 18N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26719</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 19N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26720</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 20N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26721</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 21N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26722</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD27 / UTM zone 22N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>4269</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26910</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 10N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26911</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 11N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26912</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 12N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26913</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 13N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26914</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 14N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26915</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 15N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26916</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 16N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26917</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 17N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26918</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 18N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26919</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 19N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26920</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 20N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26921</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 21N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26922</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 22N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26923</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 23N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26903</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 3N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26904</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 4N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26905</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 5N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26906</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 6N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26907</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 7N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26908</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 8N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>26909</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NAD83 / UTM zone 9N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>NAD27</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NORTH AMERICAN DATUM 1927</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>NAD83</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>NORTH AMERICAN DATUM 1983</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>4674</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>SIRGAS 2000</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>UTM</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>UNIVERSAL TRANSVERSE MERCATOR</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>4322</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 72</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>4326</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32610</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 10N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32710</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 10S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32611</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 11N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32711</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 11S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32612</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 12N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32712</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 12S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32613</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 13N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32713</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 13S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32614</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 14N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32714</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 14S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32615</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 15N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32715</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 15S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32616</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 16N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32716</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 16S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32617</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 17N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32717</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 17S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32618</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 18N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32718</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 18S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32619</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 19N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32719</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 19S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32601</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 1N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32701</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 1S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32620</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 20N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32720</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 20S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32621</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 21N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32721</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 21S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32622</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 22N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32722</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 22S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32623</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 23N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32723</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 23S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32624</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 24N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32724</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 24S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32625</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 25N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32725</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 25S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32626</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 26N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32726</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 26S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32627</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 27N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32727</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 27S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32628</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 28N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32728</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 28S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32629</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 29N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32729</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 29S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32602</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 2N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32702</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 2S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32630</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 30N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32730</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 30S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32631</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 31N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32731</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 31S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32632</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 32N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32732</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 32S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32633</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 33N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32733</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 33S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32634</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 34N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32734</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 34S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32635</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 35N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32735</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 35S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32636</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 36N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32736</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 36S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32637</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 37N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32737</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 37S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32638</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 38N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32738</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 38S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32639</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 39N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32739</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 39S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32603</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 3N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32703</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 3S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32640</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 40N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32740</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 40S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32641</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 41N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32741</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 41S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32642</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 42N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32742</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 42S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32643</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 43N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32743</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 43S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32644</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 44N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32744</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 44S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32645</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 45N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32745</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 45S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32646</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 46N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32746</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 46S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32647</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 47N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32747</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 47S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32648</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 48N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32748</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 48S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32649</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 49N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32749</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 49S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32604</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 4N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32704</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 4S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32650</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 50N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32750</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 50S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32651</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 51N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32751</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 51S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32652</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 52N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32752</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 52S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32653</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 53N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32753</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 53S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32654</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 54N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32754</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 54S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32655</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 55N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32755</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 55S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32656</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 56N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32756</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 56S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32657</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 57N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32757</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 57S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32658</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 58N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32758</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 58S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32659</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 59N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32759</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 59S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32605</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 5N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32705</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 5S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32660</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 60N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32760</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 60S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32606</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 6N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32706</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 6S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32607</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 7N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32707</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 7S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32608</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 8N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32708</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 8S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32609</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 9N</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+  <CoordinateSystemLookUp>
+    <COORD_SYSTEM_ID>32709</COORD_SYSTEM_ID>
+    <COORD_SYSTEM_NAME>WGS 84 / UTM zone 9S</COORD_SYSTEM_NAME>
+  </CoordinateSystemLookUp>
+</WIMLookUpTables>

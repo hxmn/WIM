@@ -1,0 +1,12 @@
+
+In 2015-November/December, for TIS Task 1426, the triggers (to update well inventory counts) were re-worked to use Oracle Advanced Queuing.
+The triggers are now saved in the Vault directory for the SCHEMA in which the trigger resides.
+For example, triggers for objects in the PPDM schema are now in the 'PPDM' Vault folder.  
+ See folder 'GeoChem' for the GPDR trigger for well inventory.
+ See folder SEIS37 \ triggers for the SEIS37 trigger for well inventory.
+
+To view the original well inventory triggers (for PPDM, GPDR, and SEIS37 schemas), see Vault repository Exploration Technology - TIS \ Well_Inventory \ Triggers \ zz_OLD
+These triggers update the well inventory counts for specific data types (dir srvy, pden, completions, well logs, etc).
+
+
+

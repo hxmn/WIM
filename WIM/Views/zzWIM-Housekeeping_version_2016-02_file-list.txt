@@ -1,0 +1,57 @@
+WIM Houskeeping 2016.02
+QC1790/1791/1792/1793 - separate counts by region (AB,SK vs et-al/other)
+  Note: this is DEPENDENT on changes to the wim.z_benchmark report-items table
+QC1784 add check for wells with multiple license numbers
+QC1783 inactive well version with active license, node version, or status
+QC1764 Wells with only an active GDM (700TLME) well version and no inventory.
+QC1781 Wells with only a surface or bottom-hole location and not the other.
+QC1740 Failed inactivations due to inventory
+QC1798 UWI with multiple composite wells
+QC1797 Exclusion table for WIM Housekeeping checks, to exclude specific data from being included in the data checks
+
+Vault\WIM\Views
+ 01) 20160321_housekeeping_2016-02_additional_grants.sql  [QC1764/1781]
+ 02) rpt_well_all_licenses_vw.sql  [QC1774]
+ 03) 01_rpt_dupe_ipluwi_in_well_vw.sql  [QC1774]
+ 04) rpt_bad_activeind_license_vw.sql  [QC1783]
+ 05) rpt_bad_activeind_status_vw.sql  [QC1783]
+ 06) rpt_bad_activeind_wnv_vw.sql  [QC1783]
+ 07) rpt_dupe_kb_ground_elev_vw.sql  [QC1793]
+ 08) rpt_fail_inactivate_bc_inv_vw.sql  [QC1740]
+ 09) rpt_gdmwv_no_inventory_vw.sql  [QC1764]
+ 10) rpt_kb_zero_less_vw.sql  [QC1791]
+ 11) rpt_old_override_vw.sql  [QC1792]
+ 12) rpt_wells_single_node_vw.sql  [QC1781]
+ 13) wv_dup_local_uwi_vw.sql  [QC1790]
+ 14) rpt_uwi_multi_well_vw.sql  [QC1798]
+
+Vault\WIM\report_objects\tis_summary
+ 15) 01_tables_data.sql  [all QC tickets]
+
+Vault\WIM\Housekeeping Process
+ 16) wim_housekeeping.prc  [all QC tickets]
+
+Vault\ReportGeneration\BIRT\reports_geo\WIM_Duplicate_UWI
+ 17) 1_dupe_uwi.rptdesign  [QC1774]
+
+Vault\ReportGeneration\BIRT\reports_geo\WIM_Duplicate_UWI
+ 18) TIS_Summary.rptdesign  [ 2016.02 ]
+ 19) DataSteward_Housekeeping_Summary.rptdesign  [ 2016.02 ]
+
+
+.....
+
+QC1797
+Table
+ 01) exclude_from_housekeeping.sql 
+ 02) exclude_from_housekeeping_add_data_20160404.sql
+
+Views
+ 03) rpt_well_all_licenses_vw.sql
+ 04) 01_rpt_dupe_ipluwi_in_well_vw.sql
+ 05) rpt_dupe_kb_ground_elev_vw.sql 
+ 06) rpt_gdmwv_no_inventory_vw.sql
+ 07) rpt_kb_zero_less_vw.sql
+ 08) rpt_wells_single_node_vw.sql
+ 09) wv_dup_local_uwi_vw.sql 
+ 10) rpt_uwi_multi_well_vw.sql 

@@ -1,0 +1,388 @@
+<?xml version="1.0" standalone="yes"?>
+<WIMLookUpTables>
+  <xs:schema id="WIMLookUpTables" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="WIMLookUpTables" msdata:IsDataSet="true" msdata:MainDataTable="ProvinceStateLookUp" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="ProvinceStateLookUp">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="COUNTRY">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="20" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="PROVINCE_STATE">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="20" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="LONG_NAME" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="60" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>AB</PROVINCE_STATE>
+    <LONG_NAME>ALBERTA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>AI</PROVINCE_STATE>
+    <LONG_NAME>ARCTIC ISLANDS</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>AK</PROVINCE_STATE>
+    <LONG_NAME>ALASKA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>AL</PROVINCE_STATE>
+    <LONG_NAME>ALABAMA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>AR</PROVINCE_STATE>
+    <LONG_NAME>ARKANSAS</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>AZ</PROVINCE_STATE>
+    <LONG_NAME>ARIZONA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>BC</PROVINCE_STATE>
+    <LONG_NAME>BRITISH COLUMBIA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>CA</PROVINCE_STATE>
+    <LONG_NAME>CALIFORNIA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>CO</PROVINCE_STATE>
+    <LONG_NAME>COLORADO</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>CT</PROVINCE_STATE>
+    <LONG_NAME>CONNECTICUT</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>DC</PROVINCE_STATE>
+    <LONG_NAME>DISTRICT OF COLUMBIA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>DE</PROVINCE_STATE>
+    <LONG_NAME>DELAWARE</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>EC</PROVINCE_STATE>
+    <LONG_NAME>EAST COAST</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>FL</PROVINCE_STATE>
+    <LONG_NAME>FLORIDA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>GA</PROVINCE_STATE>
+    <LONG_NAME>GEORGIA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>GM</PROVINCE_STATE>
+    <LONG_NAME>GULF OF MEXICO</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>HB</PROVINCE_STATE>
+    <LONG_NAME>HUDSON BAY</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>HI</PROVINCE_STATE>
+    <LONG_NAME>HAWAII</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>IA</PROVINCE_STATE>
+    <LONG_NAME>IOWA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>ID</PROVINCE_STATE>
+    <LONG_NAME>IDAHO</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>IL</PROVINCE_STATE>
+    <LONG_NAME>ILLINOIS</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>IN</PROVINCE_STATE>
+    <LONG_NAME>INDIANA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>KS</PROVINCE_STATE>
+    <LONG_NAME>KANSAS</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>KY</PROVINCE_STATE>
+    <LONG_NAME>KENTUCKY</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>LA</PROVINCE_STATE>
+    <LONG_NAME>LOUISIANA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>MA</PROVINCE_STATE>
+    <LONG_NAME>MASSACHUSETTS</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>MB</PROVINCE_STATE>
+    <LONG_NAME>MANITOBA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>MD</PROVINCE_STATE>
+    <LONG_NAME>MARYLAND</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>ME</PROVINCE_STATE>
+    <LONG_NAME>MAINE</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>MI</PROVINCE_STATE>
+    <LONG_NAME>MICHIGAN</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>MN</PROVINCE_STATE>
+    <LONG_NAME>MINNESOTA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>MO</PROVINCE_STATE>
+    <LONG_NAME>MISSOURI</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>MS</PROVINCE_STATE>
+    <LONG_NAME>MISSISSIPPI</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>MT</PROVINCE_STATE>
+    <LONG_NAME>MONTANA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>NB</PROVINCE_STATE>
+    <LONG_NAME>NEW BRUNSWICK</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>NC</PROVINCE_STATE>
+    <LONG_NAME>NORTH CAROLINA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>ND</PROVINCE_STATE>
+    <LONG_NAME>NORTH DAKOTA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>NE</PROVINCE_STATE>
+    <LONG_NAME>NEBRASKA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>NH</PROVINCE_STATE>
+    <LONG_NAME>NEW HAMPSHIRE</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>NJ</PROVINCE_STATE>
+    <LONG_NAME>NEW JERSEY</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>NL</PROVINCE_STATE>
+    <LONG_NAME>NEWFOUNDLAND AND LABRADOR</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>NM</PROVINCE_STATE>
+    <LONG_NAME>NEW MEXICO</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>NS</PROVINCE_STATE>
+    <LONG_NAME>NOVA SCOTIA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>NT</PROVINCE_STATE>
+    <LONG_NAME>NORTHWEST TERRITORIES</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>NU</PROVINCE_STATE>
+    <LONG_NAME>NUNAVUT</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>NULLCODE</PROVINCE_STATE>
+    <LONG_NAME>NULL CODE NOT SELECTABLE</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>NV</PROVINCE_STATE>
+    <LONG_NAME>NEVADA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>NY</PROVINCE_STATE>
+    <LONG_NAME>NEW YORK</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>OH</PROVINCE_STATE>
+    <LONG_NAME>OHIO</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>OK</PROVINCE_STATE>
+    <LONG_NAME>OKLAHOMA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>ON</PROVINCE_STATE>
+    <LONG_NAME>ONTARIO</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>OR</PROVINCE_STATE>
+    <LONG_NAME>OREGON</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>PA</PROVINCE_STATE>
+    <LONG_NAME>PENNSYLVANIA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>PE</PROVINCE_STATE>
+    <LONG_NAME>PRINCE EDWARD ISLAND</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>QC</PROVINCE_STATE>
+    <LONG_NAME>QUEBEC</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>RI</PROVINCE_STATE>
+    <LONG_NAME>RHODE ISLAND</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>SC</PROVINCE_STATE>
+    <LONG_NAME>SOUTH CAROLINA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>SD</PROVINCE_STATE>
+    <LONG_NAME>SOUTH DAKOTA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>SK</PROVINCE_STATE>
+    <LONG_NAME>SASKATCHEWAN</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>TN</PROVINCE_STATE>
+    <LONG_NAME>TENNESSEE</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>TX</PROVINCE_STATE>
+    <LONG_NAME>TEXAS</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>UT</PROVINCE_STATE>
+    <LONG_NAME>UTAH</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>VA</PROVINCE_STATE>
+    <LONG_NAME>VIRGINIA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>VT</PROVINCE_STATE>
+    <LONG_NAME>VERMONT</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>WA</PROVINCE_STATE>
+    <LONG_NAME>WASHINGTON</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>WC</PROVINCE_STATE>
+    <LONG_NAME>WEST COAST</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>WI</PROVINCE_STATE>
+    <LONG_NAME>WISCONSIN</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>WV</PROVINCE_STATE>
+    <LONG_NAME>WEST VIRGINIA</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7US</COUNTRY>
+    <PROVINCE_STATE>WY</PROVINCE_STATE>
+    <LONG_NAME>WYOMING</LONG_NAME>
+  </ProvinceStateLookUp>
+  <ProvinceStateLookUp>
+    <COUNTRY>7CN</COUNTRY>
+    <PROVINCE_STATE>YT</PROVINCE_STATE>
+    <LONG_NAME>YUKON</LONG_NAME>
+  </ProvinceStateLookUp>
+</WIMLookUpTables>

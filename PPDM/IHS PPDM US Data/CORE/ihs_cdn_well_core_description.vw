@@ -1,0 +1,93 @@
+DROP VIEW PPDM.IHS_CDN_WELL_CORE_DESCRIPTION;
+
+/* Formatted on 4/2/2013 9:10:25 AM (QP5 v5.185.11230.41888) */
+CREATE OR REPLACE FORCE VIEW PPDM.IHS_CDN_WELL_CORE_DESCRIPTION
+(
+   UWI,
+   SOURCE,
+   CORE_ID,
+   DESCRIPTION_OBS_NO,
+   ACTIVE_IND,
+   BASE_DEPTH,
+   BASE_DEPTH_OUOM,
+   CORE_DESCRIPTION_COMPANY,
+   DESCRIPTION_DATE,
+   DIP_ANGLE,
+   EFFECTIVE_DATE,
+   EXPIRY_DATE,
+   INTERVAL_THICKNESS,
+   INTERVAL_THICKNESS_OUOM,
+   LITHOLOGY_DESC,
+   POROSITY_LENGTH,
+   POROSITY_LENGTH_OUOM,
+   POROSITY_QUALITY,
+   POROSITY_TYPE,
+   PPDM_GUID,
+   REMARK,
+   SHOW_LENGTH,
+   SHOW_LENGTH_OUOM,
+   SHOW_TYPE,
+   TOP_DEPTH,
+   TOP_DEPTH_OUOM,
+   ROW_CHANGED_BY,
+   ROW_CHANGED_DATE,
+   ROW_CREATED_BY,
+   ROW_CREATED_DATE,
+   ROW_QUALITY,
+   PROVINCE_STATE,
+   X_TOP_STRAT_UNIT_ID,
+   X_BASE_STRAT_UNIT_ID,
+   X_PRIMARY_STRAT_UNIT_ID,
+   TOP_STRAT_AGE,
+   BASE_STRAT_AGE,
+   PRIMARY_STRAT_AGE,
+   STRAT_NAME_SET_ID
+)
+AS
+   SELECT /*+ RULE */
+         wv."UWI",
+          wv."SOURCE",
+          wcc."CORE_ID",
+          wcc."DESCRIPTION_OBS_NO",
+          wcc."ACTIVE_IND",
+          wcc."BASE_DEPTH",
+          wcc."BASE_DEPTH_OUOM",
+          wcc."CORE_DESCRIPTION_COMPANY",
+          wcc."DESCRIPTION_DATE",
+          wcc."DIP_ANGLE",
+          wcc."EFFECTIVE_DATE",
+          wcc."EXPIRY_DATE",
+          wcc."INTERVAL_THICKNESS",
+          wcc."INTERVAL_THICKNESS_OUOM",
+          wcc."LITHOLOGY_DESC",
+          wcc."POROSITY_LENGTH",
+          wcc."POROSITY_LENGTH_OUOM",
+          wcc."POROSITY_QUALITY",
+          wcc."POROSITY_TYPE",
+          wcc."PPDM_GUID",
+          wcc."REMARK",
+          wcc."SHOW_LENGTH",
+          wcc."SHOW_LENGTH_OUOM",
+          wcc."SHOW_TYPE",
+          wcc."TOP_DEPTH",
+          wcc."TOP_DEPTH_OUOM",
+          wcc."ROW_CHANGED_BY",
+          wcc."ROW_CHANGED_DATE",
+          wcc."ROW_CREATED_BY",
+          wcc."ROW_CREATED_DATE",
+          wcc."ROW_QUALITY",
+          wcc."PROVINCE_STATE",
+          wcc."X_TOP_STRAT_UNIT_ID",
+          wcc."X_BASE_STRAT_UNIT_ID",
+          wcc."X_PRIMARY_STRAT_UNIT_ID",
+          wcc."TOP_STRAT_AGE",
+          wcc."BASE_STRAT_AGE",
+          wcc."PRIMARY_STRAT_AGE",
+          wcc."STRAT_NAME_SET_ID"
+     FROM well_core_description@C_TALISMAN_IHSDATA wcc, well_version wv
+    WHERE     wv.ipl_uwi_local = wcc.uwi
+          AND wv.SOURCE = '300IPL'
+          AND wv.active_ind = 'Y';
+
+
+GRANT SELECT ON PPDM.IHS_CDN_WELL_CORE_DESCRIPTION TO PPDM_RO;

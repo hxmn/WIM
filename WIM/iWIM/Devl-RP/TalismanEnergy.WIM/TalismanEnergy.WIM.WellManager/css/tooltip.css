@@ -1,0 +1,21 @@
+#text {margin:50px auto; width:600px}
+.hotspot {color:#900; padding-bottom:1px; border-bottom:1px dotted #900; cursor:pointer}
+
+#tt
+{
+ font-family:Consolas, monospace;
+ position:absolute;
+ display:block;
+ padding:2px 12px 3px 7px;
+ max-width:450px;
+ margin-left:5px;
+ background:#444;
+ color:#FFF;
+ border:solid 7px #444;
+ -webkit-border-radius: 7px;
+ -moz-border-radius: 7px;
+ border-radius: 7px;
+ -webkit-border-bottom-right-radius: 0;
+ -moz-border-radius-bottomright: 0;
+ border-bottom-right-radius: 0;
+}

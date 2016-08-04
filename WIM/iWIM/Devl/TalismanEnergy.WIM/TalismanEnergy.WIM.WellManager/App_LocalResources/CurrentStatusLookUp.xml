@@ -1,0 +1,563 @@
+<?xml version="1.0" standalone="yes"?>
+<WIMLookUpTables>
+  <xs:schema id="WIMLookUpTables" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="WIMLookUpTables" msdata:IsDataSet="true" msdata:MainDataTable="CurrentStatusLookUp" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="CurrentStatusLookUp">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="STATUS">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="20" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="LONG_NAME" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="60" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <CurrentStatusLookUp>
+    <STATUS>ABD BITUMEN</STATUS>
+    <LONG_NAME>ABANDONED BITUMEN</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD CYCLICAL</STATUS>
+    <LONG_NAME>ABANDONED CYCLICAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD GAS</STATUS>
+    <LONG_NAME>ABANDONED GAS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD GAS&amp;COND</STATUS>
+    <LONG_NAME>ABANDONED GAS &amp; CONDENSATE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD GAS SHOW</STATUS>
+    <LONG_NAME>ABANDONED GAS SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD G/O SHOW</STATUS>
+    <LONG_NAME>ABANDONED GAS WITH OIL SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD HYCRB SH</STATUS>
+    <LONG_NAME>ABANDONED HYDROCARBON SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD HY-CARBS</STATUS>
+    <LONG_NAME>ABANDONED HYDROCARBONS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD OIL</STATUS>
+    <LONG_NAME>ABANDONED OIL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD O&amp;G SHOW</STATUS>
+    <LONG_NAME>ABANDONED OIL &amp; GAS SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD OIL SHOW</STATUS>
+    <LONG_NAME>ABANDONED OIL SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD O/G SHOW</STATUS>
+    <LONG_NAME>ABANDONED OIL WITH GAS SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD O&amp;G</STATUS>
+    <LONG_NAME>ABANDONED OIL&amp;GAS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD OIL&amp;GAS</STATUS>
+    <LONG_NAME>ABANDONED OIL&amp;GAS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD SERVICE</STATUS>
+    <LONG_NAME>ABANDONED SERVICE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD TIGHT</STATUS>
+    <LONG_NAME>ABANDONED TIGHT HOLE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD AIR INJ</STATUS>
+    <LONG_NAME>ABD AIR INJECTION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD CO2 INJ</STATUS>
+    <LONG_NAME>ABD CO2 INJECTION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD DRAIN</STATUS>
+    <LONG_NAME>ABD DRAIN</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD EXPT</STATUS>
+    <LONG_NAME>ABD EXPERIMENTAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD GAS INJ</STATUS>
+    <LONG_NAME>ABD GAS INJECTOR</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD INJ</STATUS>
+    <LONG_NAME>ABD INJ</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD LPG INJ</STATUS>
+    <LONG_NAME>ABD LPG INJ</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD LPG STOR</STATUS>
+    <LONG_NAME>ABD LPG STORAGE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD N2 INJ</STATUS>
+    <LONG_NAME>ABD N2 INJECTION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD SOLV INJ</STATUS>
+    <LONG_NAME>ABD SOLVENT INJ</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD STM INJ</STATUS>
+    <LONG_NAME>ABD STEAM INJ</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD THERMAL</STATUS>
+    <LONG_NAME>ABD THERMAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD WASTE DS</STATUS>
+    <LONG_NAME>ABD WASTE DISPOSAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD WTR DISP</STATUS>
+    <LONG_NAME>ABD WTR DISPOSAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD WTR INJ</STATUS>
+    <LONG_NAME>ABD WTR INJECTION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ABD WTR SRC</STATUS>
+    <LONG_NAME>ABD WTR SOURCE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>AIR INJ</STATUS>
+    <LONG_NAME>AIR INJ.</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>REV.COMB.</STATUS>
+    <LONG_NAME>AIR INJ.-REV. COMB.</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>STM INJ/OIL</STATUS>
+    <LONG_NAME>ALT.ST.INJ/OIL PROD.</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>BITUMEN</STATUS>
+    <LONG_NAME>BITUMEN</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>MULTI BIT</STATUS>
+    <LONG_NAME>BITUMEN MULTIZONE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>CANCELLED</STATUS>
+    <LONG_NAME>CANCELLED</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>CO2 INJ</STATUS>
+    <LONG_NAME>CO2 INJECTION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>CMG"D GAS</STATUS>
+    <LONG_NAME>COMMINGLED GAS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>CMG"D OIL</STATUS>
+    <LONG_NAME>COMMINGLED OIL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>OIL INJ</STATUS>
+    <LONG_NAME>CRUDE OIL INJECTION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>CYCLICAL</STATUS>
+    <LONG_NAME>CYCLICAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>DRAIN</STATUS>
+    <LONG_NAME>DRAIN(HZ LATERAL)</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>DRY</STATUS>
+    <LONG_NAME>DRY HOLE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>MULTI GAS</STATUS>
+    <LONG_NAME>DUAL COMP. GAS WELL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>MULTI O&amp;G</STATUS>
+    <LONG_NAME>DUAL COMP. OIL &amp; GAS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>MULTI OIL</STATUS>
+    <LONG_NAME>DUAL COMP. OIL WELL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>GAS/SWD</STATUS>
+    <LONG_NAME>DUAL GAS PR.INJ/SWD</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>OIL/SWD</STATUS>
+    <LONG_NAME>DUAL OIL PR.INJ/SWD</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>EXPT</STATUS>
+    <LONG_NAME>EXPERIMENTAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>FARM GAS</STATUS>
+    <LONG_NAME>FARM GAS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>FINDRILL</STATUS>
+    <LONG_NAME>FINISHED DRILLING</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>FLOW OIL</STATUS>
+    <LONG_NAME>FLOWING OIL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>GAS&amp;COND</STATUS>
+    <LONG_NAME>GAS &amp; CONDENSATE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>GAS INJ</STATUS>
+    <LONG_NAME>GAS INJECTOR</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>GAS</STATUS>
+    <LONG_NAME>GAS PRODUCER</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>GAS SHOW</STATUS>
+    <LONG_NAME>GAS SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>GAS STOR</STATUS>
+    <LONG_NAME>GAS STORAGE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>GAS/OIL SHOW</STATUS>
+    <LONG_NAME>GAS WITH OIL SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>GEOTHERMAL</STATUS>
+    <LONG_NAME>GEOTHERMAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>HY-CARB SHOW</STATUS>
+    <LONG_NAME>HYDROCARBON SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>HYDROCARBONS</STATUS>
+    <LONG_NAME>HYDROCARBONS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>LICENCED</STATUS>
+    <LONG_NAME>LICENCED</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>LPG INJ</STATUS>
+    <LONG_NAME>LPG INJECTOR</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>LPG STOR</STATUS>
+    <LONG_NAME>LPG STORAGE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>MULTI FLOW</STATUS>
+    <LONG_NAME>MULTI-ZONE FLOW OIL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>MULTI PUMP</STATUS>
+    <LONG_NAME>MULTI-ZONE PUMP OIL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>NITROGEN INJ</STATUS>
+    <LONG_NAME>NITROGEN INJECTION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>9999NULL</STATUS>
+    <LONG_NAME>NULL CODE - NOT SELECTABLE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>OBS</STATUS>
+    <LONG_NAME>OBSERVATION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>OIL &amp; GAS</STATUS>
+    <LONG_NAME>OIL &amp; GAS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>OIL&amp;GAS SHOW</STATUS>
+    <LONG_NAME>OIL &amp; GAS SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>OIL</STATUS>
+    <LONG_NAME>OIL PRODUCER</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>OIL SHOW</STATUS>
+    <LONG_NAME>OIL SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>OIL/GAS SHOW</STATUS>
+    <LONG_NAME>OIL WITH GAS SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>ON PROD</STATUS>
+    <LONG_NAME>ON PRODUCTION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>P&amp;A</STATUS>
+    <LONG_NAME>PLUGGED &amp; ABANDONED</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>POLYMER INJ</STATUS>
+    <LONG_NAME>POLYMER INJ</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>POLYMER PMP</STATUS>
+    <LONG_NAME>POLYMER PUMPING</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SI GAS&amp;COND</STATUS>
+    <LONG_NAME>POTENTIAL GAS &amp; CONDENSATE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>POT G/O SHOW</STATUS>
+    <LONG_NAME>POTENTIAL GAS WITH OIL SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>POT O/G SHOW</STATUS>
+    <LONG_NAME>POTENTIAL OIL WITH GAS SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>CASED</STATUS>
+    <LONG_NAME>PROD CASING SET</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>PROPOSED</STATUS>
+    <LONG_NAME>PROPOSED</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>PUMP OIL</STATUS>
+    <LONG_NAME>PUMPING OIL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>RR</STATUS>
+    <LONG_NAME>RIG RELEASED</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SI GAS</STATUS>
+    <LONG_NAME>S.I.POTENTIAL GAS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SI OIL</STATUS>
+    <LONG_NAME>S.I.POTENTIAL OIL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>BRINE</STATUS>
+    <LONG_NAME>SALT BRINE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SWD</STATUS>
+    <LONG_NAME>SALTWATER DISPOSAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SERVICE</STATUS>
+    <LONG_NAME>SERVICE WELL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SI OIL&amp;GAS</STATUS>
+    <LONG_NAME>SI POTENTIAL OIL&amp;GAS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SOLV INJ</STATUS>
+    <LONG_NAME>SOLVENT INJECTION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SPUDDED</STATUS>
+    <LONG_NAME>SPUDDED</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>STANDING</STATUS>
+    <LONG_NAME>STANDING</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>STM INJ</STATUS>
+    <LONG_NAME>STEAM INJECTOR</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>STH</STATUS>
+    <LONG_NAME>STR. OR CORE HOLE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS CO2 INJ</STATUS>
+    <LONG_NAME>SUS CO2 INJECTION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS EXPT</STATUS>
+    <LONG_NAME>SUS EXPERIMENTAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS N2 INJ</STATUS>
+    <LONG_NAME>SUS N2 INJECTION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS THERMAL</STATUS>
+    <LONG_NAME>SUS THERMAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS WASTE DS</STATUS>
+    <LONG_NAME>SUS WASTE DISPOSAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS AIR INJ</STATUS>
+    <LONG_NAME>SUSP. AIR INJECTOR</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS CYCLICAL</STATUS>
+    <LONG_NAME>SUSP. CYCLICAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS GAS INJ</STATUS>
+    <LONG_NAME>SUSP. GAS INJ.</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS GAS STOR</STATUS>
+    <LONG_NAME>SUSP. GAS STORAGE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS GAS</STATUS>
+    <LONG_NAME>SUSP. GAS WELL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS LPG INJ</STATUS>
+    <LONG_NAME>SUSP. LPG INJ.</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS OBS</STATUS>
+    <LONG_NAME>SUSP. OBSERVATION</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS OIL</STATUS>
+    <LONG_NAME>SUSP. OIL WELL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS BRINE</STATUS>
+    <LONG_NAME>SUSP. SALT BRINE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS SWD</STATUS>
+    <LONG_NAME>SUSP. SALTWTR DISP.</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS SOLV INJ</STATUS>
+    <LONG_NAME>SUSP. SOLVENT INJ</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS STM INJ</STATUS>
+    <LONG_NAME>SUSP. STEAM INJ</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS WTR INJ</STATUS>
+    <LONG_NAME>SUSP. WATER INJ.</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS WTR</STATUS>
+    <LONG_NAME>SUSP. WTR SUPPLY</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS</STATUS>
+    <LONG_NAME>SUSPENDED</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS BITUMEN</STATUS>
+    <LONG_NAME>SUSPENDED BITUMEN</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS GAS&amp;COND</STATUS>
+    <LONG_NAME>SUSPENDED GAS &amp; CONDENSATE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS GAS SHOW</STATUS>
+    <LONG_NAME>SUSPENDED GAS SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS G/O SHOW</STATUS>
+    <LONG_NAME>SUSPENDED GAS WITH OIL SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS HYCRB SH</STATUS>
+    <LONG_NAME>SUSPENDED HYDROCARBON SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS HY-CARBS</STATUS>
+    <LONG_NAME>SUSPENDED HYDROCARBONS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS OIL&amp;GAS</STATUS>
+    <LONG_NAME>SUSPENDED OIL &amp; GAS</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS O&amp;G SHOW</STATUS>
+    <LONG_NAME>SUSPENDED OIL &amp; GAS SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS OIL SHOW</STATUS>
+    <LONG_NAME>SUSPENDED OIL SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS O/G SHOW</STATUS>
+    <LONG_NAME>SUSPENDED OIL WITH GAS SHOW</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>SUS TIGHT</STATUS>
+    <LONG_NAME>SUSPENDED TIGHT HOLE</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>TESTING</STATUS>
+    <LONG_NAME>TESTING</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>WASTE DISP</STATUS>
+    <LONG_NAME>WASTE DISPOSAL</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>WTR INJ</STATUS>
+    <LONG_NAME>WATER INJECTOR</LONG_NAME>
+  </CurrentStatusLookUp>
+  <CurrentStatusLookUp>
+    <STATUS>WATER</STATUS>
+    <LONG_NAME>WATER SUPPLY</LONG_NAME>
+  </CurrentStatusLookUp>
+</WIMLookUpTables>

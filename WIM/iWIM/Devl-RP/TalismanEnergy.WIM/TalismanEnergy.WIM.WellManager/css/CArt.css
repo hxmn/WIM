@@ -1,0 +1,387 @@
+.highlightControl
+{
+	position: absolute; 
+	font-weight:  normal;
+	background-color: #FFFFC0;
+    font-size: 100%;
+}
+
+.inputddlControl
+{
+	position: absolute; 
+	font-weight:  normal;
+	height: 20px;
+    background-color: White;
+    font-size: 100%;
+}
+.inputddlMndtryControl
+{
+	position: absolute; 
+	font-weight:  normal;
+	height: 20px;
+    background-color: White;
+    font-size: 100%;
+}
+.inputtxtControl
+{
+    position: absolute;
+    font-weight: normal;
+    height: 15px;
+    font-size: 100%;
+    background-color: White;
+}
+.inputtxtMndtryControl
+{
+    position: absolute;
+    font-size: 100%;
+    font-weight: normal;
+    height: 15px;
+    background-color: White;
+}
+.mndtryind
+{
+	position: absolute;
+    font-size: 100%;
+	font-weight: bold;
+	height: 20px;
+	color: #0d7880;
+	}
+.label {
+	position: absolute; 
+    font-size: 100%;
+	font-weight:  normal;
+	height: 20px;
+}
+.panel2
+{
+    position: absolute;
+    border-color: #E0E0E0;
+    border-style: groove;
+}
+
+/*------- TABSTRIP STYLES ---------------*/
+.TopGroup
+{
+  position:relative;
+  margin: 0 auto;
+  padding: 0;
+  width:999px;
+}
+
+.DefaultTab
+{
+  color:black;
+  background-image: url(../images/tab_bg.gif);
+  padding: 0;
+  margin: 0;
+  cursor:default;
+}
+
+.DefaultTabHover
+{
+  color:black;
+  background-image: url(../images/hover_tab_bg.gif);
+  padding: 0;
+  margin: 0;
+  cursor:default;
+}
+
+.SelectedTab
+{
+  color:black;
+  background-image: url(../images/selected_tab_bg.gif);
+  padding: 0;
+  margin: 0;
+  cursor:default;
+}
+/*------- END TABSTRIP STYLES ---------------*/
+
+/*------- MULTIPAGE STYLES ---------------*/
+.MultiPage
+{
+  background-color:White;
+  overflow:visible;
+  position:relative;
+  padding:0px;
+  margin: 0 auto;
+  border: dotted 0px blue;
+  width:1001px;
+  /* height:441px; */
+}
+
+.PageContent
+{
+	font-weight:  normal;
+}
+
+.PageHeader
+{
+  font-size:22px;
+  font-weight:bold;
+  letter-spacing:-0.2mm;
+  color: #3F3F3F; 
+  margin-top:0px;
+  margin-bottom:0px;
+}
+/*------- END MULTIPAGE STYLES ---------------*/
+
+/*------- SEARCHGRID STYLES ---------------*/
+.Grid 
+{ 
+  border: 1px solid #7C7C94; 
+  background-color: #FFFFFF; 
+  cursor: pointer; 
+}
+
+.HeadingRow 
+{ 
+  background-color: #E2E2E2; 
+}
+
+.HeadingCell 
+{ 
+  background-color: #E2E2E2; 
+  border: 1px solid #FFFFFF; 
+  border-right-color: #B5B5B5; 
+  border-bottom-color: #B5B5B5; 
+  padding: 3px;
+}
+
+.HeadingCellText
+{
+  font-size: 100%; 
+  font-weight: bold; 
+  text-align: left;
+}
+
+.DataRow 
+{ 
+  background-color: #FFFFFF; 
+}
+
+.DataCell 
+{ 
+  cursor: default;
+  padding: 3px; 
+  border-right: 1px solid #EAE9E1; 
+  border-bottom: 1px solid #EAE9E1; 
+} 
+
+.DataRow td.FirstDataCell 
+{ 
+  padding-left: 3px; 
+} 
+
+.SelectedRow 
+{ 
+  background-color: #FFEEC2; 
+}
+
+.SelectedRow td.DataCell 
+{ 
+  cursor: default; 
+  padding: 2px; 
+  padding-left: 3px; 
+  padding-bottom: 3px; 
+  border-bottom: 1px solid #4B4B6F; 
+  border-top: 1px solid #4B4B6F; 
+  border-right: 0px; 
+}
+
+.GridFooter
+{
+  cursor: default;
+  padding: 5px;
+}
+
+.GridFooter a 
+{
+  color: Black;
+  font-weight: bold;
+}
+
+.PagerText
+{ 
+  font-size: 100%; 
+} 
+/*------- END SEARCH GRID STYLES ---------------*/
+
+/*------- SEARCH GRID WELL RECORD STYLES ---------------
+.grp-hd { background:#fff;line-height:18px;cursor:default;height:18px;background:#fff url("../images/horizontal.png") repeat-x 0 -130px;margin:0 4px 0 0;border:1px solid #fff; }
+    .grp-hd span { color:#039;background:#fff;padding:0 8px 0 0; }*/
+
+/*------- END SEARCH GRID STYLES ---------------*/
+
+.grp-hd
+{
+	line-height: 1.2em;
+}
+
+/*------- COMBOBOX STYLES EXTENSION----------------*/
+.cart-combobox-dropdown-content {
+	margin:0;
+	padding:1px 0;
+	/*background:#f5f5f5 url(../images/vertical.png) repeat-y 0 0;*/
+	background:#f5f5f5;
+	min-width:120px;
+	padding:0 0px 0 5px;
+}
+
+.cart-combobox-item a span.cart-outer span.cart-inner {
+	display:block;
+	background:none;
+	margin:0 0 0 0;
+	padding:0 12px 0 0px;
+	height:22px;
+	font-size:100%;
+	font-weight:normal;
+	text-decoration:none;
+	background:transparent url(../images/icons.png) no-repeat 2px 0;
+}
+/*------- COMBOBOX STYLES EXTENSION ---------------*/
+
+
+/*------- CONTEXT MENU STYLES -------------------*/
+.MenuGroup
+{
+  background-color:white;
+  border:solid 1px #bbb;
+
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  filter:progid:DXImageTransform.Microsoft.Shadow(Color='#cccccc',Direction=135,Strength=2);
+}
+
+.MenuItem
+{
+  color:#333;
+  font-size:100%;
+  cursor:default;
+  border:1px solid #fff;
+}
+
+.MenuItemHover
+{
+  color:black;
+  background-color:#e3eef8;
+  font-size:100%;
+  cursor:default;
+  border:1px solid #649ec6;
+}
+
+.MenuBreak
+{
+  padding:0px;
+}
+
+/*------- END CONTEXT MENU STYLES ---------------*/
+/*------- BEGIN SEARCH GRID EXTENDED STYLES ---------------*/
+.cart-datagrid-cell-1
+{
+   border-bottom: 1px solid #ccc;
+   cursor: default;
+   font-size: 90%;
+   padding: 0 0 0 5px;
+   background-color: #F4F4F4;
+   font-weight: bold;
+   border-bottom-color: #808080;
+   border-bottom-width: 1px;
+   border-right-width: 1px;
+   border-right-color: #ccc;
+   border-right-style: solid;
+   border-bottom-style: solid;
+}
+
+.cart-datagrid-cell-small-2
+{
+	font-size: 80%;
+	font-style: italic;
+}
+
+.cart-datagrid-row-hover .cart-datagrid-cell-1
+{
+   background-position: #E9E9E9;
+   background: #E9E9E9;
+   border-bottom: 1px solid #bbb;
+}
+ 
+.cart-datagrid-row-selected .cart-datagrid-cell-1 
+{
+   background:#ccc;
+   border-bottom:1px solid #aaa;
+   color:#000 !important;
+}
+
+.cart-datagrid-row-1 {
+	overflow:hidden;
+	color:#666;
+	font-size:100%;
+	height: 24px;
+    background-color: #ff9;
+}
+
+.cart-datagrid-row-hover-1 {
+	overflow:hidden;
+	color:#666;
+	font-size:100%;
+	height: 24px;
+	background-color:#ffd;
+}
+
+.cart-datagrid-row-selected-1 
+{
+	overflow:hidden;
+	color:#666;
+	font-size:100%;
+	height: 24px;
+	background-color: #ff3;
+	font-weight: bold;
+}
+
+.cart-datagrid-row-2 {
+	overflow:hidden;
+	color:#666;
+	font-size:100%;
+	height: 24px;
+    background-color: #cff;
+}
+
+.cart-datagrid-row-hover-2 {
+	overflow:hidden;
+	color:#666;
+	font-size:100%;
+	height: 24px;
+	background-color:#eff;
+}
+
+.cart-datagrid-row-selected-2
+{
+	overflow:hidden;
+	color:#666;
+	font-size:100%;
+	background-color: #6ff;
+	height: 24px;
+	font-weight: bold;
+}
+
+.cart-datagrid-row-error
+{
+	background-color:Yellow;
+}
+
+.cart-datagrid-pager-text
+{
+	font-size: 12px;
+}
+
+.cart-datagrid-pager-text a
+{
+	font-weight: bold; 
+}
+
+.cart-datagrid-pager-text a:hover
+{
+}
+
+/*------- END SEARCH GRID EXTENDED STYLES ---------------*/

@@ -1,0 +1,43 @@
+<%@ Master Language="VB"
+           AutoEventWireup="false"
+           CodeBehind="WellManager.master.vb"
+           Inherits="TalismanEnergy.WIM.iWIM.WellManager"
+%><%@ Register TagPrefix="ComponentArt"
+               Namespace="ComponentArt.Web.UI"
+               Assembly="ComponentArt.Web.UI"
+%><!DOCTYPE html>
+<meta http-equiv="X-UA-Compatible" content="IE=8">
+<!-- Without the IE=8, CArt is displaying strange hover behaviour on the home page grid. -->
+
+<html>
+<!-- <html xmlns="http://www.w3.org/1999/xhtml" > -->
+<head id="Head1" runat="server">
+    <title>iWIM</title>
+    <link href="css/BlackIce.css" type="text/css" rel="stylesheet" />
+    <link href="css/CArt.css" type="text/css" rel="stylesheet" />
+    <link href="css/tooltip.css" type="text/css" rel="stylesheet" />
+    <link href="css/iWIM.css" type="text/css" rel="stylesheet" />
+    <link href="css/Dialog.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div id="Banner" >
+      <img id="BannerImg" src="images/BannerRight64.png" alt="" />
+    </div>
+    <div id="NavButtonBar">
+      <asp:Button ID="ButtonHome" CssClass="navButton" Text="Home" PostBackUrl="~/Default.aspx" runat="server" ToolTip=""/>
+      <asp:Button ID="ButtonSearch" CssClass="navButton" Text="Search" PostBackUrl="~/SearchWell.aspx" runat="server" ToolTip="Search in DataFinder"/>
+      <asp:Button ID="ButtonCreate" CssClass="navButton" Text="Create" PostBackUrl="~/CreateWell.aspx" runat="server" ToolTip="Create Well"/>
+    </div>
+    <div id="PageContent" >
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    <div id="Footer" >
+        <asp:Label ID="LabelApp" CssClass="app" runat="server" Text="Put app version here" />
+        <asp:Label ID="LabelCopyright" CssClass="copyright" runat="server" Text="Put copyright here" />
+    </div>
+    </form>
+</body>
+</html>

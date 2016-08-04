@@ -1,0 +1,2753 @@
+
+<%@ Master masterpagefile="~/WellManager.Master"
+           Language="VB"
+           AutoEventWireup="false"
+           CodeBehind="WellVersionDetail.master.vb"
+           Inherits="TalismanEnergy.WIM.iWIM.WellVersionDetail"
+%><%@ Register Assembly="ComponentArt.Web.UI"
+               Namespace="ComponentArt.Web.UI"
+               TagPrefix="ComponentArt"
+%><asp:Content ID="Content1" 
+               ContentPlaceHolderID="ContentPlaceHolder1" 
+               runat="server">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/tooltip.js"></script>
+    <div id="ContentBanner">
+        <span class="contentTitle"><asp:ContentPlaceHolder ID="SubTitleContent" runat="server"/></span>
+        <asp:Label ID="lblError"
+                   runat="server"
+                   CssClass="versionDetailError"
+                   Text="">
+        </asp:Label>
+    </div>
+    <div id="DetailContent">
+    <ComponentArt:TabStrip ID="TabStrip1" 
+        CssClass="TopGroup"
+        AutoPostBackOnSelect="false"
+        SiteMapXmlFile="App_LocalResources/WellTabs.xml"
+        DefaultItemLookId="DefaultTabLook"
+        DefaultSelectedItemLookId="SelectedTabLook"
+        DefaultDisabledItemLookId="DisabledTabLook"
+        DefaultGroupTabSpacing="1"
+        ImagesBaseUrl="images/"
+        MultiPageId="MultiPage1" 
+        runat="server">
+        <ItemLooks>
+            <ComponentArt:ItemLook LookId="DefaultTabLook" 
+                CssClass="DefaultTab" 
+                HoverCssClass="DefaultTabHover" 
+                LabelPaddingLeft="10" 
+                LabelPaddingRight="10" 
+                LabelPaddingTop="5" 
+                LabelPaddingBottom="4" 
+                LeftIconUrl="tab_left_icon.gif" 
+                RightIconUrl="tab_right_icon.gif" 
+                HoverLeftIconUrl="hover_tab_left_icon.gif" 
+                HoverRightIconUrl="hover_tab_right_icon.gif" 
+                LeftIconWidth="3" 
+                LeftIconHeight="21" 
+                RightIconWidth="3" 
+                RightIconHeight="21" />
+            <ComponentArt:ItemLook LookId="SelectedTabLook" 
+                CssClass="SelectedTab" 
+                LabelPaddingLeft="10" 
+                LabelPaddingRight="10" 
+                LabelPaddingTop="4" 
+                LabelPaddingBottom="4" 
+                LeftIconUrl="selected_tab_left_icon.gif" 
+                RightIconUrl="selected_tab_right_icon.gif" 
+                LeftIconWidth="3" 
+                LeftIconHeight="21" 
+                RightIconWidth="3" 
+                RightIconHeight="21" />
+        </ItemLooks>
+    </ComponentArt:TabStrip>
+                    <!-- Style="left: 860px; position: absolute; top: -5px;" -->
+    <ComponentArt:MultiPage id="MultiPage1" 
+        CssClass="MultiPage" 
+        runat="server">
+        <PageViews>
+            <ComponentArt:PageView ID="PageView1"
+                CssClass="PageContent" 
+                runat="server">
+                <asp:Label ID="lblMessageTabStrip1"
+                    runat="server" 
+                    Style="left: 320px; position: absolute; top: -15px;" 
+                    Font-Bold="True" 
+                    Font-Size="100%" 
+                    ForeColor="DarkRed"  
+                    Visible="False"></asp:Label>
+                <asp:Label ID="lblMndtry" 
+                    runat="server" 
+                    Style="right: 0px; top: -15px; position: absolute;"
+                    Text="* = Mandatory Attribute" 
+                    Font-Size="X-Small" 
+                    Font-Bold="False" 
+                    ForeColor="#0d7880">
+                </asp:Label>
+                <div class="detailLeft">
+                <asp:Panel ID="pnlSourceGroup" 
+                    runat="server" 
+                    Height="30px" 
+                    CssClass="detailPanel">
+                    <asp:Label ID="lblSourceMndtry" 
+                        runat="server" 
+                        Text="*" 
+                        Style="left: 0px; top: 8px;" 
+                        CssClass="mndtryind" />
+                    <asp:Label ID="lblSource" 
+                        runat="server" 
+                        Text="Source:" 
+                        Style="left: 8px; top: 8px;" 
+                        CssClass="label" />                  
+                    <asp:Panel ID="pnlSource"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlSource" 
+                            runat="server"
+                            RunningMode="CallBack"
+                            AutoComplete="true" 
+                            AutoFilter="true"
+                            AutoHighlight="true" 
+                            AutoTheming="true" 
+                            DropDownHeight="160"
+                            DropDownPageSize="6"
+                            Style="left: 59px; top: 6px; position: absolute;"
+                            TabIndex="1"
+                            Width="328">
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse" />
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                </asp:Panel>
+                <asp:Panel ID="pnlIdentityGroup" 
+                    runat="server" 
+                    Height="133px" 
+                    CssClass="detailPanel">
+                    <asp:Label ID="lblTLMID" 
+                        runat="server" 
+                        Text="TLM ID:" 
+                        Style="left: 8px; top: 8px;" 
+                        CssClass="label"/>
+                    <asp:Label ID="lblTLMIDval" 
+                        runat="server" 
+                        Style="left: 79px; top: 8px" 
+                        Width="303px" 
+                        CssClass="label"
+                        Font-Bold="true"/>
+                    <asp:Label ID="lblTLMIDvalGen" 
+                        runat="server" 
+                        Style="left: 79px; top: 8px" 
+                        Width="303px" 
+                        CssClass="label"
+                        Text=" Generated"
+                        ForeColor="GrayText"
+                        Font-Bold="true"
+                        Font-Italic="true"
+                        Visible="false"/>
+                    <!--
+                    <asp:Label ID="lblUWIMndtry" 
+                        runat="server" 
+                        Text="*" 
+                        Style="left: 0px; top: 33px;" 
+                        CssClass="mndtryind" />
+                    -->
+                    <asp:Label ID="lblUWI" 
+                        runat="server" 
+                        Text="UWI:" 
+                        Style="left: 8px; top: 33px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtUWI" 
+                        runat="server"
+                        Style="left: 79px; top: 31px" 
+                        Width="303px"
+                        MaxLength="20"
+                        CssClass="inputtxtMndtryControl" 
+                        TabIndex="3"></asp:TextBox>
+                    <asp:Label ID="lblCountryMndtry" 
+                        runat="server" 
+                        Text="*" 
+                        Style="left: 0px; top: 58px;" 
+                        CssClass="mndtryind" />
+                    <asp:Label ID="lblCountry" 
+                        runat="server"  
+                        Text="Country:" 
+                        Style="left: 8px; top: 58px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlCountry"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlCountry" 
+                            runat="server"
+                            RunningMode="CallBack" 
+                            AutoComplete="true" 
+                            AutoFilter="true"
+                            AutoHighlight="true" 
+                            AutoTheming="true"
+                            DropDownPageSize="15"
+                            Style="left: 79px; top: 56px; position: absolute;"
+                            TabIndex="4"
+                            Width="308">
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblWellNameMndtry" 
+                        runat="server" 
+                        Text="*" 
+                        Style="left: 0px; top: 83px;" 
+                        CssClass="mndtryind" />
+                    <asp:Label ID="lblWellName" 
+                        runat="server" 
+                        Text="Well Name:" 
+                        Style="left: 8px; top: 83px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtWellName" 
+                        runat="server"
+                        Style="left: 79px; top: 81px" 
+                        Width="303px"
+                        MaxLength="66"
+                        CssClass="inputtxtMndtryControl" 
+                        TabIndex="5">
+                    </asp:TextBox>
+                    <asp:Label ID="lblPlotName" 
+                        runat="server" 
+                        Text="Plot Name:" 
+                        Style="left: 8px; top: 108px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtPlotName" 
+                        runat="server" 
+                        Style="left: 79px; top: 106px" 
+                        Width="303px"
+                        MaxLength="66"
+                        CssClass="inputtxtControl" 
+                        TabIndex="6"></asp:TextBox>
+                </asp:Panel>
+                <asp:Panel ID="pnlStatusGroup" 
+                    runat="server" 
+                    Height="131px" 
+                    CssClass="detailPanel">
+                    <asp:Label ID="lblOnOffshoreInd" 
+                        runat="server"  
+                        Text="On/OffShore Ind:" 
+                        Style="left: 8px; top: 8px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlOnOffShoreInd"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlOnOffShoreInd" 
+                            runat="server" 
+                            RunningMode="Client" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownHeight="50"
+                            DropDownPageSize="2"
+                            Style="left: 123px; top: 6px; position: absolute;" 
+                            TabIndex="7" 
+                            Width="265">
+                            <Items>
+                                <ComponentArt:ComboBoxItem Text="ONSHORE" Value="ONSHORE"/>
+                                <ComponentArt:ComboBoxItem Text="OFFSHORE" Value="OFFSHORE"/>
+                            </Items>
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblWellProfileType" 
+                        runat="server"  
+                        Text="Well Profile Type:" 
+                        Style="left: 8px; top: 33px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlWellProfileType"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlWellProfileType" 
+                            runat="server" 
+                            RunningMode="CallBack" 
+                            AutoComplete="true" 
+                            AutoFilter="true" 
+                            AutoHighlight="true" 
+                            AutoTheming="true" 
+                            DropDownHeight="130"
+                            DropDownPageSize="5"
+                            Style="left: 123px; top: 31px; position: absolute;" 
+                            TabIndex="8" 
+                            Width="265">
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents> 
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblCurrentStatus" 
+                        runat="server"  
+                        Text="Current Status:" 
+                        Style="left: 8px; top: 58px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlCurrentStatus"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlCurrentStatus" 
+                            runat="server" 
+                            RunningMode="CallBack" 
+                            AutoComplete="true" 
+                            AutoFilter="true" 
+                            AutoHighlight="true" 
+                            AutoTheming="true"                             
+                            DropDownPageSize="10"
+                            Style="left: 123px; top: 56px; position: absolute;" 
+                            TabIndex="9" 
+                            Width="265">
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblOperator" 
+                        runat="server"  
+                        Text="Operator:" 
+                        Style="left: 8px; top: 83px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlOperator"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlOperator" 
+                            runat="server" 
+                            RunningMode="CallBack" 
+                            AutoComplete="true" 
+                            AutoFilter="true" 
+                            AutoHighlight="true" 
+                            AutoTheming="true" 
+                            CacheMapEnabled="true"
+                            CacheMapWidth="3"
+                            CacheSize="100"
+                            FilterCacheSize="1"
+                            DropDownPageSize="20"
+                            Style="left: 123px; top: 81px; position: absolute;" 
+                            TabIndex="10" 
+                            Width="265"> 
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblLicensee" 
+                        runat="server"  
+                        Text="Licensee:" 
+                        Style="left: 8px; top: 108px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlLicensee"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlLicensee" 
+                            runat="server" 
+                            RunningMode="CallBack" 
+                            AutoComplete="true" 
+                            AutoFilter="true"
+                            AutoHighlight="true" 
+                            AutoTheming="true"  
+                            CacheMapEnabled="true"
+                            CacheMapWidth="3"
+                            CacheSize="100"
+                            FilterCacheSize="1"
+                            DropDownPageSize="20"
+                            Style="left: 123px; top: 106px; position: absolute;" 
+                            TabIndex="11"
+                            Width="265"> 
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                </asp:Panel>
+                </div>
+                <div class="detailRight">
+                <asp:Panel ID="pnlElevationGroup" 
+                    runat="server" 
+                    Height="212px" 
+                    CssClass="detailPanel">
+                    <asp:Label ID="lblGroundElev" 
+                        runat="server" 
+                        Text="Ground Elev:" 
+                        Style="left: 5px; top: 8px;" 
+                        CssClass="label"/>
+                    <asp:TextBox ID="txtGroundElev" 
+                        runat="server"
+                        Style="left: 124px; top: 6px; text-align:right;" 
+                        Width="90px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="12">
+                        </asp:TextBox>
+                    <asp:Label ID="lblGroundElevUnits" 
+                        runat="server"  
+                        Text="Original Units:" 
+                        Style="left: 230px; top: 8px" 
+                        Cssclass="label"/>
+                    <asp:Panel ID="pnlGroundElevUnits"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlGroundElevUnits" 
+                            runat="server" 
+                            RunningMode="Client" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownHeight="50"                            
+                            DropDownPageSize="2"
+                            Enabled="false"
+                            Style="left: 318px; top: 6px; position: absolute;" 
+                            TabIndex="13"
+                            Width="40">
+                            <Items>
+                                <ComponentArt:ComboBoxItem Text="FT" Value="FT"/>
+                                <ComponentArt:ComboBoxItem Text="M" Value="M"/>
+                            </Items>
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblDerrickFloor" 
+                        runat="server" 
+                        Text="Derrick Floor Elev:" 
+                        Style="left: 5px; top: 98px;" 
+                        CssClass="label"/>
+                    <asp:TextBox ID="txtDerrickFloor" 
+                        runat="server" 
+                        Style="left: 124px; top: 96px; text-align:right;" 
+                        Width="90px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="18">
+                        </asp:TextBox>
+                    <asp:Label ID="lblDerrickFloorUnits" 
+                        runat="server"  
+                        Text="Original Units:" 
+                        Style="left: 230px; top: 98px" 
+                        Cssclass="label"/>
+                    <asp:Panel ID="pnlDerrickFloorUnits"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlDerrickFloorUnits" 
+                            runat="server" 
+                            RunningMode="Client" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownHeight="50"
+                            DropDownPageSize="2"
+                            Enabled="false"
+                            Style="left: 318px; top: 96px; position: absolute;" 
+                            TabIndex="19" 
+                            Width="40">
+                            <Items>
+                                <ComponentArt:ComboBoxItem Text="FT" Value="FT"/>
+                                <ComponentArt:ComboBoxItem Text="M" Value="M"/>
+                            </Items>
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblKBElev" 
+                        runat="server" 
+                        Text="KB Elevation:" 
+                        Style="left: 5px; top: 38px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtKBElev" 
+                        runat="server" 
+                        Style="left: 124px; top: 36px; text-align:right;" 
+                        Width="90px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="14">
+                    </asp:TextBox>
+                    <asp:Label ID="lblKBElevUnits" 
+                        runat="server"  
+                        Text="Original Units:" 
+                        Style="left: 230px; top: 38px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlKBElevUnits"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlKBElevUnits" 
+                            runat="server" 
+                            RunningMode="Client" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownPageSize="2" 
+                            DropDownHeight="50"
+                            Enabled="false"
+                            Style="left: 318px; top: 36px; position: absolute;" 
+                            TabIndex="15"
+                            Width="40">
+                            <Items>
+                                <ComponentArt:ComboBoxItem Text="FT" Value="FT"/>
+                                <ComponentArt:ComboBoxItem Text="M" Value="M"/>
+                            </Items>
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblRotaryTableElev" 
+                        runat="server" 
+                        Text="Rotary Table Elev:" 
+                        Style="left: 5px; top: 66px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblRotaryTableMndtryUnits" 
+                        runat="server" 
+                        Text="(meters only)" 
+                        Style="left: 5px; top: 76px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtRotaryTableElev" 
+                        runat="server" 
+                        Style="left: 124px; top: 66px; text-align:right;" 
+                        Width="90px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="16">
+                    </asp:TextBox>
+                    <asp:Label ID="lblRotaryTableElevUnits" 
+                        runat="server" 
+                        Text="Original Units:" 
+                        Style="left: 230px; top:68px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlRotaryTableElevUnits"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlRotaryTableElevUnits" 
+                            runat="server" 
+                            RunningMode="Client" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownHeight="50"
+                            DropDownPageSize="2"
+                            Enabled="false"
+                            Style="left: 318px; top: 66px; position: absolute;" 
+                            TabIndex="17" 
+                            Width="40">
+                            <Items>
+                                <ComponentArt:ComboBoxItem Text="FT" Value="FT"/>
+                                <ComponentArt:ComboBoxItem Text="M" Value="M"/>
+                            </Items>
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblWaterDepth" 
+                        runat="server" 
+                        Text="Water Depth Elev:" 
+                        Style="left: 5px; top: 128px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtWaterDepth" 
+                        runat="server" 
+                        Style="left: 124px; top: 126px; text-align:right;" 
+                        Width="90px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="20">
+                    </asp:TextBox>
+                    <asp:Label ID="lblWaterDepthUnits" 
+                        runat="server" 
+                        Text="Original Units:" 
+                        Style="left: 230px; top:128px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlWaterDepthUnits"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlWaterDepthUnits" 
+                            runat="server" 
+                            RunningMode="Client" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownHeight="50"
+                            DropDownPageSize="2"
+                            Enabled="false"
+                            Style="left: 318px; top: 126px; position: absolute;" 
+                            TabIndex="21" 
+                            Width="40">
+                            <Items>
+                                <ComponentArt:ComboBoxItem Text="FT" Value="FT"/>
+                                <ComponentArt:ComboBoxItem Text="M" Value="M"/>
+                            </Items>
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblCasingFlange" 
+                        runat="server" 
+                        Text="Casing Flange Elev:" 
+                        Style="left: 5px; top: 158px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtCasingFlange" 
+                        runat="server" 
+                        Style="left: 124px; top: 156px; text-align:right;" 
+                        Width="90px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="22">
+                    </asp:TextBox>
+                    <asp:Label ID="lblCasingFlangeUnits" 
+                        runat="server" 
+                        Text="Original Units:" 
+                        Style="left: 230px; top:158px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlCasingFlangeUnits"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlCasingFlangeUnits" 
+                            runat="server" 
+                            RunningMode="Client" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownHeight="50"
+                            DropDownPageSize="2"
+                            Enabled="false"
+                            Style="left: 318px; top: 156px; position: absolute;" 
+                            TabIndex="23" 
+                            Width="40">
+                            <Items>
+                                <ComponentArt:ComboBoxItem Text="FT" Value="FT"/>
+                                <ComponentArt:ComboBoxItem Text="M" Value="M"/>
+                            </Items>
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblTotalDepth" 
+                        runat="server" 
+                        Text="Total Depth:" 
+                        Style="left: 5px; top: 188px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtTotalDepth" 
+                        runat="server" 
+                        Style="left: 124px; top: 186px; text-align:right;" 
+                        Width="90px" 
+                        CssClass="inputtxtControl"
+                        AutoPostback="false" 
+                        TabIndex="24"></asp:TextBox>
+                    <asp:Label ID="lblTotalDepthUnits" 
+                        runat="server" 
+                        Text="Original Units:" 
+                        Style="left: 230px; top: 188px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlTotalDepthUnits"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlTotalDepthUnits" 
+                            runat="server" 
+                            RunningMode="Client" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownHeight="50"
+                            DropDownPageSize="2"
+                            Enabled="false"
+                            Style="left: 318px; top: 186px; position: absolute;" 
+                            TabIndex="25" 
+                            Width="40">
+                            <Items>
+                                <ComponentArt:ComboBoxItem Text="FT" Value="FT"/>
+                                <ComponentArt:ComboBoxItem Text="M" Value="M"/>
+                            </Items>
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblLicenseNumber" 
+                        runat="server" 
+                        Text="License Number:" 
+                        Style="left: 376px; top: 8px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtLicenseNumber" 
+                        runat="server" 
+                        Style="left: 470px; top: 6px" 
+                        Width="120px"
+                        MaxLength="20"
+                        CssClass="inputtxtControl" 
+                        TabIndex="26">
+                    </asp:TextBox>
+                    <asp:Label ID="lblLicenseDate" 
+                        runat="server" 
+                        Text="License Date:" 
+                        Style="left: 376px; top: 34px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblLicenseDateFormat" 
+                        runat="server" 
+                        Text="(dd/mm/yyyy)" 
+                        Style="left: 376px; top: 44px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtLicenseDate" 
+                        runat="server" 
+                        Style="left: 470px; top: 36px;" 
+                        Width="120px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="27"
+                        MaxLength="10">
+                    </asp:TextBox>
+                    <asp:Label ID="lblRigReleaseDate" 
+                        runat="server" 
+                        Text="Rig Release Date:" 
+                        Style="left: 376px; top: 66px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblRigReleaseDateFormat" 
+                        runat="server" 
+                        Text="(dd/mm/yyyy)" 
+                        Style="left: 376px; top: 76px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtRigReleaseDate" 
+                        runat="server" 
+                        Style="left: 470px; top: 68px;" 
+                        Width="120px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="28"
+                        MaxLength="10">
+                    </asp:TextBox>
+                    <asp:Label ID="lblSpudDate" 
+                        runat="server" 
+                        Text="Spud Date:" 
+                        Style="left: 376px; top: 98px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblSpudDateFormat" 
+                        runat="server" 
+                        Text="(dd/mm/yyyy)" 
+                        Style="left: 376px; top: 108px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtSpudDate" 
+                        runat="server" 
+                        Style="left: 470px; top: 100px;" 
+                        Width="120px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="29"
+                        MaxLength="10"></asp:TextBox>
+                    <asp:Label ID="lblFinalDrillDate" 
+                        runat="server" 
+                        Text="Final Drill Date:" 
+                        Style="left: 376px; top: 130px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblFinalDrillDateFormat" 
+                        runat="server" 
+                        Text="(dd/mm/yyyy)" 
+                        Style="left: 376px; top: 140px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtFinalDrillDate" 
+                        runat="server" 
+                        Style="left: 470px; top: 132px;" 
+                        Width="120px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="30"
+                        MaxLength="10">
+                    </asp:TextBox>
+                </asp:Panel>
+                <asp:Panel ID="pnlBasin" 
+                    runat="server" 
+                    Height="83px" 
+                    CssClass="detailPanel">
+                    <asp:Label ID="lblBasinName" 
+                        runat="server"  
+                        Text="Basin:" 
+                        Style="left: 5px; top: 8px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlBasinName"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlBasinName" 
+                            runat="server"
+                            RunningMode="CallBack" 
+                            AutoComplete="false" 
+                            AutoFilter="false"
+                            Enabled="false"
+                            AutoHighlight="true" 
+                            AutoTheming="true"
+                            DropDownPageSize="15"
+                            Style="left: 42px; top: 6px; position: absolute;"
+                            TabIndex="31"
+                            Width="208">
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                                <CallbackComplete EventHandler="filterBasinComplete"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblArea" 
+                        runat="server" 
+                        Text="Area:" 
+                        Style="left: 304px; top: 8px" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtArea" 
+                        runat="server" 
+                        Style="left: 340px; top: 6px; position: absolute;" 
+                        Width="95px"
+                        MaxLength="12"
+                        CssClass="inputtxtControl" 
+                        TabIndex="32">                                                        
+                    </asp:TextBox>
+                    <asp:Label ID="lblBlock" 
+                        runat="server" 
+                        Text="Block:" 
+                        Style="left: 458px; top: 8px" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtBlock" 
+                        runat="server" 
+                        Style="left: 495px; top: 6px; position: absolute;" 
+                        Width="95px"
+                        MaxLength="12"
+                        CssClass="inputtxtControl" 
+                        TabIndex="33">                                                        
+                    </asp:TextBox>
+                    <asp:Label ID="lblProvState" 
+                        runat="server" 
+                        Text="Province/State:" 
+                        Style="left: 5px; top: 33px;" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlProvState"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlProvState" 
+                            runat="server" 
+                            RunningMode="CallBack" 
+                            AutoComplete="false" 
+                            AutoFilter="false" 
+                            AutoHighlight="true" 
+                            AutoTheming="true" 
+                            DropDownPageSize="10"
+                            Enabled="false"
+                            Style="left: 85px; top: 31px; position: absolute;" 
+                            TabIndex="34"
+                            Width="165px">
+                            <ClientEvents>
+                                <Change EventHandler="provStateChange"/>
+                                <CallbackComplete EventHandler="filterProvStateComplete"/>
+                           </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblCounty" 
+                        runat="server" 
+                        Text="County:" 
+                        Style="left: 292px; top: 33px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlCounty"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlCounty" 
+                            runat="server" 
+                            RunningMode="CallBack" 
+                            AutoComplete="false" 
+                            AutoFilter="false" 
+                            AutoHighlight="true" 
+                            AutoTheming="true" 
+                            DropDownPageSize="10"
+                            Enabled="false"
+                            Style="left: 340px; top: 31px; position: absolute;" 
+                            TabIndex="35"
+                            Width="100px">
+                            <ClientEvents>
+                                <CallbackComplete EventHandler="filterCountyComplete"/>
+                            </ClientEvents> 
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblDistrict" 
+                        runat="server" 
+                        Text="District:" 
+                        Style="left: 450px; top: 33px" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtDistrict" 
+                        runat="server" 
+                        Style="left: 495px; top: 31px; position: absolute;" 
+                        Width="95px"
+                        MaxLength="20"
+                        CssClass="inputtxtControl" 
+                        TabIndex="36">                                                        
+                    </asp:TextBox>
+                    <asp:Label ID="lblLeaseName" 
+                        runat="server" 
+                        Text="Lease Name:" 
+                        Style="left: 5px; top: 58px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtLeaseName" 
+                        runat="server" 
+                        Style="left: 85px; top: 56px; position: absolute;" 
+                        Width="160px"
+                        MaxLength="60"
+                        CssClass="inputtxtControl" 
+                        TabIndex="37">                                                        
+                    </asp:TextBox>
+                    <asp:Label ID="lblAssignedField" 
+                        runat="server" 
+                        Text="Assigned Field:" 
+                        Style="left: 260px; top: 58px" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtAssignedField" 
+                        runat="server" 
+                        Style="left: 340px; top: 56px; position: absolute;" 
+                        Width="95px"
+                        MaxLength="20"
+                        CssClass="inputtxtControl" 
+                        TabIndex="38">                                                        
+                    </asp:TextBox>
+                    <asp:Label ID="lblPool" 
+                        runat="server" 
+                        Text="Pool:" 
+                        Style="left: 463px; top: 58px" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtPool" 
+                        runat="server" 
+                        Style="left: 495px; top: 56px; position: absolute;" 
+                        Width="95px"
+                        MaxLength="18"
+                        CssClass="inputtxtControl" 
+                        TabIndex="39">                                                        
+                    </asp:TextBox>
+                </asp:Panel>                
+                </div>
+                <div class="detailFullWidth" style="background-color: #eee; display: none;">
+                    <asp:Label ID="lblFilter"
+                        runat="server"
+                        Text="Filter BA lists at:"
+                        Style="margin-left: 8px; margin-top: 8px;"
+                        CssClass="label" />
+                    <asp:RadioButtonList ID="rblFilter"
+                                         runat="server"
+                                         AutoPostBack="true"
+                                         RepeatDirection="Horizontal"
+                                         Style="margin-left: 123px;"
+                                         OnSelectedIndexChanged="FilterMethodChanged">
+                        <asp:ListItem Value="Web Server" />
+                        <asp:ListItem Value="DB Server" />
+                    </asp:RadioButtonList>
+                </div>
+                <div class="detailFullWidth">
+                    <asp:Panel ID="pnlRemark" 
+                        runat="server"
+                        CssClass="detailPanel"
+                        Height="32">                        
+                        <asp:Label ID="lblRemark" 
+                            runat="server" 
+                            Text="Remark:" 
+                            style="left: 8px; top: 8px;" 
+                            CssClass="label" />
+                        <asp:TextBox ID="taRemark" 
+                            runat="server" 
+                            Style="left: 79px; top: 6px;" 
+                            Width="902px"
+                            MaxLength="2000"
+                            CssClass="clickToEdit"/>
+                    </asp:Panel>
+<script type="text/javascript">
+    $(function () {
+        var textBox = document.getElementById('ctl00_ctl00_ContentPlaceHolder1_taRemark');
+        textBox.readOnly = true;
+        // Remove disabled if set. (it blocks the mouseover)
+        // However, only add the onclick if was not disabled
+        if (textBox.disabled)
+        { textBox.disabled = false; }
+        else
+        { textBox.onclick = function () { showRemarkDialog(); }; }
+        setTooltip(textBox, textBox.value);
+    });
+</script>                    
+    <ComponentArt:Dialog ID="dlgRemark"
+                         ModalMaskImage="images/alpha.png"
+                         Modal="true"
+                         RenderOverWindowedObjects="true"
+                         CssClass="dlg"
+                         HeaderCssClass="dlgHeader"
+                         ContentCssClass="dlgContent"
+                         FooterCssClass="dlgFooter"
+                         AllowDrag="true"
+                         Alignment="MiddleCentre"
+                         runat="server"
+                         Height="651px"
+                         Width="550px">
+        <Header>
+            <div class="ttlt">
+                <div class="ttlt-l">
+                </div>
+                <div class="ttlt-m" onmousedown="dlgRemark.StartDrag(event);">
+                    <a class="close" onclick="dlgRemark.close();this.blur();return false;"></a><span>Well Version Remark</span>
+                </div>
+                <div class="ttlt-r">
+                </div>
+            </div>
+            <div class="ttlb">
+                <div class="ttlb-l">
+                    <span></span>
+                </div>
+                <div class="ttlb-m">
+                    <span></span>
+                </div>
+                <div class="ttlb-r">
+                    <span></span>
+                </div>
+            </div>
+        </Header>
+        <Content>
+            <div class="con-l">
+            </div>
+            <div class="con-m">
+                <p>Edit the Well Version Remark.</p>
+                <table>
+                    <tr>
+                        <td valign="top">Remark:</td>
+                        <td>
+                            <textarea id="remarkDlgRemark"
+                                class="inputtxtMndtryControl"
+                                style="position: static; height: 150px;"
+                                rows="2"
+                                cols="65" > </textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="con-r">
+            </div>
+        </Content>
+        <Footer>
+            <div class="ftr-l">
+            </div>
+            <div class="ftr-m">
+                <a onclick="return doneRemarkEdit();" 
+                    class="btn"><span>Done</span></a>
+            </div>
+            <div class="ftr-r">
+            </div>
+        </Footer>
+    </ComponentArt:Dialog>                    
+<script type="text/javascript">
+    function showRemarkDialog() {
+        tooltip.hide();
+        document.getElementById('remarkDlgRemark').value =
+    document.getElementById('ctl00_ctl00_ContentPlaceHolder1_taRemark').value;
+
+        ctl00_ctl00_ContentPlaceHolder1_dlgRemark.set_x(null);
+        ctl00_ctl00_ContentPlaceHolder1_dlgRemark.set_y(null);
+        ctl00_ctl00_ContentPlaceHolder1_dlgRemark.set_alignment('MiddleCentre');
+        ctl00_ctl00_ContentPlaceHolder1_dlgRemark.Show();
+    }
+    function doneRemarkEdit() {
+        var textBox = document.getElementById('ctl00_ctl00_ContentPlaceHolder1_taRemark');
+        var text = document.getElementById('remarkDlgRemark').value
+        textBox.value = text;
+        setTooltip(textBox, text);
+        ctl00_ctl00_ContentPlaceHolder1_dlgRemark.Close('Close click');
+        return false;
+    }
+</script>
+                </div>      
+                <div class="detailFullWidth">
+                <asp:Panel ID="pnlLocation" 
+                    runat="server"
+                    CssClass="detailPanel">                        
+                    <div>
+                        <asp:Label ID="lblNodeMessage"
+                            Text="Please check for location error(s) below. Hover over warning icon for details."
+                            runat="server" 
+                            Font-Bold="True" 
+                            Font-Size="Small"  
+                            ForeColor="DarkRed"  
+                            Visible="false">
+                        </asp:Label>
+                    </div>
+                    <div id="DataGrid">
+          <ComponentArt:DataGrid ID="DataGrid1" 
+                                 AutoCallBackOnInsert="true"
+                                 AutoCallBackOnUpdate="true"
+                                 AutoCallBackOnDelete="true"
+                                 Autotheming="true"
+                                 CssClass="cart-datagrid"
+                                 RunningMode="Client"
+                                 ManualPaging="false"
+                                 PagerStyle="Numbered"
+                                 PageSize="999"
+                                 PagerInfoPosition="BottomLeft"
+                                 PagerPosition="BottomRight"
+                                 AllowMultipleSelect="true"
+                                 runat="server" 
+                                 AllowHorizontalScrolling="false"
+                                 IndentCellWidth="2"
+                                 AllowColumnResizing="true"
+                                 FillContainer="false">
+                        <ClientEvents>
+                            <CallbackError    EventHandler="DataGrid1_onCallbackError"/>
+                            <ItemSelect       EventHandler="DataGrid1_onItemSelect" />
+                            <ItemUnSelect     EventHandler="DataGrid1_onItemUnSelect" />
+                            <ItemBeforeUpdate EventHandler="DataGrid1_onItemBeforeUpdate"/>
+                            <ItemBeforeInsert EventHandler="DataGrid1_onItemBeforeInsert"/>
+                            <ItemDoubleClick  EventHandler="DataGrid1_onItemDoubleClick" />
+                            <%-- <ItemBeforeDelete EventHandler="DataGrid1_onItemBeforeDelete"/> --%>
+                        </ClientEvents>
+                        <Levels>
+                           <ComponentArt:GridLevel
+                                DataKeyField="LIST_ID"  
+                                AllowReordering="False"
+                                AllowGrouping="False"
+                                AllowSorting="True"
+                                DataCellCssClass="cart-datagrid-cell-1"
+                                EditCommandClientTemplateId="EditCommandTemplate" 
+                                InsertCommandClientTemplateId="InsertCommandTemplate"> 
+                                <Columns>
+                                    <ComponentArt:GridColumn AllowEditing="False"
+                                                             DataField="LIST_ID" 
+                                                             Width="0"
+                                                             FixedWidth="true"
+                                                             HeadingText="ListId"
+                                                             HeadingTextCssClass="grp-hd" 
+                                                             Visible="false"/>
+                                    <%--<ComponentArt:GridColumn AllowEditing="False"
+                                                             DataField="WIM_SEQ" 
+                                                             Width="10"
+                                                             FixedWidth="true"
+                                                             HeadingText="WimSeq"
+                                                             Visible="false"/>--%>
+                                    <ComponentArt:GridColumn AllowEditing="False"
+                                                             DataField="ErrorMessage" 
+                                                             Width="30"
+                                                             FixedWidth="false"
+                                                             HeadingText="  "
+                                                             HeadingTextCssClass="grp-hd" 
+                                                             DataCellClientTemplateId="MessageTemplate" 
+                                                             Visible="true"/>
+                                    <ComponentArt:GridColumn AllowEditing="False" 
+                                                             DataField="NODE_OBS_NO" 
+                                                             Width="30"
+                                                             FixedWidth="false"
+                                                             HeadingText="No."
+                                                             HeadingTextCssClass="grp-hd"/>
+                                    <ComponentArt:GridColumn DataField="NODE_POSITION" 
+                                                             HeadingText="Position"
+                                                             HeadingTextCssClass="grp-hd" 
+                                                             Width="50"
+                                                             FixedWidth="false"
+                                                             ForeignTable="PositionLookUp" 
+                                                             ForeignDataKeyField="NODE_POSITION" 
+                                                             ForeignDisplayField="NODE_POSITION_LONGNAME" 
+                                                             EditControlType="Custom"/>
+                                    <ComponentArt:GridColumn DataField="LATITUDE" 
+                                                             HeadingText="Latitude" 
+                                                             HeadingTextCssClass="grp-hd" 
+                                                             Width="100"
+                                                             FixedWidth="false"/>
+                                    <ComponentArt:GridColumn DataField="LONGITUDE" 
+                                                             HeadingText="Longitude" 
+                                                             HeadingTextCssClass="grp-hd" 
+                                                             Width="100"
+                                                             FixedWidth="false"/>
+                                    <ComponentArt:GridColumn DataField="LOCATION_ACCURACY" 
+                                                             HeadingText="Location Accuracy" 
+                                                             HeadingTextCssClass="grp-hd" 
+                                                             Width="120"
+                                                             FixedWidth="false"/>
+                                    <ComponentArt:GridColumn DataField="GEOG_COORD_SYSTEM_ID" 
+                                                             HeadingText="Geo. Datum" 
+                                                             HeadingTextCssClass="grp-hd" 
+                                                             Width="100"
+                                                             FixedWidth="false"
+                                                             ForeignTable="CoordinateSystemLookUp" 
+                                                             ForeignDataKeyField="VALUE"
+                                                             ForeignDisplayField="DISPLAY_TEXT" 
+                                                             EditControlType="Custom"/>
+                                    <ComponentArt:GridColumn DataField="REMARK" 
+                                                             HeadingText="Remark" 
+                                                             HeadingTextCssClass="grp-hd" 
+                                                             DataCellClientTemplateId="RemarkTemplate" 
+                                                             Width="300"
+                                                             FixedWidth="false"/>
+                                </Columns>
+                                <ConditionalFormats>
+                                    <ComponentArt:GridConditionalFormat 
+                                        ClientFilter="DataItem.GetMember('ErrorMessage').Value!=null && DataItem.GetMember('ErrorMessage').Value!=''" 
+                                        RowCssClass="cart-datagrid-row-error"
+                                        HoverRowCssClass="cart-datagrid-row-error" 
+                                        SelectedHoverRowCssClass="cart-datagrid-row-error"
+                                        SelectedRowCssClass="cart-datagrid-row-error"/>
+                                </ConditionalFormats>
+                            </ComponentArt:GridLevel>
+                        </Levels>
+                        <ClientTemplates>
+                            <ComponentArt:ClientTemplate Id="EditCommandTemplate" runat="server" >
+                                <a href="javascript:editComplete();"> 
+                                    <img src="images/SaveButton.gif" title="Apply location edit" alt="Apply location edit" style="border:0; background-color: transparent; vertical-align:middle" /></a> &nbsp; 
+                                <a href="javascript:DataGrid1.editCancel();"> 
+                                    <img src="images/CancelButton.gif" title="Discard location edit" alt="Discard location edit" style="border:0; background-color: transparent; vertical-align:middle" /></a>
+                            </ComponentArt:ClientTemplate>
+                            <ComponentArt:ClientTemplate Id="InsertCommandTemplate" runat="server" >
+                                <a href="javascript:editComplete();"> 
+                                    <img src="images/SaveButton.gif" title="Apply new location" alt="Apply new location" style="border:0; background-color: transparent; vertical-align:middle" /></a> &nbsp; 
+                                <a href="javascript:DataGrid1.EditCancel();"> 
+                                    <img src="images/CancelButton.gif" title="Discard new location" alt="Discard new location" style="border:0; background-color: transparent; vertical-align:middle" /></a>
+                            </ComponentArt:ClientTemplate>          
+                            <ComponentArt:ClientTemplate Id="MessageTemplate" runat="server" >
+                                ## SetErrorMessage(DataItem) ##
+                            </ComponentArt:ClientTemplate>
+                            <ComponentArt:ClientTemplate Id="RemarkTemplate" runat="server" >
+                                ## setContentAndTooltip(DataItem.GetMember('REMARK').Value) ##
+                            </ComponentArt:ClientTemplate>
+                        </ClientTemplates>                        
+                    </ComponentArt:DataGrid>
+                    <asp:Panel id="GridRowsControlsBar" runat="server">
+                      <input id="btnAddRows"    runat="server" type="button" value="+" class="rowsControl" onclick="return showAddNodeDialog();"/>                        
+                      <input id="btnRemoveRows" runat="server" type="button" value="–" class="rowsControl is-disabled" onclick="return removeSelectedRows();" disabled="disabled"  />
+                      <span class="rowsInstruct">double-click a row to edit</span>
+                    </asp:Panel>
+                    </div>
+    <ComponentArt:Dialog ID="dlgNode"
+                         ModalMaskImage="images/alpha.png"
+                         Modal="true"
+                         RenderOverWindowedObjects="true"
+                         CssClass="dlg"
+                         HeaderCssClass="dlgHeader"
+                         ContentCssClass="dlgContent"
+                         FooterCssClass="dlgFooter"
+                         AllowDrag="true"
+                         Alignment="MiddleCentre"
+                         runat="server"
+                         Height="651px"
+                         Width="550px">
+        <Header>
+            <div class="ttlt">
+                <div class="ttlt-l">
+                </div>
+                <div class="ttlt-m" onmousedown="dlgNode.StartDrag(event);">
+                    <a class="close" onclick="dlgNode.close();this.blur();return false;"></a><span>Location Definition</span>
+                </div>
+                <div class="ttlt-r">
+                </div>
+            </div>
+            <div class="ttlb">
+                <div class="ttlb-l">
+                    <span></span>
+                </div>
+                <div class="ttlb-m">
+                    <span></span>
+                </div>
+                <div class="ttlb-r">
+                    <span></span>
+                </div>
+            </div>
+        </Header>
+        <Content>
+            <div class="con-l">
+            </div>
+            <div class="con-m">
+                <p>Define a Location.</p>
+                <input id="nodeDlgRowId" type="hidden" value="" />
+                <table>
+                    <tr>
+                        <td>No.:</td>
+                        <td>
+                            <input id="ctl00_ctl00_ContentPlaceHolder1_nodeDlgObsNo"
+                                disabled="disabled"
+                                class="inputtxtMndtryControl"
+                                style="position: static;"
+                                type="text"/>
+                        </td>
+                        <!-- <td><asp:TextBox ID="nodeDlgObsNo" runat="server" Enabled="false" CssClass="inputtxtMndtryControl" style="position:static;"/></td> -->
+                    </tr>
+                    <tr>
+                        <td>Position:</td>
+                        <td>
+                            <ComponentArt:ComboBox ID="ddlNodePos" 
+                                runat="server" 
+                                RunningMode="Client" 
+                                DropDownHeight="70"
+                                AutoComplete="true" 
+                                AutoFilter="true" 
+                                AutoHighlight="true" 
+                                AutoTheming="true">
+                            </ComponentArt:ComboBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Latitude:</td>
+                        <td><input type="text" id="ctl00_ctl00_ContentPlaceHolder1_nodeDlgLat" class="inputtxtMndtryControl" style="position: static;"/>
+                          (Numeric from -90 to 90) </td>
+                        <!-- <td><asp:TextBox id="nodeDlgLat" runat="server" CssClass="inputtxtMndtryControl" style="position:static;"/></td> -->
+                    </tr>
+                    <tr>
+                        <td>Longitude:</td>
+                        <td><input type="text" id="ctl00_ctl00_ContentPlaceHolder1_nodeDlgLong" class="inputtxtMndtryControl" style="position: static;"/>
+                        (Numeric from -180 to 180)</td>
+                        <!-- <td><asp:TextBox id="nodeDlgLong" runat="server" CssClass="inputtxtMndtryControl" style="position:static;"/></td> -->
+                    </tr>
+                    <tr>
+                        <td>Geographic Datum:</td>
+                        <td>
+                            <ComponentArt:ComboBox ID="ddlNodeDatum" 
+                                runat="server" 
+                                RunningMode="Client" 
+                                DropDownHeight="220"
+                                AutoComplete="true" 
+                                AutoFilter="true" 
+                                AutoHighlight="true" 
+                                AutoTheming="true">
+                            </ComponentArt:ComboBox>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>Location Accuracy:</td>
+                        <td><input type="text" id="ctl00_ctl00_ContentPlaceHolder1_nodeDlgLocationAccuracy" class="inputtxtMndtryControl" style="position: static;"/>
+                          (Numeric from 1 to 10K)
+                        </td>                  
+                    </tr>
+                    <tr>
+                        <td valign="top">Remark:</td>
+                        <td>
+                            <textarea id="ctl00_ctl00_ContentPlaceHolder1_nodeDlgRemark"
+                                class="inputtxtMndtryControl"
+                                style="position: static; height: 200px;"
+                                rows="2"
+                                cols="65" > </textarea>
+                            <!-- <asp:TextBox
+                                id="nodeDlgRemark"
+                                runat="server"
+                                CssClass="inputtxtMndtryControl"
+                                style="position:static;"
+                                TextMode="multiline"
+                                MaxLength="1990"
+                                Height="220"
+                                Columns="65" /> -->
+                        </td>
+                    </tr>
+                </table>
+                <ComponentArt:CallBack ID="cbckFind" Debug="false" runat="server">
+                    <Content>
+                    </Content>
+                </ComponentArt:CallBack>
+            </div>
+            <div class="con-r">
+            </div>
+        </Content>
+        <Footer>
+            <div class="ftr-l">
+            </div>
+            <div class="ftr-m">
+                <a onclick="return doneNodeEditOrAdd();" 
+                    class="btn"><span>Done</span></a>
+            </div>
+            <div class="ftr-r">
+            </div>
+        </Footer>
+    </ComponentArt:Dialog>                    
+                    
+<script type="text/javascript">
+    function DataGrid1_onItemSelect(sender, eventArgs)
+    { updateRemoveBtnState(); }
+
+    function DataGrid1_onItemUnSelect(sender, eventArgs)
+    { updateRemoveBtnState(); }
+
+    function updateRemoveBtnState() {
+        var locs = DataGrid1.getSelectedItems();
+        var nLocs = 0;
+        if (locs)
+        { nLocs = locs.length; }
+        if (nLocs < 1)
+        { $("#ctl00_ctl00_ContentPlaceHolder1_btnRemoveRows").attr('disabled', 'disabled').addClass("is-disabled"); }
+        else
+        { $("#ctl00_ctl00_ContentPlaceHolder1_btnRemoveRows").removeAttr('disabled').removeClass("is-disabled"); }
+    }
+
+    function DataGrid1_onItemDoubleClick(sender, eventArgs) {
+        if ($("#ctl00_ctl00_ContentPlaceHolder1_GridRowsControlsBar").is(':visible')) {
+            var row = eventArgs.get_item();
+            showEditNodeDialog(row.ClientId);
+        }
+    }
+
+    function showEditNodeDialog(rowId) {
+        //DataGrid1.edit(DataGrid1.getItemFromClientId(rowId))
+        document.getElementById('nodeDlgRowId').value = rowId;
+
+        var item = ctl00_ctl00_ContentPlaceHolder1_DataGrid1.getItemFromClientId(rowId);
+
+        document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgObsNo').value = item.getMember('NODE_OBS_NO').get_value();
+
+        var ddl;
+        var value;
+        ddl = ctl00_ctl00_ContentPlaceHolder1_ddlNodePos;
+        value = item.getMember('NODE_POSITION').get_value();
+        try { ddl.selectItem(ddl.findItemByProperty('Value', value)); } catch (err) { }
+
+        document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLat').value = item.getMember('LATITUDE').get_value();
+        document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLong').value = item.getMember('LONGITUDE').get_value();
+        document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLocationAccuracy').value = item.getMember('LOCATION_ACCURACY').get_value();
+
+        ddl = ctl00_ctl00_ContentPlaceHolder1_ddlNodeDatum;
+        value = item.getMember('GEOG_COORD_SYSTEM_ID').get_value();
+        try { ddl.selectItem(ddl.findItemByProperty('Value', value)); } catch (err) { }
+
+        document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgRemark').value = item.getMember('REMARK').get_value();
+
+        ShowNodeDialog();
+    }
+
+    function showAddNodeDialog() {
+        //document.getElementById('nodeDlgRowId').value = DataGrid1.Table.addEmptyRow().ClientId;
+
+        //  DataGrid1.Table.addRow();
+        //  DataGrid1.Callback();
+        //  var row = DataGrid1.getEditingItem();
+        //  if ( row )
+        //  {
+        //    document.getElementById('nodeDlgRowId').value = row.ClientId;
+        //    DataGrid1.editComplete();
+        //  }
+
+
+        document.getElementById('nodeDlgRowId').value = '';
+        document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgObsNo').value = 'Generated';
+
+        var ddl;
+        var value = '';
+        ddl = ctl00_ctl00_ContentPlaceHolder1_ddlNodePos;
+        try { ddl.selectItem(ddl.findItemByProperty('Value', value)); } catch (err) { }
+
+        document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLat').value = '';
+        document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLong').value = '';
+        document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLocationAccuracy').value = '';
+        ddl = ctl00_ctl00_ContentPlaceHolder1_ddlNodeDatum;
+        try { ddl.selectItem(ddl.findItemByProperty('Value', value)); } catch (err) { }
+
+        document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgRemark').value = '';
+
+        ShowNodeDialog();
+        return false;
+    }
+
+    function ShowNodeDialog() {
+        ctl00_ctl00_ContentPlaceHolder1_dlgNode.set_x(null);
+        ctl00_ctl00_ContentPlaceHolder1_dlgNode.set_y(null);
+        ctl00_ctl00_ContentPlaceHolder1_dlgNode.set_alignment('MiddleCentre');
+        ctl00_ctl00_ContentPlaceHolder1_dlgNode.Show();
+    }
+
+    function doneNodeEditOrAdd() {
+        var props = {};
+        var rowId = document.getElementById('nodeDlgRowId').value;
+        if (rowId && rowId.length > 0 && rowId != 'null')   // last piece just for IE!!!
+        //{ return doneNodeEditOrAddNoAjax(); }
+        {
+            props.req = 'updateLocation';
+            var row = DataGrid1.getItemFromClientId(rowId);
+            var cell = row.getMember('LIST_ID');
+            var listId = cell.Value;
+            props.LIST_ID = listId;
+        }
+        else
+        { props.req = 'addLocation'; }
+
+        selItem = ctl00_ctl00_ContentPlaceHolder1_ddlNodePos.getSelectedItem();
+        try { props.NODE_POSITION = selItem.get_value(); } catch (err) { }
+
+        selItem = document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLat');
+        try { props.LATITUDE = selItem.value; } catch (err) { }
+
+        selItem = document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLong');
+        try { props.LONGITUDE = selItem.value; } catch (err) { }
+
+        selItem = document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLocationAccuracy');
+        try { props.LOCATION_ACCURACY = selItem.value; } catch (err) { }
+
+        selItem = ctl00_ctl00_ContentPlaceHolder1_ddlNodeDatum.getSelectedItem();
+        try { props.GEOG_COORD_SYSTEM_ID = selItem.get_value(); } catch (err) { }
+
+        selItem = document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgRemark');
+        try { props.REMARK = selItem.value; } catch (err) { }
+
+        //doAjaxInsert(props);
+        $.ajax({
+            url: 'RequestHandler.ashx',
+            type: 'POST',
+            data: props,
+            cache: false,
+            success: function (result)
+            { DataGrid1.Callback(); }
+        });
+
+        ctl00_ctl00_ContentPlaceHolder1_dlgNode.Close('Close click');
+        return false;
+    }
+
+    function doAjaxInsert(props) {
+        props.req = 'insertLocation';
+        $.ajax({
+            url: 'RequestHandler.ashx',
+            type: 'POST',
+            data: props,
+            cache: false,
+            success: function (result)
+            { DataGrid1.Callback(); }
+        });
+    }
+
+    function doneNodeEditOrAddNoAjax() {
+        DataGrid1.beginUpdate();
+        try {
+            var rowId = document.getElementById('nodeDlgRowId').value;
+            if (!rowId || rowId.length < 1 || rowId == 'null')   // last piece just for IE!!!
+            { rowId = DataGrid1.Table.addEmptyRow().ClientId; }
+
+            var row = DataGrid1.getItemFromClientId(rowId);
+            var cell;
+            var selItem;
+
+            selItem = ctl00_ctl00_ContentPlaceHolder1_ddlNodePos.getSelectedItem();
+            cell = row.getMember('NODE_POSITION');
+            try { row.SetValue(cell.get_column().get_columnNumber(), selItem.get_value()); } catch (err) { }
+            try { cell.SetProperty('Text', selItem.get_text()); } catch (err) { }
+
+            selItem = document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLat');
+            cell = row.getMember('LATITUDE');
+            try { row.SetValue(cell.get_column().get_columnNumber(), selItem.value); } catch (err) { }
+
+            selItem = document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLong');
+            cell = row.getMember('LONGITUDE');
+            try { row.SetValue(cell.get_column().get_columnNumber(), selItem.value); } catch (err) { }
+
+            selItem = document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgLocationAccuracy');
+            cell = row.getMember('LOCATION_ACCURACY');
+            try { row.SetValue(cell.get_column().get_columnNumber(), selItem.value); } catch (err) { }
+
+            selItem = ctl00_ctl00_ContentPlaceHolder1_ddlNodeDatum.getSelectedItem();
+            cell = row.getMember('GEOG_COORD_SYSTEM_ID');
+            try { row.SetValue(cell.get_column().get_columnNumber(), selItem.get_value()); } catch (err) { }
+            try { cell.SetProperty('Text', selItem.get_text()); } catch (err) { }
+
+            selItem = document.getElementById('ctl00_ctl00_ContentPlaceHolder1_nodeDlgRemark');
+            cell = row.getMember('REMARK');
+            try { row.SetValue(cell.get_column().get_columnNumber(), selItem.value); } catch (err) { }
+        }
+        finally
+  { DataGrid1.endUpdate(); }
+
+        DataGrid1.Callback();
+        ctl00_ctl00_ContentPlaceHolder1_dlgNode.Close('Close click');
+        return false;
+    }
+
+    //********* Start  Location DataGrid Events ***********//
+    function DataGrid1_onCallbackError(sender, eventArgs) {
+        if (confirm('Invalid data has been entered. View details?')) {
+            alert(eventArgs.get_errorMessage());
+            DataGrid1.page(0);
+            DataGrid1.scrollTo(DataGrid1.Table.getRowCount());
+        }
+    }
+
+    function DataGrid1_onItemBeforeDelete(sender, eventArgs) {
+        if (!confirm("Delete this location record?"))
+        { eventArgs.set_cancel(true); }
+    }
+
+    function DataGrid1_onItemBeforeInsert(sender, eventArgs) {
+        var newItem = eventArgs.get_item();
+        return ValidateRow(sender, eventArgs, newItem);
+    }
+
+    function DataGrid1_onItemBeforeUpdate(sender, eventArgs) {
+        var newItem = eventArgs.get_newItem();
+        return ValidateRow(sender, eventArgs, newItem);
+    }
+
+    function ValidateRow(sender, eventArgs, newItem) {
+        var errMsg = "";
+
+        // validate Latitude
+        var _Latitude = newItem.getMember("LATITUDE").get_value();
+        var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,7}|)$/  // -99,999.99999
+        if ((!isValidPattern(_Latitude, pat))) {
+            // failed validation, return to editing
+            errMsg += "Latitude format should be 99999.9999999\n";
+        }
+
+        // validate Longitude
+        var _Longitude = newItem.getMember("LONGITUDE").get_value();
+        var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,7}|)$/  // -99,999.99999
+        if ((!isValidPattern(_Longitude, pat))) {
+            // failed validation
+            errMsg += "Longitude format should be 99999.9999999\n";
+        }
+
+        // validate Location Accuracy
+        var _LocAccuracy = newItem.getMember("LOCATION_ACCURACY").get_value();
+        var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,7}|)$/  // -99,999.99999
+        if ((!isValidPattern(_LocAccuracy, pat))) {
+            // failed validation
+            errMsg += "Location Accuracy format should be 99999.9999999\n";
+           //vrajpoot
+           // window.alert(errMsg);
+        }
+
+        // Overall result
+        if (!errMsg == "") {
+            window.alert(
+        "The following fields have not been correctly entered:\n\n"
+        + errMsg);
+            eventArgs.set_continue(true);
+            return false;
+        }
+        else
+        { return true; }
+    }
+
+    function editGrid(rowId)
+    { DataGrid1.edit(DataGrid1.getItemFromClientId(rowId)); }
+
+    function editRow()
+    { editComplete(); }
+
+    function insertRow()
+    { editComplete(); }
+
+    function editComplete()
+    { DataGrid1.editComplete(); }
+
+    function removeSelectedRows() {
+        DataGrid1.deleteSelected();
+        return false;
+    }
+
+    function deleteRow(rowId)
+    { DataGrid1.deleteItem(DataGrid1.getItemFromClientId(rowId)); }
+
+    function SetErrorMessage(item) {
+        if (item.GetMember('ErrorMessage').Text != '') {
+            //var ErrorMessage = item.GetMember('ErrorMessage').Text.split(';').join('\n') ;
+            var ErrorMessageTitle = item.GetMember('ErrorMessage').Text.split(';').join('\r');
+            //var ErrorMessage = ErrorMessageTitle.replace(/(\r\n|\r|\n)/g,'\n') ; 'onclick="javascript:alert(\'' + ErrorMessage + '\');" ' + 
+            var showErrorIcon = '<img src="images/warning.gif" ' + 'title="' + ErrorMessageTitle + '" ' +
+                            ' style="background-color:Yellow; border:0; vertical-align:middle; width:16; height:16; " > &nbsp; </img>';
+            return showErrorIcon;
+        }
+        else
+            return '';
+    }
+    var entityMap = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': '&quot;',
+        "'": '&#39;',
+        "/": '&#x2F;'
+    };
+
+    function escapeHtml(string) {
+        return String(string).replace(/[&<>"'\/]/g, function (s) {
+            return entityMap[s];
+        });
+    }
+    function setTooltip(element, text) {
+        var safeText = escapeHtml(escapeHtml(text)).replace(/\n/g, '<br />');
+        $(element).mouseover(function () { tooltip.show(safeText); });
+        $(element).mouseout(function () { tooltip.hide(); });
+    }
+    function setContentAndTooltip(text) {
+        var safeText = escapeHtml(escapeHtml(text)).replace(/\n/g, '<br />');
+        var span = '<span style="display:inline-block;width:100%;" ';
+        //span += 'onmouseover="tooltip.show(\'' + text.replace(/\n/g, '<br />').replace(/\'/g, '\\\'') + '\');" ';
+        span += 'onmouseover="tooltip.show(\'' + safeText + '\');" ';
+        span += 'onmouseout="tooltip.hide();" >';
+        span += text;
+        span += '</span>';
+        return span;
+    }
+    //********* End  Location DataGrid Events ***********//            
+
+    //********* Start Generic Comboboxes Events ***********//
+    //Allow user to be able to type, but not select anything that is not available in the item list//
+    function ddlCollapse(sender, eventArgs) {
+        if (sender.get_text() == "") {
+            if (sender.get_id() == "ctl00_ctl00_ContentPlaceHolder1_ddlSource") {
+                sender.focus();
+            }
+            return;
+        }
+
+        var i = 0;
+        var item;
+        while (sender.getItem(i)) {
+            item = sender.getItem(i);
+            if (sender.get_text() == item.get_text()) {
+                sender.selectItem(item);
+                //sender.filter(sender.get_text());
+
+                switch (sender.get_id()) {
+                    case "ctl00_ctl00_ContentPlaceHolder1_ddlSource":
+                        document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lblSource2val").innerText = item.Text;
+                        document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lblSource3val").innerText = item.Text;
+                        break;
+                    case "ctl00_ctl00_ContentPlaceHolder1_ddlCountry":
+                        document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lblCountry2val").innerText = item.Text;
+                        document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lblCountry3val").innerText = item.Text;
+                        ddlCounty.set_text("");
+                        ddlCounty.disable();
+
+                        ddlProvState.FilterString = "";
+                        ddlProvState.CallbackFilterString = "";
+                        ddlProvState.set_text("");
+                        ddlProvState.disable();
+                        ddlProvState.filter(item.get_value());
+
+                        ddlBasinName.FilterString = "";
+                        ddlBasinName.CallbackFilterString = "";
+                        ddlBasinName.set_text("");
+                        ddlBasinName.disable();
+                        ddlBasinName.filter(item.get_value());
+
+                        break;
+                    case "ctl00_ctl00_ContentPlaceHolder1_ddlWellProfileType":
+                        var vertical = "V";
+                        var disableTVD = (item.Value == vertical);
+                        document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtPlugbackTVD").disabled = disableTVD;
+                        document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtMaxTVD").disabled = disableTVD;
+                        break;
+                }
+                return;
+            }
+            i++;
+        }
+        sender.set_text("");
+        sender.toggleExpand();
+        sender.focus();
+    }
+    //********* End Generic Comboboxes Events ***********//
+
+    //********* Start UWI Events ***********//
+    function handleUWI() {
+        var field = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtUWI");
+        if (field) {
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lblUWI2val").innerText = field.value;
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lblUWI3val").innerText = field.value;
+        }
+    }
+    //********* End   UWI Events ***********//
+
+    //********* Start WellName Events ***********//
+    function handleWellName() {
+        var field = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtWellName");
+        if (field) {
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lblWellName2val").innerText = field.value;
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lblWellName3val").innerText = field.value;
+        }
+    }
+    //********* End   WellName Events ***********//
+
+    //********* Start PlotName Events ***********//
+    function handlePlotName() {
+        var field = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtPlotName");
+        if (field) {
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lblPlotName2val").innerText = field.value;
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lblPlotName3val").innerText = field.value;
+        }
+    }
+    //********* End   PlotName Events ***********//
+
+    //********* Start Country, Province/State, County Comboboxes Events ***********//            
+    function filterProvStateComplete(sender, eventArgs) {
+        var itemcnt = sender.get_itemCount();
+    
+        if (itemcnt > 0) {
+            ddlProvState.enable();
+        }
+        else {
+            ddlProvState.disable();
+        }
+    }
+
+    function provStateChange(sender, eventArgs) {
+        var item = sender.getSelectedItem();
+        if (item) {
+            ddlCounty.set_text("");
+            ddlCounty.disable();
+            ddlCounty.filter(item.get_value());
+        }
+    }
+
+    function filterCountyComplete(sender, eventArgs) {
+        var itemcnt = sender.get_itemCount();
+
+        if (itemcnt > 0) {
+            ddlCounty.enable();
+        }
+        else {
+            ddlCounty.disable();
+        }
+    }
+
+    function filterBasinComplete(sender, eventArgs) {
+        var itemcnt = sender.get_itemCount();
+     
+        if (itemcnt > 0) {
+            ddlBasinName.enable();
+        }
+        else {
+            ddlBasinName.disable();
+        }
+    }
+
+
+
+    //********* End  Country, Prvince-state, County Comboboxes Events ***********//  
+
+    //********* Start Elevation Groups Input and Comboboxes Events ***********//            
+    function isValidPattern(value, re) {
+        return value.match(re);
+    }
+
+    function handleGroundElev() {
+        var elev = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtGroundElev");
+        var unit = ddlGroundElevUnits.get_text();
+        if (elev != null) {
+            if (elev.value.length > 0) {
+                var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,5}|)$/  // -99999.99999
+                if ((isValidPattern(elev.value, pat))) {
+                    if (unit.length > 0) {
+                        ddlGroundElevUnits.set_text("");
+                        ddlGroundElevUnits.SelectedIndex = -1;
+                        ddlGroundElevUnits.collapse;
+                    }
+                    ddlGroundElevUnits.enable();
+                    //ddlGroundElevUnits.focus();
+                }
+                else {
+                    if (unit.length > 0) {
+                        ddlGroundElevUnits.set_text("");
+                        ddlGroundElevUnits.SelectedIndex = -1;
+                        ddlGroundElevUnits.collapse;
+                        ddlGroundElevUnits.disable();
+                    }
+                    alert("Ground Elevation format should be 99999.99999");
+                    elev.value = "";
+                    elev.focus();
+                }
+            }
+            else {
+                if (unit.length > 0) {
+                    ddlGroundElevUnits.set_text("");
+                    ddlGroundElevUnits.SelectedIndex = -1;
+                    ddlGroundElevUnits.collapse;
+                    ddlGroundElevUnits.disable();
+                }
+            }
+        }
+        else {
+            ddlGroundElevUnits.set_text("");
+            ddlGroundElevUnits.SelectedIndex = -1;
+            ddlGroundElevUnits.collapse;
+            ddlGroundElevUnits.disable();
+        }
+    }
+
+    function handleKBElev() {
+        var elev = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtKBElev");
+        var unit = ddlKBElevUnits.get_text();
+        if (elev != null) {
+            if (elev.value.length > 0) {
+                var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,5}|)$/  // -99999.99999
+                if ((isValidPattern(elev.value, pat))) {
+                    if (unit.length > 0) {
+                        ddlKBElevUnits.set_text("");
+                        ddlKBElevUnits.SelectedIndex = -1;
+                        ddlKBElevUnits.collapse;
+                    }
+                    ddlKBElevUnits.enable();
+                    //ddlKBElevUnits.focus();
+                }
+                else {
+                    if (unit.length > 0) {
+                        ddlKBElevUnits.set_text("");
+                        ddlKBElevUnits.SelectedIndex = -1;
+                        ddlKBElevUnits.collapse;
+                        ddlKBElevUnits.disable();
+                    }
+                    alert("KB Elevation format should be 99999.99999");
+                    elev.value = "";
+                    elev.focus();
+                }
+            }
+            else {
+                if (unit.length > 0) {
+                    ddlKBElevUnits.set_text("");
+                    ddlKBElevUnits.SelectedIndex = -1;
+                    ddlKBElevUnits.collapse;
+                    ddlKBElevUnits.disable();
+                }
+            }
+        }
+        else {
+            ddlKBElevUnits.set_text("");
+            ddlKBElevUnits.SelectedIndex = -1;
+            ddlKBElevUnits.collapse;
+            ddlKBElevUnits.disable();
+        }
+    }
+
+    function handleRotaryTableElev() {
+        var elev = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtRotaryTableElev");
+        if (elev != null) {
+            if (elev.value.length > 0) {
+                var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,5}|)$/  // -99999.99999
+                if ((!isValidPattern(elev.value, pat))) {
+                    alert("Rotary Table Elevation format should be 99999.99999");
+                    elev.value = "";
+                    elev.focus();
+                }
+            }
+        }
+    }
+
+
+    function handleDerrickFloor() {
+        var elev = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtDerrickFloor");
+        var unit = ddlDerrickFloorUnits.get_text();
+        if (elev != null) {
+            if (elev.value.length > 0) {
+                var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,5}|)$/  // -99999.99999
+                if ((isValidPattern(elev.value, pat))) {
+                    if (unit.length > 0) {
+                        ddlDerrickFloorUnits.set_text("");
+                        ddlDerrickFloorUnits.SelectedIndex = -1;
+                        ddlDerrickFloorUnits.collapse;
+                    }
+                    ddlDerrickFloorUnits.enable();
+                    //ddlDerrickFloorUnits.focus();
+                }
+                else {
+                    if (unit.length > 0) {
+                        ddlDerrickFloorUnits.set_text("");
+                        ddlDerrickFloorUnits.SelectedIndex = -1;
+                        ddlDerrickFloorUnits.collapse;
+                        ddlDerrickFloorUnits.disable();
+                    }
+                    alert("Derrick Floor Elevation format should be 99999.99999");
+                    elev.value = "";
+                    elev.focus();
+                }
+            }
+            else {
+                if (unit.length > 0) {
+                    ddlDerrickFloorUnits.set_text("");
+                    ddlDerrickFloorUnits.SelectedIndex = -1;
+                    ddlDerrickFloorUnits.collapse;
+                    ddlDerrickFloorUnits.disable();
+                }
+            }
+        }
+        else {
+            ddlDerrickFloorUnits.set_text("");
+            ddlDerrickFloorUnits.SelectedIndex = -1;
+            ddlDerrickFloorUnits.collapse;
+            ddlDerrickFloorUnits.disable();
+        }
+    }
+
+    function handleWaterDepth() {
+        var elev = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtWaterDepth");
+        var unit = ddlWaterDepthUnits.get_text();
+        if (elev != null) {
+            if (elev.value.length > 0) {
+                var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,5}|)$/  // -99999.99999
+                if ((isValidPattern(elev.value, pat))) {
+                    if (unit.length > 0) {
+                        ddlWaterDepthUnits.set_text("");
+                        ddlWaterDepthUnits.SelectedIndex = -1;
+                        ddlWaterDepthUnits.collapse;
+                    }
+                    ddlWaterDepthUnits.enable();
+                    //ddlWaterDepthUnits.focus();
+                }
+                else {
+                    if (unit.length > 0) {
+                        ddlWaterDepthUnits.set_text("");
+                        ddlWaterDepthUnits.SelectedIndex = -1;
+                        ddlWaterDepthUnits.collapse;
+                        ddlWaterDepthUnits.disable();
+                    }
+                    alert("Water Depth Elevation format should be 99999.99999");
+                    elev.value = "";
+                    elev.focus();
+                }
+            }
+            else {
+                if (unit.length > 0) {
+                    ddlWaterDepthUnits.set_text("");
+                    ddlWaterDepthUnits.SelectedIndex = -1;
+                    ddlWaterDepthUnits.collapse;
+                    ddlWaterDepthUnits.disable();
+                }
+            }
+        }
+        else {
+            ddlWaterDepthUnits.set_text("");
+            ddlWaterDepthUnits.SelectedIndex = -1;
+            ddlWaterDepthUnits.collapse;
+            ddlWaterDepthUnits.disable();
+        }
+    }
+
+    function handleCasingFlange() {
+        var elev = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtCasingFlange");
+        var unit = ddlCasingFlangeUnits.get_text();
+        if (elev != null) {
+            if (elev.value.length > 0) {
+                var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,5}|)$/  // -99999.99999
+                if ((isValidPattern(elev.value, pat))) {
+                    if (unit.length > 0) {
+                        ddlCasingFlangeUnits.set_text("");
+                        ddlCasingFlangeUnits.SelectedIndex = -1;
+                        ddlCasingFlangeUnits.collapse;
+                    }
+                    ddlCasingFlangeUnits.enable();
+                    //ddlCasingFlangeUnits.focus();
+                }
+                else {
+                    if (unit.length > 0) {
+                        ddlCasingFlangeUnits.set_text("");
+                        ddlCasingFlangeUnits.SelectedIndex = -1;
+                        ddlCasingFlangeUnits.collapse;
+                        ddlCasingFlangeUnits.disable();
+                    }
+                    alert("Casing Flange Elevation format should be 99999.99999");
+                    elev.value = "";
+                    elev.focus();
+                }
+            }
+            else {
+                if (unit.length > 0) {
+                    ddlCasingFlangeUnits.set_text("");
+                    ddlCasingFlangeUnits.SelectedIndex = -1;
+                    ddlCasingFlangeUnits.collapse;
+                    ddlCasingFlangeUnits.disable();
+                }
+            }
+        }
+        else {
+            ddlCasingFlangeUnits.set_text("");
+            ddlCasingFlangeUnits.SelectedIndex = -1;
+            ddlCasingFlangeUnits.collapse;
+            ddlCasingFlangeUnits.disable();
+        }
+    }
+
+    function handleTotalDepth() {
+        var elev = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtTotalDepth");
+        var unit = ddlTotalDepthUnits.get_text();
+        if (elev != null) {
+            if (elev.value.length > 0) {
+                var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,5}|)$/  // -99999.99999
+                if ((isValidPattern(elev.value, pat))) {
+                    if (unit.length > 0) {
+                        ddlTotalDepthUnits.set_text("");
+                        ddlTotalDepthUnits.SelectedIndex = -1;
+                        ddlTotalDepthUnits.collapse;
+                    }
+                    ddlTotalDepthUnits.enable();
+                    //ddlTotalDepthUnits.focus();
+                }
+                else {
+                    if (unit.length > 0) {
+                        ddlTotalDepthUnits.set_text("");
+                        ddlTotalDepthUnits.SelectedIndex = -1;
+                        ddlTotalDepthUnits.collapse;
+                        ddlTotalDepthUnits.disable();
+                    }
+                    alert("Total Depth format should be 99999.99999");
+                    elev.value = "";
+                    elev.focus();
+                }
+            }
+            else {
+                if (unit.length > 0) {
+                    ddlTotalDepthUnits.set_text("");
+                    ddlTotalDepthUnits.SelectedIndex = -1;
+                    ddlTotalDepthUnits.collapse;
+                    ddlTotalDepthUnits.disable();
+                }
+            }
+        }
+        else {
+            ddlTotalDepthUnits.set_text("");
+            ddlTotalDepthUnits.SelectedIndex = -1;
+            ddlTotalDepthUnits.collapse;
+            ddlTotalDepthUnits.disable();
+        }
+    }
+
+    function handlePlugbackDepth() {
+        var elev = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtPlugbackDepth");
+        var unit = ddlPlugbackDepthUnits.get_text();
+        if (elev != null) {
+            if (elev.value.length > 0) {
+                var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,5}|)$/  // -99,999.99999
+                if ((isValidPattern(elev.value, pat))) {
+                    if (unit.length > 0) {
+                        ddlPlugbackDepthUnits.set_text("");
+                        ddlPlugbackDepthUnits.SelectedIndex = -1;
+                        ddlPlugbackDepthUnits.collapse;
+                    }
+                    ddlPlugbackDepthUnits.enable();
+                    //ddlPlugbackDepthUnits.focus();
+                }
+                else {
+                    if (unit.length > 0) {
+                        ddlPlugbackDepthUnits.set_text("");
+                        ddlPlugbackDepthUnits.SelectedIndex = -1;
+                        ddlPlugbackDepthUnits.collapse;
+                        ddlPlugbackDepthUnits.disable();
+                    }
+                    alert("Plugback Depth format should be 99999.99999");
+                    elev.value = "";
+                    elev.focus();
+                }
+            }
+            else {
+                if (unit.length > 0) {
+                    ddlPlugbackDepthUnits.set_text("");
+                    ddlPlugbackDepthUnits.SelectedIndex = -1;
+                    ddlPlugbackDepthUnits.collapse;
+                    ddlPlugbackDepthUnits.disable();
+                }
+            }
+        }
+        else {
+            ddlPlugbackDepthUnits.set_text("");
+            ddlPlugbackDepthUnits.SelectedIndex = -1;
+            ddlPlugbackDepthUnits.collapse;
+            ddlPlugbackDepthUnits.disable();
+        }
+    }
+
+    function handlePlugbackTVD() {
+        var elev = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtPlugbackTVD");
+        if (elev != null) {
+            if (elev.value.length > 0) {
+                var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,5}|)$/  // -99,999.99999
+                if ((!isValidPattern(elev.value, pat))) {
+                    alert("Plugback TVD format should be 99999.99999");
+                    elev.value = "";
+                    elev.focus();
+                }
+            }
+        }
+    }
+
+    function handleMaxTVD() {
+        var elev = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtMaxTVD");
+        var unit = ddlMaxTVDUnits.get_text();
+        if (elev != null) {
+            if (elev.value.length > 0) {
+                var pat = /^-?\d{0,2}\,?\d{0,3}(\.\d{0,5}|)$/  // -99,999.99999
+                if ((isValidPattern(elev.value, pat))) {
+                    if (unit.length > 0) {
+                        ddlMaxTVDUnits.set_text("");
+                        ddlMaxTVDUnits.SelectedIndex = -1;
+                        ddlMaxTVDUnits.collapse;
+                    }
+                    ddlMaxTVDUnits.enable();
+                    //ddlMaxTVDUnits.focus();
+                }
+                else {
+                    if (unit.length > 0) {
+                        ddlMaxTVDUnits.set_text("");
+                        ddlMaxTVDUnits.SelectedIndex = -1;
+                        ddlMaxTVDUnits.collapse;
+                        ddlMaxTVDUnits.disable();
+                    }
+                    alert("Max TVD format should be 99999.99999");
+                    elev.value = "";
+                    elev.focus();
+                }
+            }
+            else {
+                if (unit.length > 0) {
+                    ddlMaxTVDUnits.set_text("");
+                    ddlMaxTVDUnits.SelectedIndex = -1;
+                    ddlMaxTVDUnits.collapse;
+                    ddlMaxTVDUnits.disable();
+                }
+            }
+        }
+        else {
+            ddlMaxTVDUnits.set_text("");
+            ddlMaxTVDUnits.SelectedIndex = -1;
+            ddlMaxTVDUnits.collapse;
+            ddlMaxTVDUnits.disable();
+        }
+    }
+    //********* End   Elevation Groups Input and Comboboxes Events ***********//
+
+    //********* Start Date Events ***********//
+    function handleLicenseDate() {
+        var field = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtLicenseDate");
+        if (field != null && field.value.length > 0) {
+            if (!isValidDate(field.value)) {
+                document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtLicenseDate").value = "";
+                field.focus();
+            }
+        }
+    }
+
+    function handleRigReleaseDate() {
+        var field = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtRigReleaseDate");
+        if (field != null && field.value.length > 0) {
+            if (!isValidDate(field.value)) {
+                document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtRigReleaseDate").value = "";
+                field.focus();
+            }
+        }
+    }
+
+    function handleSpudDate() {
+        var field = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtSpudDate");
+        if (field != null && field.value.length > 0) {
+            if (!isValidDate(field.value)) {
+                document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtSpudDate").value = "";
+                field.focus();
+            }
+        }
+    }
+
+    function handleFinalDrillDate() {
+        var field = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtFinalDrillDate");
+        if (field != null && field.value.length > 0) {
+            if (!isValidDate(field.value)) {
+                document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtLicenseDate").value = "";
+                field.focus();
+            }
+        }
+    }
+
+    function isValidDate(dateStr) {
+        var datePat = /^(\d{1,2})(\/)(\d{1,2})\2(\d{4})$/;
+        var matchArray = dateStr.match(datePat); // is the format ok?
+
+        if (matchArray == null) {
+            alert("Date is not in a valid format.")
+            return false;
+        }
+
+        day = matchArray[1];
+        month = matchArray[3]; // parse date into variables
+        year = matchArray[4];
+
+        if (month < 1 || month > 12) { // check month range
+            alert("Month must be between 1 and 12.");
+            return false;
+        }
+
+        if (day < 1 || day > 31) {
+            alert("Day must be between 1 and 31.");
+            return false;
+        }
+
+        if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 31) {
+            alert("Month " + month + " doesn't have 31 days!");
+            return false;
+        }
+
+        if (month == 2) { // check for february 29th
+            var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+            if (day > 29 || (day == 29 && !isleap)) {
+                alert("February " + year + " doesn't have " + day + " days!");
+                return false;
+            }
+        }
+
+        var currentDate = new Date();
+        var currMonth = currentDate.getMonth() + 1;
+        var currDay = currentDate.getDate();
+        var currYear = currentDate.getFullYear();
+
+        var inputDate = new Date(year, month, day);
+        var todayDate = new Date(currYear, currMonth, currDay);
+
+        if (inputDate > todayDate) {
+            alert("Future dates are not accepted!");
+            return false;
+        }
+
+        return true;  // date is valid
+    }
+    //********* End   Date Events ***********//
+
+    //********* Start Disable Enter Key ***********//
+    function stopEnterKey(evt) {
+        var evt = (evt) ? evt : ((event) ? event : null);
+        var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+        if ((evt.keyCode == 13)) { return false; }
+    }
+    document.onkeypress = stopEnterKey;
+    //********* End   Disable Enter Key ***********//
+</script>                  
+                </asp:Panel>
+                </div>      
+            </ComponentArt:PageView>
+            <ComponentArt:PageView ID="PageView2"
+                CssClass="PageContent" 
+                runat="server">          
+                <asp:Label ID="lblMessageTabStrip2"
+                    runat="server" 
+                    Style="left: 320px; position: absolute; top: -15px" 
+                    Font-Bold="True" 
+                    Font-Size="100%" 
+                    ForeColor="DarkRed"  
+                    Visible="False"></asp:Label>
+                <div class="detailLeft">
+                <asp:Panel ID="pnlSourceGroup2" 
+                    runat="server" 
+                    Height="30px" 
+                    CssClass="detailPanel">
+                    <asp:Label ID="lblSource2" 
+                        runat="server" 
+                        Text="Source:" 
+                        Style="left: 8px; top: 8px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblSource2val" 
+                        runat="server" 
+                        Style="left: 59px; top: 8px;" 
+                        Width="220px" 
+                        CssClass="label" 
+                        TabIndex="1" />
+                    <asp:Label ID="lblActiveInd2" 
+                        runat="server" 
+                        Text="Active Indicator:" 
+                        Style="left: 301px; top: 8px;" 
+                        CssClass="label"
+                        Visible="false"/>
+                    <asp:Label ID="lblActiveInd2val" 
+                        runat="server" 
+                        Style="left: 400px; top: 8px;" 
+                        Width="52px" 
+                        CssClass="label" 
+                        TabIndex="2"
+                        Visible="false"/>
+                </asp:Panel>
+                <asp:Panel ID="pnlIdentityGroup2" 
+                    runat="server" 
+                    Height="135px" 
+                    CssClass="detailPanel">
+                    <asp:Label ID="lblTLMID2" 
+                        runat="server" 
+                        Text="TLM ID:" 
+                        Style="left: 8px; top: 8px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblTLMID2val" 
+                        runat="server" 
+                        Style="left: 79px; top: 8px" 
+                        Width="365px" 
+                        CssClass="label"
+                        Font-Bold="true"/>
+                    <asp:Label ID="lblTLMID2valGen" 
+                        runat="server" 
+                        Style="left: 79px; top: 8px" 
+                        Width="365px" 
+                        CssClass="label"
+                        Text=" Generated"
+                        ForeColor="GrayText"
+                        Font-Bold="true"
+                        Font-Italic="true"
+                        Visible="false"/>
+                    <asp:Label ID="lblUWI2" 
+                        runat="server" 
+                        Text="UWI:" 
+                        Style="left: 8px; top: 33px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblUWI2val" 
+                        runat="server" 
+                        Style="left: 79px; top: 33px" 
+                        Width="365px" 
+                        CssClass="label" 
+                        TabIndex="3"/>
+                    <asp:Label ID="lblCountry2" 
+                        runat="server"  
+                        Text="Country:" 
+                        Style="left: 8px; top: 58px" 
+                        CssClass="label" />
+                    <asp:Label ID="lblCountry2val" 
+                        runat="server" 
+                        Style="left: 79px; top: 58px" 
+                        Width="372px" 
+                        CssClass="label" 
+                        TabIndex="4" />
+                    <asp:Label ID="lblWellName2" 
+                        runat="server" 
+                        Text="Well Name:" 
+                        Style="left: 8px; top: 83px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblWellName2val" 
+                        runat="server" 
+                        Style="left: 79px; top: 83px" 
+                        Width="365px" 
+                        CssClass="label" 
+                        TabIndex="5" />
+                    <asp:Label ID="lblPlotName2" 
+                        runat="server" 
+                        Text="Plot Name:" 
+                        Style="left: 8px; top: 108px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblPlotName2val" 
+                        runat="server" 
+                        Style="left: 79px; top: 108px" 
+                        Width="365px" 
+                        CssClass="label" 
+                        TabIndex="6" />
+                </asp:Panel>
+                </div>
+                <div class="detailRight">
+                <asp:Panel ID="pnlStrat" 
+                    runat="server" 
+                    Height="65px" 
+                    CssClass="detailPanel">
+                    <asp:Label ID="lblOldestStratAge" 
+                        runat="server" 
+                        Text="Oldest Strat Age:" 
+                        Style="left: 4px; top: 8px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlOldestStratAge"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlOldestStratAge" 
+                            runat="server" 
+                            RunningMode="CallBack"
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownPageSize="10" 
+                            Style="left: 110px; top: 6px; position: absolute;" 
+                            TabIndex="40"
+                            Width="320">
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblTDStratAge" 
+                        runat="server" 
+                        Text="TD Strat Age:" 
+                        Style="left: 4px; top: 41px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlTDStratAge"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlTDStratAge" 
+                            runat="server" 
+                            RunningMode="CallBack" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownPageSize="10"
+                            Style="left: 110px; top: 39px; position: absolute;" 
+                            TabIndex="41" 
+                            Width="320">
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                </asp:Panel>
+                <asp:Panel ID="pnlDepth" 
+                    runat="server" 
+                    Height="100px" 
+                    CssClass="detailPanel">
+                    <asp:Label ID="lblPlugbackDepth" 
+                        runat="server" 
+                        Text="Plugback Depth:" 
+                        Style="left: 4px; top: 8px" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtPlugbackDepth" 
+                        runat="server" 
+                        Style="left: 110px; top: 6px; text-align:right;" 
+                        Width="122px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="42">
+                    </asp:TextBox>
+                    <asp:Label ID="lblPlugbackDepthUnits" 
+                        runat="server" 
+                        Text="Original Units:" 
+                        Style="left: 249px; top: 8px" 
+                        CssClass="label" />
+                    <asp:Panel ID="pnlPlugbackDepthUnits"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlPlugbackDepthUnits" 
+                            runat="server" 
+                            RunningMode="Client" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownHeight="50"
+                            DropDownPageSize="2"
+                            Enabled="false" 
+                            Style="left: 332px; top: 6px; position: absolute;" 
+                            TabIndex="43"
+                            Width="98">
+                            <Items>
+                                <ComponentArt:ComboBoxItem Text="FT" Value="FT"/>
+                                <ComponentArt:ComboBoxItem Text="M" Value="M"/>
+                            </Items>
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblPlugbackTVD" 
+                        runat="server" 
+                        Text="Plugback TVD:" 
+                        Style="left: 4px; top: 36px" 
+                        CssClass="label"/>
+                    <asp:Label ID="lblPlugbackTVDMntryUnits" 
+                        runat="server" 
+                        Text="(meters only)" 
+                        Style="left: 4px; top: 46px;" 
+                        CssClass="label" />
+                    <asp:TextBox ID="txtPlugbackTVD" 
+                        runat="server" 
+                        Style="left: 110px; top: 36px; text-align:right;" 
+                        Width="122px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="44"
+                        Enabled="false">
+                    </asp:TextBox>
+                    <asp:Label ID="lblPlugbackTVDUnits" 
+                        runat="server" 
+                        Text="Original Units:" 
+                        Style="left: 249px; top: 38px" 
+                        CssClass="label"/>
+                    <asp:Panel ID="pnlPlugbackTVDUnits"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlPlugbackTVDUnits" 
+                            runat="server" 
+                            RunningMode="Client" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownHeight="50"
+                            DropDownPageSize="2"
+                            Enabled="false" 
+                            Style="left: 332px; top: 36px; position: absolute;" 
+                            TabIndex="45"
+                            Width="98">
+                            <Items>
+                                <ComponentArt:ComboBoxItem Text="FT" Value="FT"/>
+                                <ComponentArt:ComboBoxItem Text="M" Value="M"/>
+                            </Items>
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                    <asp:Label ID="lblMaxTVD" 
+                        runat="server" 
+                        Text="Max TVD:" 
+                        Style="left: 4px; top: 68px" 
+                        CssClass="label"/>
+                    <asp:TextBox ID="txtMaxTVD" 
+                        runat="server" 
+                        Style="left: 110px; top: 66px; text-align:right;" 
+                        Width="122px" 
+                        CssClass="inputtxtControl" 
+                        TabIndex="46"
+                        Enabled="false">
+                    </asp:TextBox>
+                    <asp:Label ID="lblMaxTVDUnits" 
+                        runat="server" 
+                        Text="Original Units:" 
+                        Style="left: 249px; top: 68px" 
+                        CssClass="label"/>
+                    <asp:Panel ID="pnlMaxTVDUnits"
+                        runat="server" >
+                        <ComponentArt:ComboBox ID="ddlMaxTVDUnits" 
+                            runat="server" 
+                            RunningMode="Client" 
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownHeight="50"
+                            DropDownPageSize="2"
+                            Enabled="false" 
+                            Style="left: 332px; top: 66px; position: absolute;" 
+                            TabIndex="47"
+                            Width="98">
+                            <Items>
+                                <ComponentArt:ComboBoxItem Text="FT" Value="FT"/>
+                                <ComponentArt:ComboBoxItem Text="M" Value="M"/>
+                            </Items>
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                    </asp:Panel>
+                </asp:Panel>
+                </div>
+            </ComponentArt:PageView>
+       
+
+
+             <ComponentArt:PageView ID="PageView3"
+                CssClass="PageContent" 
+                runat="server">          
+                <asp:Label ID="lblMessageTabStrip3"
+                    runat="server" 
+                    Style="left: 320px; position: absolute; top: -15px" 
+                    Font-Bold="True" 
+                    Font-Size="100%" 
+                    ForeColor="DarkRed"  
+                    Visible="False"></asp:Label>
+                <div class="detailLeft">
+                <asp:Panel ID="pnlSourceGroup3" 
+                    runat="server" 
+                    Height="30px" 
+                    CssClass="detailPanel">
+                    <asp:Label ID="lblSource3" 
+                        runat="server" 
+                        Text="Source:" 
+                        Style="left: 8px; top: 8px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblSource3val" 
+                        runat="server" 
+                        Style="left: 59px; top: 8px;" 
+                        Width="220px" 
+                        CssClass="label" 
+                        TabIndex="1" />
+                    <asp:Label ID="lblActiveInd3" 
+                        runat="server" 
+                        Text="Active Indicator:" 
+                        Style="left: 301px; top: 8px;" 
+                        CssClass="label"
+                        Visible="false"/>
+                    <asp:Label ID="lblActiveInd3val" 
+                        runat="server" 
+                        Style="left: 400px; top: 8px;" 
+                        Width="52px" 
+                        CssClass="label" 
+                        TabIndex="2"
+                        Visible="false"/>
+                </asp:Panel>
+                <asp:Panel ID="pnlIdentityGroup3" 
+                    runat="server" 
+                    Height="135px" 
+                    CssClass="detailPanel">
+                    <asp:Label ID="lblTLMID3" 
+                        runat="server" 
+                        Text="TLM ID:" 
+                        Style="left: 8px; top: 8px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblTLMID3val" 
+                        runat="server" 
+                        Style="left: 79px; top: 8px" 
+                        Width="365px" 
+                        CssClass="label"
+                        Font-Bold="true"/>
+                    <asp:Label ID="lblTLMID3valGen" 
+                        runat="server" 
+                        Style="left: 79px; top: 8px" 
+                        Width="365px" 
+                        CssClass="label"
+                        Text=" Generated"
+                        ForeColor="GrayText"
+                        Font-Bold="true"
+                        Font-Italic="true"
+                        Visible="false"/>
+                    <asp:Label ID="lblUWI3" 
+                        runat="server" 
+                        Text="UWI:" 
+                        Style="left: 8px; top: 33px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblUWI3val" 
+                        runat="server" 
+                        Style="left: 79px; top: 33px" 
+                        Width="365px" 
+                        CssClass="label" 
+                        TabIndex="3"/>
+                    <asp:Label ID="lblCountry3" 
+                        runat="server"  
+                        Text="Country:" 
+                        Style="left: 8px; top: 58px" 
+                        CssClass="label" />
+                    <asp:Label ID="lblCountry3val" 
+                        runat="server" 
+                        Style="left: 79px; top: 58px" 
+                        Width="372px" 
+                        CssClass="label" 
+                        TabIndex="4" />
+                    <asp:Label ID="lblWellName3" 
+                        runat="server" 
+                        Text="Well Name:" 
+                        Style="left: 8px; top: 83px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblWellName3val" 
+                        runat="server" 
+                        Style="left: 79px; top: 83px" 
+                        Width="365px" 
+                        CssClass="label" 
+                        TabIndex="5" />
+                    <asp:Label ID="lblPlotName3" 
+                        runat="server" 
+                        Text="Plot Name:" 
+                        Style="left: 8px; top: 108px;" 
+                        CssClass="label" />
+                    <asp:Label ID="lblPlotName3val" 
+                        runat="server" 
+                        Style="left: 79px; top: 108px" 
+                        Width="365px" 
+                        CssClass="label" 
+                        TabIndex="6" />
+                </asp:Panel>
+            </div>
+             <div class="detailRight">
+                <asp:Panel ID="pnlRig" 
+                    runat="server" 
+                    Height="165px" 
+                    CssClass="detailPanel">
+
+                    <asp:Label ID="lblRigName" 
+                        runat="server" 
+                        Text="Rig Name:" 
+                        Style="left: 4px; top: 8px" 
+                        CssClass="label"/>
+                        <asp:TextBox ID="txtRigName" 
+                            runat="server" 
+                            Style="left: 85px; top: 8px; text-align:left;" 
+                            Width="370px" 
+                            CssClass="inputtxtControl" 
+                            TabIndex="46"
+                             MaxLength="66"
+                            Enabled="true">
+                        </asp:TextBox>
+
+                    <asp:Label ID="LblRigType" 
+                        runat="server" 
+                        Text="Rig Type:" 
+                        Style="left: 4px; top: 40px" 
+                        CssClass="label" />
+                    
+                        <ComponentArt:ComboBox ID="ddlRigType" 
+                            runat="server" 
+                            RunningMode="CallBack"
+                            AutoComplete="true"
+                            AutoFilter="true"
+                            AutoHighlight="true"
+                            AutoTheming="true" 
+                            DropDownPageSize="10" 
+                            Style="left: 85px; top: 40px; position: absolute;" 
+                            TabIndex="40"
+                            Width="358">
+                            <ClientEvents>
+                                <Collapse EventHandler="ddlCollapse"/>
+                            </ClientEvents>
+                        </ComponentArt:ComboBox>
+                  </asp:Panel>
+                </div>
+            </ComponentArt:PageView>
+      
+
+
+
+        </PageViews>
+    </ComponentArt:MultiPage>
+    <div id="ActionButtonBar">
+      <asp:ContentPlaceHolder ID="ActionsContent" runat="server"/>
+    </div>
+  </div>
+</asp:Content>
+

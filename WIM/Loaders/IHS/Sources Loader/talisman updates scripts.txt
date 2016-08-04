@@ -1,0 +1,3109 @@
+
+CREATE OR REPLACE 
+PROCEDURE ppdm37_upd(input_date in varchar2 default null)   IS  --- format is 'yyyy/mm/dd'
+--input the start date for incremental date
+v_msg varchar2(250):=null;
+Incremental_st_dt date;
+v_cnt number;
+begin
+
+-
+commit;
+    update ppdm37_upd_summary set job_no=null;
+    
+    --save job start time
+    SAVE_UPD_SUMMARY ('Job start time', '',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+    
+    select count(*) into v_cnt from UWI_UPD_LIST;
+    
+    if v_cnt=0 then
+        if input_date is not null then
+            Incremental_st_dt:=to_date(input_date,'yyyy/mm/dd');
+            WELL_VERSION_INCREMENTAL_UPD(Incremental_st_dt);
+        else        
+            WELL_VERSION_INCREMENTAL_UPD;
+        end if;
+    end if;
+    
+    NODE_VERSION_INCREMENTAL_UPD;
+    NODE_M_B_INCREMENTAL_UPD;
+    R_WELL_CLASS_INS(1);  
+    SAVE_UPD_SUMMARY ('r_well_class', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+                       
+    R_WELL_STATUS_INS(1);
+    SAVE_UPD_SUMMARY ('r_well_status', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+
+    --R_WATER_DATUM_INS(1);  
+    R_PROVINCE_STATE_INS(1);  
+    SAVE_UPD_SUMMARY ('r_province_state', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+                                 
+    R_PLOT_SYMBOL_INS(1);     
+    SAVE_UPD_SUMMARY ('r_plot_symbol', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+               
+    R_GEOLOGIC_PROVINCE_INS(1);
+    SAVE_UPD_SUMMARY ('r_geologic_province', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+    
+    R_DISTRICT_INS(1);  
+    SAVE_UPD_SUMMARY ('r_district', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');     
+                      
+    R_COUNTY_INS(1);
+    SAVE_UPD_SUMMARY ('r_county', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+    
+    R_COUNTRY_INS(1);
+    SAVE_UPD_SUMMARY ('r_country', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+    
+    R_ALIAS_TYPE_INS(1);   
+    SAVE_UPD_SUMMARY ('R_ALIAS_TYPE', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+                      
+    R_ALIAS_REASON_TYPE_ins(1);  
+    SAVE_UPD_SUMMARY ('R_ALIAS_REASON_TYPE', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+
+    --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                            
+    POOL_INS(1);
+    SAVE_UPD_SUMMARY ('POOL', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+    
+    BUSINESS_ASSOCIATE_INS(1);  
+    SAVE_UPD_SUMMARY ('BUSINESS_ASSOCIATE', 'Update finished',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+    
+    --PROD_STRING_ins(1);
+    NODEID_UPD_INCREMENTAL('300IPL');
+
+    WELL_STATUS_INCREMENTAL_UPD;
+    WELL_LICENSE_INCREMENTAL_INS;
+    WELL_ALIAS_INCREMENTAL_UPD;
+    -- updates on these two tables havr been turned off because talisman doesn't have access to them
+/*    SRVY_VERSION_INCREMENTAL_UPD;                 
+    SURVEY_STATION_INCREMENTAL_UPD; 
+*/    
+   UPDATE well_node 
+    SET coord_system_id = 
+      DECODE (geog_coord_system_id 
+            , 'WGS84', '4326'   -- new international 
+            , 'IHS83', '4326'   -- new ihs north american 
+            , 'NAD27', '4267'   -- old north american 
+            , 'IHS27', '4267'   -- old ihs north american 
+            , NULL 
+             ) 
+ WHERE coord_system_id IS NULL AND geog_coord_system_id IN ('WGS84', 'IHS83', 'NAD27', 'IHS27') ;
+ commit;
+   
+    DELETE FROM WELL WHERE PRIMARY_SOURCE='300IPL' AND  UWI IN
+    ( select uwi from well  WHERE PRIMARY_SOURCE='300IPL' minus
+    select uwi from well_version  WHERE SOURCE='300IPL' );
+    commit;
+    
+    delete from well_node where node_id in
+    ( select node_id from WELL_node where source='300IPL' MINUS
+    SELECT  node_id from WELL_node_VERSION where source='300IPL' );
+   
+    --REMEDY_SP ;   
+    SAVE_UPD_SUMMARY ('Job end  time', '',to_char(sysdate,'DD-MON-YYYY:HH24:MI'), '');
+    --clean up...
+    EXECUTE IMMEDIATE 'truncate table   UWI_UPD_LIST_PREV '; 
+    insert into UWI_UPD_LIST_PREV select * from UWI_UPD_LIST;
+    EXECUTE IMMEDIATE 'truncate table   UWI_UPD_LIST '; 
+    
+ 
+COMMIT;   
+ EXCEPTION
+    WHEN OTHERS THEN
+    v_msg:=to_char(sqlcode) || ' at PPDM37_UPD   ' || substr(SQLERRM, 1, 200);
+    dbms_output.put_line(v_msg);   
+    INSERT INTO ppdm37_upd_log (table_nm, from_schema, upd_dt, upd_status, upd_msg )
+    VALUES ( 'PPDM37 Update'  ,  'PPDM37' ,SYSDATE,  'failed' , v_msg   );
+    
+END;
+/
+
+
+
+CREATE OR REPLACE 
+PROCEDURE business_associate_ins()   IS
+
+BEGIN
+
+
+    
+    insert into business_associate  select
+        BUSINESS_ASSOCIATE             ,
+        ACTIVE_IND                     ,
+        BA_ABBREVIATION                ,
+        BA_CATEGORY                    ,
+        BA_CODE                        ,
+        BA_NAME                        ,
+        BA_SHORT_NAME                  ,
+        BA_TYPE                        ,
+        CREDIT_CHECK_DATE              ,
+        CREDIT_CHECK_IND               ,
+        CREDIT_CHECK_SOURCE            ,
+        CREDIT_RATING                  ,
+        CREDIT_RATING_SOURCE           ,
+        CURRENT_STATUS                 ,
+        EFFECTIVE_DATE                 ,
+        EXPIRY_DATE                    ,
+        FIRST_NAME                     ,
+        LAST_NAME                      ,
+        MAIN_EMAIL_ADDRESS             ,
+        MAIN_FAX_NUM                   ,
+        MAIN_PHONE_NUM                 ,
+        MAIN_WEB_URL                   ,
+        MIDDLE_INITIAL                 ,
+        PPDM_GUID                       ,
+        REMARK                         ,
+        'IPL' SOURCE                         ,
+        ROW_CHANGED_BY                 ,
+        ROW_CHANGED_DATE               ,
+        ROW_CREATED_BY                 ,
+        ROW_CREATED_DATE               ,
+        ROW_QUALITY                    ,
+        null IPL_XACTION_CODE       
+--    from BUSINESS_ASSOCIATE@ihsdata nologging   
+--     where BUSINESS_ASSOCIATE  not in ( select distinct BUSINESS_ASSOCIATE from BUSINESS_ASSOCIATE )  ; -- WHERE SOURCE='IHSE';
+    from BUSINESS_ASSOCIATE@ihsdata nologging    where BUSINESS_ASSOCIATE   in 
+    ( select  BUSINESS_ASSOCIATE from BUSINESS_ASSOCIATE@ihsdata MINUS
+     select  BUSINESS_ASSOCIATE from BUSINESS_ASSOCIATE)  ; -- WHERE SOURCE='IHSE';
+    
+
+COMMIT;
+
+
+EXCEPTION
+    WHEN others THEN
+    dbms_output.put_line(to_char(sqlcode) || '  -- ' || substr(SQLERRM, 1, 200));
+        ROLLBACK ;
+        RAISE;
+END; -- Procedure
+/
+
+CREATE OR REPLACE 
+PROCEDURE node_m_b_incremental_upd   IS
+
+    v_msg varchar2(250):=null;
+    v_count number:=0;
+    V_INS_COUNT number:=0;
+    --v_uwi varchar2(20):=null; 
+BEGIN
+
+    select count(*) into v_count from well_node_m_b WHERE source='300IPL';
+    SAVE_UPD_SUMMARY ('well_node_m_b', 'row count before update ',to_char(v_count), '');
+    
+    -- delete from well_node_m_b for uwi that has  deleted  in well_version  
+    delete from well_node_m_b 
+    where ipl_uwi in ( select distinct uwi as ipl_uwi from uwi_upd_list) 
+    AND  SOURCE='300IPL'; -- where action_code='DELETE' );
+    
+    delete from well_node_m_b where source='300IPL' and  ipl_uwi in
+    (select ipl_uwi from well_node_m_b where source='300IPL'  MINUS   
+     SELECT UWI AS ipl_uwi  from well_version where source='300IPL') ;
+     
+    v_count:=sql%rowcount;
+        
+    SAVE_UPD_SUMMARY ('well_node_m_b', 'Deleted:ipl_uwi not in well_version',to_char(v_count), ''); 
+       
+    select count(*) into v_count from well_node_m_b WHERE source='300IPL';
+    
+    SAVE_UPD_SUMMARY ('well_node_m_b', 'Row count after deletion:',to_char(v_count), '');
+    
+    v_count:=0;
+    
+    -- need to check if ipl_uwi is null ?
+    for c in ( SELECT A.*, B.UWI AS B_IPL_UWI FROM well_node_m_b@ihsdata A, uwi_upd_list B  
+            WHERE A.SOURCE='IHSE' AND B.ACTION_CODE='INSERT' AND A.UWI=B.IPL_UWI_LOCAL )   loop
+            
+      select count(*) into v_count from well_node_m_b where node_id=c.node_id and source='300IPL';
+    
+      IF v_count!=0 THEN
+        delete from well_node_m_b where node_id=c.node_id and source='300IPL';
+        SAVE_UPD_SUMMARY ('well_node_m_b', 'node-m-b del/ins :',  'IPL_UWI_LOCAL:' || c.uwi || ' AND uwi is :' || c.B_IPL_UWI, '');  
+      end if;
+      
+        insert into well_node_m_b 
+            (NODE_ID                        ,
+            SOURCE             ,-- change from 'IPL' TO 300IPL
+            ACTIVE_IND                     ,
+            DLS_ROAD_ALLOWANCE_ID          ,
+            EFFECTIVE_DATE                 ,
+            EW_DIRECTION                   ,
+            EW_DISTANCE                    ,
+            EW_DISTANCE_OUOM               ,
+            EW_START_LINE                  ,
+            EXPIRY_DATE                    ,
+            LOCATION_TYPE                  ,
+            NS_DIRECTION                   ,
+            NS_DISTANCE                    ,
+            NS_DISTANCE_OUOM               ,
+            NS_START_LINE                  ,
+            ORIENTATION                    ,
+            PARCEL_CARTER_ID               ,   -- PARCEL_CARTER_ID  
+            PARCEL_CONGRESS_ID             ,   -- PARCEL_CONGRESS_ID 
+            PARCEL_DLS_ID                  ,   -- PARCEL_DLS_ID                  
+            PARCEL_FPS_ID                  ,   -- PARCEL_FPS_ID                 
+            PARCEL_NE_LOC_ID               ,   -- PARCEL_NE_LOC_ID             
+            PARCEL_NORTH_SEA_ID            ,   -- PARCEL_NORTH_SEA_ID         
+            PARCEL_NTS_ID                   ,   -- PARCEL_NTS_ID              
+            PARCEL_OFFSHORE_ID             ,           -- PARCEL_OFFSHORE_ID        
+            PARCEL_OHIO_ID                 ,           -- PARCEL_OHIO_ID           
+            PARCEL_PBL_ID                  ,           -- PARCEL_PBL_ID           
+            PARCEL_TEXAS                   ,           -- PARCEL_TEXAS           
+            PPDM_GUID                      ,           -- PPDM_GUID             
+            REFERENCE_LOC                  ,
+            REMARK                         ,
+            SURFACE_LOC                    ,
+            IPL_UWI                  ,
+            IPL_ALT_SOURCE           ,
+            IPL_XACTION_CODE         ,
+            ROW_CHANGED_BY                 ,
+            ROW_CHANGED_DATE               ,
+            ROW_CREATED_BY                 ,
+            ROW_CREATED_DATE               ,
+            ROW_QUALITY       ,
+            IPL_UWI_LOCAL )
+        values
+            ( c.NODE_ID                        ,
+            '300IPL'            ,-- change from 'IPL' TO 300IPL
+            c.ACTIVE_IND                     ,
+            c.DLS_ROAD_ALLOWANCE_ID          ,
+            c.EFFECTIVE_DATE                 ,
+            c.EW_DIRECTION                   ,
+            c.EW_DISTANCE                    ,
+            c.EW_DISTANCE_OUOM               ,
+            c.EW_START_LINE                  ,
+            c.EXPIRY_DATE                    ,
+            c.LOCATION_TYPE                  ,
+            c.NS_DIRECTION                   ,
+            c.NS_DISTANCE                    ,
+            c.NS_DISTANCE_OUOM               ,
+            c.NS_START_LINE                  ,
+            c.ORIENTATION                    ,
+            c.PARCEL_CARTER_ID               ,   -- PARCEL_CARTER_ID  
+            c.PARCEL_CONGRESS_ID             ,   -- PARCEL_CONGRESS_ID 
+            c.PARCEL_DLS_ID                  ,   -- PARCEL_DLS_ID                  
+            c.PARCEL_FPS_ID                  ,   -- PARCEL_FPS_ID                 
+            c.PARCEL_NE_LOC_ID               ,   -- PARCEL_NE_LOC_ID             
+            c.PARCEL_NORTH_SEA_ID            ,   -- PARCEL_NORTH_SEA_ID         
+            c.PARCEL_NTS_ID            ,   -- PARCEL_NTS_ID              
+            c.PARCEL_OFFSHORE_ID             ,           -- PARCEL_OFFSHORE_ID        
+            c.PARCEL_OHIO_ID                 ,           -- PARCEL_OHIO_ID           
+            c.PARCEL_PBL_ID                  ,           -- PARCEL_PBL_ID           
+            c.PARCEL_TEXAS                   ,           -- PARCEL_TEXAS           
+            c.PPDM_GUID                      ,           -- PPDM_GUID             
+            c.REFERENCE_LOC                  ,
+            c.REMARK                         ,
+            c.SURFACE_LOC                    ,
+            c.B_IPL_UWI                  ,
+            ''            ,
+            ''        ,
+            c.ROW_CHANGED_BY                 ,
+            c.ROW_CHANGED_DATE               ,
+            c.ROW_CREATED_BY                 ,
+            c.ROW_CREATED_DATE               ,
+            c.ROW_QUALITY       ,
+            null )    ;
+                
+                V_INS_COUNT:=V_INS_COUNT+1; 
+         
+ end  loop;  
+
+
+    commit;
+    SAVE_UPD_SUMMARY ('well_node_m_b', 'newly inserted row count',to_char(V_INS_COUNT), '');
+   
+    select count(*) into v_count from well_node_m_b WHERE source='300IPL';
+    SAVE_UPD_SUMMARY ('well_node_m_b', 'Total  row count after update',to_char(v_count), '');
+--FROM well_node_m_b@ihsdata
+    select count(*) into v_count FROM well_node_m_b@ihsdata WHERE source='IHSE';
+    SAVE_UPD_SUMMARY ('well_node_m_b', 'Row count at IHSDATA',to_char(v_count), '');
+
+EXCEPTION
+    WHEN others THEN
+    v_msg:=to_char(sqlcode) || '  -well_node_m_b ' || substr(SQLERRM, 1, 200);
+    SAVE_UPD_SUMMARY ('well_node_m_b ', 'Update failed','', v_msg);
+    ROLLBACK;
+    RAISE;
+
+END; -- Procedure
+/
+
+CREATE OR REPLACE 
+PROCEDURE node_version_incremental_upd
+
+   IS
+    v_uwi varchar(20):=null;
+    v_msg varchar2(250):=null;
+    v_count number:=0;
+    V_INS_COUNT number:=0;
+BEGIN
+
+    select count(*) into v_count from well_node_version WHERE source='300IPL';
+    SAVE_UPD_SUMMARY ('well_node_version', 'Before update row count',to_char(v_count), '');
+
+    -- delete from node_version for uwi that has been deleted
+    delete from well_node_version 
+    where ipl_uwi in ( select distinct uwi as ipl_uwi from uwi_upd_list ) AND  SOURCE='300IPL'; -- where action_code='DELETE' );
+    
+    -- DELETE data whose ipl_uwi not in well_version
+    delete from well_node_version where source='300IPL' and  ipl_uwi in
+    (select ipl_uwi from well_node_version where source='300IPL'  MINUS 
+    SELECT UWI AS ipl_uwi  from well_version where source='300IPL') ;
+     
+    v_count:=sql%rowcount;
+        
+    SAVE_UPD_SUMMARY ('well_node_version', 'Deleted:ipl_uwi not in well_version',to_char(v_count), '');
+   
+    select count(*) into v_count from well_node_version WHERE source='300IPL';
+    SAVE_UPD_SUMMARY ('well_node_version', 'row count after deletion ',to_char(v_count), '');
+    v_count:=0;
+
+-- SHOULD I DELETE NODE VERSION DATA WHICH HAVE IPL_UWI IS NULL, maybe do it manually
+    for c in ( SELECT A.*, B.UWI AS B_IPL_UWI FROM well_node_version@ihsdata A, uwi_upd_list B  
+            WHERE A.SOURCE='IHSE' AND B.ACTION_CODE='INSERT' AND A.UWI=B.ipl_uwi_local 
+            AND A.NODE_ID NOT IN (SELECT NODE_ID FROM well_node_version where  SOURCE='300IPL' AND IPL_UWI IS NULL))   loop
+            
+    if c.location_qualifier!='HIST22' then
+       v_uwi:=c.uwi;
+       insert into well_node_version
+        (   NODE_ID                        ,
+            SOURCE            , -- not'IHSE' sOURCE
+            NODE_OBS_NO                    ,
+            ACQUISITION_ID                 ,
+            ACTIVE_IND                     ,
+            COUNTRY                        ,
+            COUNTY                         ,
+            EASTING                        ,
+            EASTING_OUOM                   ,
+            EFFECTIVE_DATE                 ,
+            ELEV                           ,
+            ELEV_OUOM                      ,
+            EW_DIRECTION                    ,
+            EXPIRY_DATE                    ,
+            GEOG_COORD_SYSTEM_ID         ,
+            LATITUDE                       ,
+            LEGAL_SURVEY_TYPE              ,
+            LOCATION_QUALIFIER           ,
+            LOCATION_QUALITY               ,
+            LONGITUDE                      ,
+            MAP_COORD_SYSTEM_ID            ,
+            MD                             ,
+            MD_OUOM                        ,
+            MONUMENT_ID      , 
+            MONUMENT_SF_TYPE , 
+            NODE_POSITION                  ,
+            NORTHING                       ,
+            NORTHING_OUOM                  ,
+            NORTH_TYPE                     ,
+            NS_DIRECTION                   ,
+            POLAR_AZIMUTH                  ,
+            POLAR_OFFSET                   ,
+            POLAR_OFFSET_OUOM              ,
+            PPDM_GUID   ,
+            PREFERRED_IND                  ,
+            PROVINCE_STATE                 ,
+            REMARK                         ,
+            REPORTED_TVD                   ,
+            REPORTED_TVD_OUOM              ,
+            VERSION_TYPE                   ,
+            X_OFFSET                       ,
+            X_OFFSET_OUOM                  ,
+            Y_OFFSET                       ,
+            Y_OFFSET_OUOM                  ,
+            IPL_XACTION_CODE               ,
+            ROW_CHANGED_BY                 ,
+            ROW_CHANGED_DATE               ,
+            ROW_CREATED_BY                 ,
+            ROW_CREATED_DATE               ,
+            IPL_UWI                        ,
+            ROW_QUALITY ) 
+            
+            VALUES
+            
+            (C.NODE_ID                        ,
+            '300IPL'            , -- not'IHSE' sOURCE
+            C.NODE_OBS_NO                    ,
+            C.ACQUISITION_ID                 ,
+            C.ACTIVE_IND                     ,
+            C.COUNTRY                        ,
+            C.COUNTY                         ,
+            C.EASTING                        ,
+            C.EASTING_OUOM                   ,
+            C.EFFECTIVE_DATE                 ,
+            C.ELEV                           ,
+            C.ELEV_OUOM                      ,
+            C.EW_DIRECTION                    ,
+            C.EXPIRY_DATE                    ,
+            NVL(C.GEOG_COORD_SYSTEM_ID , 'PPDM37_NULL')          ,
+            C.LATITUDE                       ,
+            C.LEGAL_SURVEY_TYPE              ,
+            NVL(C.LOCATION_QUALIFIER  , 'PPDM37_NULL')            ,
+            C.LOCATION_QUALITY               ,
+            C.LONGITUDE                      ,
+            C.MAP_COORD_SYSTEM_ID            ,
+            C.MD                             ,
+            C.MD_OUOM                        ,
+            C.MONUMENT_ID      , 
+            C.MONUMENT_SF_TYPE , 
+            C.NODE_POSITION                  ,
+            C.NORTHING                       ,
+            C.NORTHING_OUOM                  ,
+            C.NORTH_TYPE                     ,
+            C.NS_DIRECTION                   ,
+            C.POLAR_AZIMUTH                  ,
+            C.POLAR_OFFSET                   ,
+            C.POLAR_OFFSET_OUOM              ,
+            C.PPDM_GUID   ,
+            C.PREFERRED_IND                  ,
+            C.PROVINCE_STATE                 ,
+            C.REMARK                         ,
+            C.REPORTED_TVD                   ,
+            C.REPORTED_TVD_OUOM              ,
+            C.VERSION_TYPE                   ,
+            C.X_OFFSET                       ,
+            C.X_OFFSET_OUOM                  ,
+            C.Y_OFFSET                       ,
+            C.Y_OFFSET_OUOM                  ,
+            ''             ,
+            C.ROW_CHANGED_BY                 ,
+            C.ROW_CHANGED_DATE               ,
+            C.ROW_CREATED_BY                 ,
+            C.ROW_CREATED_DATE               ,
+            c.B_IPL_UWI                      , --AS IPL_UWI   
+            C.ROW_QUALITY );
+            
+            V_INS_COUNT:=V_INS_COUNT+1; 
+    end if;
+      
+    END LOOP;
+
+    COMMIT;
+
+    SAVE_UPD_SUMMARY ('well_node_version', 'newly inserted row count',to_char(V_INS_COUNT), '');
+    
+    select count(*) into v_count from well_node_version WHERE source='300IPL';
+    SAVE_UPD_SUMMARY ('well_node_version', 'Update finished. Total row count:',to_char(v_count), '');
+    
+    select count(*) into v_count  FROM well_node_version@ihsdata WHERE source='IHSE';
+    SAVE_UPD_SUMMARY ('well_node_version', 'Row count at IHSDATA',to_char(v_count), '');
+
+EXCEPTION
+    WHEN others THEN
+    v_msg:=to_char(sqlcode) || '  -well_node_version- ' || substr(SQLERRM, 1, 200);
+    SAVE_UPD_SUMMARY ('well_node_version ', 'Update failed at:' || v_uwi,'', v_msg);
+    ROLLBACK;
+    RAISE;
+END; -- Procedure
+/
+
+
+CREATE OR REPLACE 
+PROCEDURE well_alias_incremental_upd   IS
+    v_count number;
+    v_uwi varchar(20):=null;  
+    v_msg varchar2(250):=null;
+BEGIN
+
+select count(*) into v_count from WELL_ALIAS WHERE source='300IPL' ;
+SAVE_UPD_SUMMARY ('WELL_ALIAS', 'row count before update:',to_char(v_count), '');
+
+/*delete from WELL_ALIAS 
+where uwi in ( select distinct uwi as ipl_uwi from uwi_upd_list ) AND  SOURCE='300IPL'; -- where action_code='DELETE' );
+*/
+delete from WELL_ALIAS 
+where uwi in ( select UWI from uwi_upd_list WHERE action_code ='DELETE' AND ipl_uwi_local IN 
+(select ipl_uwi_local from uwi_upd_list WHERE action_code ='DELETE' MINUS
+select ipl_uwi_local from uwi_upd_list WHERE action_code ='INSERT') ) AND  SOURCE='300IPL' and  ALIAS_TYPE <> 'UWI_PRIOR'; -- where action_code='DELETE' );
+
+
+v_count:=sql%rowcount;
+    
+SAVE_UPD_SUMMARY ('WELL_ALIAS', 'Deleted row count',to_char(v_count), '');
+
+select count(*) into v_count from WELL_ALIAS WHERE source='300IPL';
+SAVE_UPD_SUMMARY ('WELL_ALIAS', 'row count after deletion ',to_char(v_count), '');
+
+v_count:=0;
+
+
+--add new inserted  alias_type='UWI'
+    for c in ( SELECT uwi, ipl_uwi_local,well_name,plot_name from well_version  WHERE source='300IPL' and uwi in
+                ( select uwi  from uwi_upd_list WHERE ACTION_CODE='INSERT')) loop
+         v_uwi:=c.uwi   ;    
+        --1.alias_type='UWI'
+        select count(*) into  v_count from WELL_ALIAS where uwi=v_uwi and source='300IPL' and alias_type='UWI' 
+                        and well_alias=v_uwi and well_alias_id='IPL';
+      
+          if v_count=0 then          
+            insert into WELL_ALIAS  (UWI,SOURCE,WELL_ALIAS_id, active_ind ,WELL_ALIAS, ALIAS_TYPE,
+              EFFECTIVE_DATE,EXPIRY_DATE,REASON_TYPE,REMARK,IPL_ALT_SOURCE,
+              IPL_XACTION_CODE,ROW_CHANGED_BY,ROW_CHANGED_DATE,
+              ROW_CREATED_BY,ROW_CREATED_DATE)
+              values (c.uwi,'300IPL','IPL','Y',  c.uwi,'UWI',sysdate,null,null,null,'IPL','I',
+               null,null,'SQL',sysdate );
+          end if;
+               
+        -- alias_type='IPL_UWI_LOCAL'  
+      if c.ipl_uwi_local is not null then      
+          select count(*) into  v_count from WELL_ALIAS where uwi=v_uwi and source='300IPL' and alias_type='UWI_LOCAL'  
+                        and well_alias=c.ipl_uwi_local and well_alias_id='IPL';
+                        
+          if v_count=0 then                   
+            insert into WELL_ALIAS  (UWI,SOURCE,WELL_ALIAS_id, active_ind ,WELL_ALIAS, ALIAS_TYPE,
+              EFFECTIVE_DATE,EXPIRY_DATE,REASON_TYPE,REMARK,IPL_ALT_SOURCE,
+              IPL_XACTION_CODE,ROW_CHANGED_BY,ROW_CHANGED_DATE,
+              ROW_CREATED_BY,ROW_CREATED_DATE)
+              values (c.uwi,'300IPL','IPL','Y',  c.ipl_uwi_local,'UWI_LOCAL',sysdate,null,null,null,'IPL','I',
+               null,null,'SQL',sysdate );
+          end if;           
+      end if;
+           
+        --  alias_type='WELL_NAME'  
+     if c.WELL_NAME is not null then   
+      select count(*) into  v_count from WELL_ALIAS where uwi=v_uwi and source='300IPL' and alias_type='WELL_NAME'  
+                        and well_alias=c.WELL_NAME and well_alias_id='IPL';
+                        
+          if v_count=0 then          
+            insert into WELL_ALIAS  (UWI,SOURCE,WELL_ALIAS_id, active_ind ,WELL_ALIAS, ALIAS_TYPE,
+              EFFECTIVE_DATE,EXPIRY_DATE,REASON_TYPE,REMARK,IPL_ALT_SOURCE,
+              IPL_XACTION_CODE,ROW_CHANGED_BY,ROW_CHANGED_DATE,
+              ROW_CREATED_BY,ROW_CREATED_DATE)
+              values (c.uwi,'300IPL','IPL','Y',  c.WELL_NAME,'WELL_NAME',sysdate,null,null,null,'IPL','I',
+               null,null,'SQL',sysdate );
+          end if;     
+     end if;      
+     
+        -- alias_type='PLOT_NAME'   
+     if c.PLOT_NAME is not null then    
+        
+          select count(*) into  v_count from WELL_ALIAS where uwi=v_uwi and source='300IPL' and alias_type='PLOT_NAME'  
+                            and well_alias=c.PLOT_NAME and well_alias_id='IPL';
+          if v_count=0 then          
+           
+            insert into WELL_ALIAS  (UWI,SOURCE,WELL_ALIAS_id, active_ind ,WELL_ALIAS, ALIAS_TYPE,
+              EFFECTIVE_DATE,EXPIRY_DATE,REASON_TYPE,REMARK,IPL_ALT_SOURCE,
+              IPL_XACTION_CODE,ROW_CHANGED_BY,ROW_CHANGED_DATE,
+              ROW_CREATED_BY,ROW_CREATED_DATE)
+              values (c.uwi,'300IPL','IPL','Y',  c.PLOT_NAME,'PLOT_NAME',sysdate,null,null,null,'IPL','I',
+               null,null,'SQL',sysdate ); 
+          end if;
+     end if;
+                     
+    end loop;
+    
+    commit;    
+    select count(*) into v_count from WELL_ALIAS ;
+    SAVE_UPD_SUMMARY ('WELL_ALIAS', 'Total row count after Update ',to_char(v_count), '');
+
+EXCEPTION
+    WHEN others THEN
+    v_msg:=to_char(sqlcode) || '  -well_node_version- ' || substr(SQLERRM, 1, 200);
+    SAVE_UPD_SUMMARY ('WELL_ALIAS ', 'Update failed at (uwi):' || v_uwi,'', v_msg);
+    ROLLBACK ;
+    RAISE;
+END; -- Procedure
+/
+
+CREATE OR REPLACE 
+PROCEDURE well_license_incremental_ins  IS
+
+v_uwi varchar2(20):=null;
+v_count number:=0;
+V_INS_COUNT number:=0;
+v_msg varchar2(250):=null;
+
+BEGIN
+
+    select count(*) into v_count from well_license WHERE source='300IPL';   
+    --seve well_license Before update row count for validation purpose
+    SAVE_UPD_SUMMARY ('well_license', 'row count before update:',to_char(v_count), '');
+    
+    DELETE FROM well_license 
+    WHERE UWI IN ( SELECT UWI FROM uwi_upd_list ) AND  SOURCE='300IPL';-- WHERE ACTION_CODE='DELETE');
+    
+    v_count:=sql%rowcount;
+    
+    SAVE_UPD_SUMMARY ('well_license', 'Deleted row count',to_char(v_count), '');
+    
+    delete from well_license where source='300IPL' and  uwi in
+    (select uwi from well_license where source='300IPL'  MINUS 
+    SELECT UWI   from well_version where source='300IPL') ;
+     
+    v_count:=sql%rowcount;
+        
+    SAVE_UPD_SUMMARY ('well_license', 'Deleted:ipl_uwi not in well_version',to_char(v_count), '');
+    
+    select count(*) into v_count from well_license WHERE source='300IPL';
+    SAVE_UPD_SUMMARY ('well_license', 'row count after Delete:',to_char(v_count), '');
+   
+    v_count:=0;
+
+    for c in ( SELECT a.*, b.uwi as b_uwi FROM well_license@ihsdata a,  uwi_upd_list b    WHERE a.SOURCE='IHSE' and
+              B.ACTION_CODE='INSERT' AND A.UWI=B.ipl_uwi_local)   loop
+              
+       v_uwi:=c.uwi;
+            
+        insert into well_license 
+            (UWI ,  
+            LICENSE_ID                     ,
+            SOURCE             ,
+            ACTIVE_IND                     ,
+            AGENT                          ,
+            APPLICATION_ID                 ,    
+            AUTHORIZED_STRAT_UNIT_ID       ,
+            BIDDING_ROUND_NUM              ,
+            CONTRACTOR                     ,
+            DIRECTION_TO_LOC               ,
+            DIRECTION_TO_LOC_OUOM          ,
+            DISTANCE_REF_POINT             ,
+            DISTANCE_TO_LOC                ,
+            DISTANCE_TO_LOC_OUOM           ,
+            DRILL_RIG_NUM                  ,
+            DRILL_SLOT_NO                  ,
+            DRILL_TOOL                     ,
+            EFFECTIVE_DATE                 , 
+            EXCEPTION_GRANTED              ,
+            EXCEPTION_REQUESTED            ,
+            EXPIRED_IND                    ,
+            EXPIRY_DATE                    ,
+            FEES_PAID_IND                  ,            
+            LICENSEE                       ,
+            LICENSEE_CONTACT_ID            , 
+            LICENSE_DATE                   ,
+            LICENSE_NUM                    ,
+            NO_OF_WELLS                    ,
+            OFFSHORE_COMPLETION_TYPE       ,
+            PERMIT_REFERENCE_NUM           ,
+            PERMIT_REISSUE_DATE            ,
+            PERMIT_TYPE                    ,
+            PLATFORM_NAME                  ,
+            PPDM_GUID                      ,
+            PROJECTED_DEPTH                ,
+            PROJECTED_DEPTH_OUOM           ,
+            PROJECTED_STRAT_UNIT_ID        , 
+            PROJECTED_TVD                  ,
+            PROJECTED_TVD_OUOM             ,
+            PROPOSED_SPUD_DATE             ,
+            PURPOSE                        ,
+            RATE_SCHEDULE_ID               ,         
+            REGULATION                     ,
+            REGULATORY_AGENCY              ,
+            REGULATORY_CONTACT_ID          ,   
+            REMARK                         ,
+            RIG_CODE                       ,
+            RIG_SUBSTR_HEIGHT              ,
+            RIG_SUBSTR_HEIGHT_OUOM         ,
+            RIG_TYPE                       ,
+            SECTION_OF_REGULATION          ,
+            STRAT_NAME_SET_ID              ,
+            SURVEYOR                       ,
+            TARGET_OBJECTIVE_FLUID         ,
+            IPL_PROJECTED_STRAT_AGE        ,
+            IPL_ALT_SOURCE                 ,
+            IPL_XACTION_CODE               ,
+            ROW_CHANGED_BY                 ,
+            ROW_CHANGED_DATE               ,
+            ROW_CREATED_BY                 ,
+            ROW_CREATED_DATE               ,
+            IPL_WELL_OBJECTIVE     ,
+            ROW_QUALITY    )
+                       
+            values
+            ( c.b_uwi ,  
+            c.LICENSE_ID                     ,
+            '300IPL'             ,
+            c.ACTIVE_IND                     ,
+            c.AGENT                          ,
+            c.APPLICATION_ID                 ,    
+            c.AUTHORIZED_STRAT_UNIT_ID       ,
+            c.BIDDING_ROUND_NUM              ,
+            c.CONTRACTOR                     ,
+            c.DIRECTION_TO_LOC               ,
+            c.DIRECTION_TO_LOC_OUOM          ,
+            c.DISTANCE_REF_POINT             ,
+            c.DISTANCE_TO_LOC                ,
+            c.DISTANCE_TO_LOC_OUOM           ,
+            c.DRILL_RIG_NUM                  ,
+            c.DRILL_SLOT_NO                  ,
+            c.DRILL_TOOL                     ,
+            c.EFFECTIVE_DATE                 , 
+            c.EXCEPTION_GRANTED              ,
+            c.EXCEPTION_REQUESTED            ,
+            c.EXPIRED_IND                    ,
+            c.EXPIRY_DATE                    ,
+            c.FEES_PAID_IND                  ,            
+            c.LICENSEE                       ,
+            c.LICENSEE_CONTACT_ID            , 
+            c.LICENSE_DATE                   ,
+            c.LICENSE_NUM                    ,
+            c.NO_OF_WELLS                    ,
+            c.OFFSHORE_COMPLETION_TYPE       ,
+            c.PERMIT_REFERENCE_NUM           ,
+            c.PERMIT_REISSUE_DATE            ,
+            c.PERMIT_TYPE                    ,
+            c.PLATFORM_NAME                  ,
+            c.PPDM_GUID                      ,
+            c.PROJECTED_DEPTH                ,
+            c.PROJECTED_DEPTH_OUOM           ,
+            c.PROJECTED_STRAT_UNIT_ID        , 
+            c.PROJECTED_TVD                  ,
+            c.PROJECTED_TVD_OUOM             ,
+            c.PROPOSED_SPUD_DATE             ,
+            c.PURPOSE                        ,
+            c.RATE_SCHEDULE_ID               ,         
+            c.REGULATION                     ,
+            c.REGULATORY_AGENCY              ,
+            c.REGULATORY_CONTACT_ID          ,   
+            c.REMARK                         ,
+            c.RIG_CODE                       ,
+            c.RIG_SUBSTR_HEIGHT              ,
+            c.RIG_SUBSTR_HEIGHT_OUOM         ,
+            c.RIG_TYPE                       ,
+            c.SECTION_OF_REGULATION          ,
+            c.STRAT_NAME_SET_ID              ,
+            c.SURVEYOR                       ,
+            c.TARGET_OBJECTIVE_FLUID         ,
+            null        , --c.IPL_PROJECTED_STRAT_AGE  (check PROJECTED_STRAT_AGE column)
+            null              ,  --c.IPL_ALT_SOURCE   
+            null              ,     --c.IPL_XACTION_CODE 
+            c.ROW_CHANGED_BY                 ,
+            c.ROW_CHANGED_DATE               ,
+            c.ROW_CREATED_BY                 ,
+            c.ROW_CREATED_DATE               ,
+            c.x_WELL_OBJECTIVE     , --ipl_WELL_OBJECTIVE 
+            c.ROW_QUALITY 
+            )   ;
+            V_INS_COUNT:=V_INS_COUNT+1;    
+    
+   end loop;
+   
+   commit;
+   
+   SAVE_UPD_SUMMARY ('well_license', 'newly inserted row count',to_char(V_INS_COUNT), '');
+    
+    select count(*) into v_count from well_license WHERE source='300IPL';   
+    SAVE_UPD_SUMMARY ('well_license', 'Total row count after Update ',to_char(v_count), '');
+    
+    select count(*) into v_count from well_license@IHSDATA WHERE source='IHSE';   
+    SAVE_UPD_SUMMARY ('well_license', 'Row count at IHSDATA ',to_char(v_count), '');
+    
+EXCEPTION
+    WHEN others THEN
+    v_msg:=to_char(sqlcode) || '  -well_license- ' || substr(SQLERRM, 1, 200);
+    SAVE_UPD_SUMMARY ('well_license ', 'Update failed',v_uwi , v_msg);
+    ROLLBACK;
+    RAISE;
+END; -- Procedure
+/
+
+CREATE OR REPLACE 
+PROCEDURE well_status_incremental_upd IS 
+
+    v_uwi varchar2(20):=null;
+    v_count number:=0;
+    V_INS_COUNT number:=0;
+    v_msg varchar2(250):=null;
+
+BEGIN
+
+    select count(*) into v_count from WELL_STATUS WHERE source='300IPL';    
+    --seve WELL_STATUS Before update row count for validation purpose
+    SAVE_UPD_SUMMARY ('well_status', 'row count before update: ',to_char(v_count), '');
+
+    --DELETE UWIS
+    DELETE FROM WELL_STATUS 
+    WHERE UWI IN ( SELECT distinct UWI FROM uwi_upd_list) AND SOURCE='300IPL' ;-- WHERE ACTION_CODE='DELETE');
+    
+    v_count:=sql%rowcount;    
+    SAVE_UPD_SUMMARY ('well_status', 'Deleted row count',to_char(v_count), '');
+    
+    delete from WELL_STATUS where source='300IPL' and  uwi in
+    (select uwi from WELL_STATUS where source='300IPL'  MINUS 
+    SELECT UWI   from well_version where source='300IPL') ;
+     
+    v_count:=sql%rowcount;
+        
+    SAVE_UPD_SUMMARY ('well_status', 'Deleted:ipl_uwi not in well_version',to_char(v_count), '');
+    
+    select count(*) into v_count from WELL_STATUS WHERE source='300IPL';
+    SAVE_UPD_SUMMARY ('well_status', 'row count after Deletion:',to_char(v_count), '');
+    
+    v_count:=0;
+ 
+    for c in ( SELECT a.*, b.uwi as b_uwi  FROM WELL_STATUS@ihsdata a,  uwi_upd_list b    WHERE a.SOURCE='IHSE' and
+              B.ACTION_CODE='INSERT' AND A.UWI=B.ipl_uwi_local)   loop
+              
+            v_uwi:=C.UWI;  
+
+            insert into WELL_STATUS 
+            ( uwi,
+            source, status_id, active_ind, effective_date,
+            expiry_date, ppdm_guid, remark, status, status_date,
+            status_depth, status_depth_ouom, IPL_XACTION_CODE ,
+            status_type, row_changed_by, row_changed_date,
+            row_created_by, row_created_date, row_quality ,IPL_UWI_LOCAL  )
+            values 
+            ( c.b_uwi,
+            '300IPL', c.status_id, c.active_ind, c.effective_date,
+            c.expiry_date, c.ppdm_guid, c.remark, c.status, c.status_date,
+            c.status_depth, c.status_depth_ouom, 'I'  ,
+            c.status_type, c.row_changed_by, c.row_changed_date,
+            c.row_created_by, c.row_created_date, c.row_quality ,c.uwi  ) ;  
+            
+            V_INS_COUNT:=V_INS_COUNT+1;
+        
+    end loop;
+    
+    COMMIT;
+    SAVE_UPD_SUMMARY ('well_status', 'Total row inserted',to_char(V_INS_COUNT), '');
+    
+    select count(*) into v_count from WELL_STATUS WHERE source='300IPL';    
+    SAVE_UPD_SUMMARY ('well_status', 'Total row count after update',to_char(v_count), '');
+    
+    select count(*) into v_count from WELL_STATUS@ihsdata WHERE source='IHSE';    
+    SAVE_UPD_SUMMARY ('well_status', 'Row count at IHSDATA',to_char(v_count), '');
+
+EXCEPTION
+    WHEN others THEN
+    v_msg:=to_char(sqlcode) || '  -WELL_STATUS- ' || substr(SQLERRM, 1, 200);
+    SAVE_UPD_SUMMARY ('WELL_STATUS ', 'Update failed:' || v_uwi,'', v_msg);
+    ROLLBACK ;
+    RAISE;
+END; -- Procedure
+/
+
+CREATE OR REPLACE 
+PROCEDURE well_version_incremental_upd (Start_dt date default null)  IS
+
+v_uwi varchar2(20):=null;
+v_count number:=0;
+v_count_temp number:=0;
+v_count_not_ins number:=0;
+v_uwi_local varchar2(20):=null;
+v_msg varchar2(250):=null;
+LastUpdDt      date;
+--v_INS_count number:=0;
+BEGIN
+
+
+    EXECUTE IMMEDIATE ' truncate table  uwi_upd_list';  --DELETE OR TRUNCATE?
+    if Start_dt is null then
+        select max(row_changed_date) into LastUpdDt from well_version WHERE source='300IPL';
+    else
+        LastUpdDt:=Start_dt;
+    end if;
+    
+    SAVE_UPD_SUMMARY ('PPDM37 UPDATE', 'LAST ROW CHANGED DATE',to_char(LastUpdDt,'DD-MON-YYYY:HH24:MI'), '');
+        
+    select count(*) into v_count from well_version WHERE source='300IPL';        
+    --save Before update row count for validation purpose
+    SAVE_UPD_SUMMARY ('well_version', 'Before update row count',to_char(v_count), '');
+ 
+    INSERT INTO uwi_upd_list
+    SELECT UWI, IPL_UWI_LOCAL,'DELETE' as action_code , 'Not exist in IHSDATA WELL table', sysdate, null
+     FROM well_version where source='300IPL' AND ipl_uwi_local in 
+    (select ipl_uwi_local FROM well_version where source='300IPL' MINUS 
+     SELECT  uwi as ipl_uwi_local from  WELL@ihsdata  WHERE primary_source='IHSE') ;
+    -- directly use not in statement cause performance problem-very slow
+    
+    v_count:=sql%rowcount;    
+    SAVE_UPD_SUMMARY ('well_version', 'UWIs Not in IHSDATA WELL table',to_char(v_count), '');
+    
+    -- delete Not exist in IHSDATA WELL table
+    delete from WELL_VERSION where source='300IPL' AND UWI in ( select UWI FROM uwi_upd_list);
+    
+    INSERT INTO uwi_upd_list
+    SELECT UWI, IPL_UWI_LOCAL,'DELETE' , 'Data that equal to or greater  than LastUpdDt update', sysdate, null
+    from well_version A where  A.SOURCE='300IPL' AND A.ipl_uwi_local in 
+    (select  B.uwi AS ipl_uwi_local from WELL@ihsdata B where  B.PRIMARY_SOURCE='IHSE'  and B.row_changed_date>=LastUpdDt) ;
+
+    
+    --DELETE Data that equal to or less than LastUpdDt update
+    delete from WELL_VERSION where source='300IPL' AND UWI in ( select UWI FROM uwi_upd_list);
+
+    select count(*) into v_count from uwi_upd_list;
+    SAVE_UPD_SUMMARY ('well_version', 'Number of UWI deleted:',to_char(v_count), '');
+   
+    for c in ( SELECT * FROM WELL@ihsdata  WHERE primary_source='IHSE' AND UWI IN ( SELECT UWI FROM WELL@ihsdata  
+               WHERE primary_source='IHSE' MINUS  SELECT IPL_UWI_LOCAL AS UWI FROM WELL_VERSION  WHERE source='300IPL')) loop
+        
+        select count(*)  into v_count from uwi_upd_list where IPL_UWI_LOCAL=c.uwi and  ACTION_CODE='DELETE';
+        
+        if v_count=1 then --found one
+            select uwi into v_uwi from  uwi_upd_list where IPL_UWI_LOCAL=c.uwi and  ACTION_CODE='DELETE';
+        else
+             v_uwi:=IHSDATA_UWI_TO_TLM_UWI(c.uwi, c.base_node_id, '300IPL');                  
+        end if;
+        
+        if v_count>1 then --log it 
+            SAVE_UPD_SUMMARY ('well_version', 'UWI that needs to check:'   , c.uwi , 'Duplicate UWI exist in uwi_upd_list where IPL_UWI_LOCAL=c.uwi and  ACTION_CODE=DELETE');        
+        end if;
+        
+        -- check well table duplicate
+        select count(*)  into v_count from well where IPL_UWI_LOCAL=c.uwi ;
+        
+        if v_count>1 then --log it 
+            SAVE_UPD_SUMMARY ('WELL_VERSION_INCREMENTAL_UPD', 'Duplicate ipl_uwi_local on well:'   , c.uwi , 'Need to check');        
+        end if;
+        
+                            
+        v_uwi_local:=c.uwi;
+        v_count:=0;
+        
+        if v_uwi is not null then
+            select count(*) into v_count from well_version  where source='300IPL' AND uwi=v_uwi;
+        else
+            SAVE_UPD_SUMMARY ('well_version', 'UWI is null :',  'IPL_UWI_LOCAL:' || v_uwi_local , ' Need to check');                  
+        end if;
+        
+        
+        if (v_count=0) and (v_uwi is not null) then
+            insert into well_version values 
+            (  v_uwi,
+              '300IPL',		-- SOURCE
+              c.ABANDONMENT_DATE,  
+              c.ACTIVE_IND,		
+              c.assigned_field,
+              c.base_node_id,
+              c.BOTTOM_HOLE_LATITUDE,
+              c.BOTTOM_HOLE_LONGITUDE,
+              c.casing_flange_elev,
+              c.CASING_FLANGE_ELEV_OUOM,
+              c.COMPLETION_DATE,
+              c.CONFIDENTIAL_DATE,
+              c.CONFIDENTIAL_DEPTH,
+              c.CONFIDENTIAL_DEPTH_OUOM,
+              c.CONFIDENTIAL_TYPE,
+              c.CONFID_STRAT_NAME_SET_ID,
+              c.CONFID_STRAT_UNIT_ID,
+              '7CN',                -- COUNTRY   
+              c.county,
+              c.CURRENT_CLASS,
+              --GETOLDSTATUS(c.CURRENT_STATUS), --CURRENT_STATUS, STATUS CONVERSION
+              c.CURRENT_STATUS, --USE THIS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@             
+              c.CURRENT_STATUS_DATE,
+              c.DEEPEST_DEPTH,
+              c.DEEPEST_DEPTH_OUOM,
+              c.DEPTH_DATUM,
+              c.DEPTH_DATUM_ELEV,
+              c.DEPTH_DATUM_ELEV_OUOM,
+              c.DERRICK_FLOOR_ELEV,
+              c.DERRICK_FLOOR_ELEV_OUOM,
+              c.DIFFERENCE_LAT_MSL,
+              c.discovery_ind,
+              c.district,
+              c.DRILL_TD,
+              c.DRILL_TD_OUOM,
+              c.EFFECTIVE_DATE,
+              c.ELEV_REF_DATUM,
+              c.EXPIRY_DATE,
+              c.faulted_ind,
+              c.final_drill_date,
+              c.FINAL_TD,
+              c.FINAL_TD_OUOM,
+              c.GEOGRAPHIC_REGION,
+              c.geologic_province,
+              c.ground_elev,
+              c.GROUND_ELEV_OUOM,
+              c.GROUND_ELEV_TYPE,
+              c.initial_class,
+              c.kb_elev,
+              c.KB_ELEV_OUOM,
+              c.lease_name,
+              c.LEASE_NUM,
+              c.LEGAL_SURVEY_TYPE,
+              c.LOCATION_TYPE,
+              c.LOG_TD,
+              c.LOG_TD_OUOM,
+              c.MAX_TVD,
+              c.MAX_TVD_OUOM,
+              c.NET_PAY,
+              c.NET_PAY_OUOM,
+              c.OLDEST_STRAT_AGE,
+              c.OLDEST_STRAT_NAME_SET_AGE,
+              c.OLDEST_STRAT_NAME_SET_ID,
+              c.OLDEST_STRAT_UNIT_ID,
+              c.operator,
+              c.PARENT_RELATIONSHIP_TYPE,
+              c.PARENT_UWI,
+              c.PLATFORM_ID,
+              c.PLATFORM_SF_TYPE,
+              c.plot_name,
+              c.plot_symbol,
+              c.plugback_depth,
+              c.PLUGBACK_DEPTH_OUOM,
+              c.ppdm_guid,
+              c.PROFILE_TYPE,
+              c.province_state,
+              c.REGULATORY_AGENCY,
+              c.REMARK,
+              c.RIG_ON_SITE_DATE,
+              c.rig_release_date,
+              c.ROTARY_TABLE_ELEV,
+              c.SOURCE_DOCUMENT,
+              c.spud_date,
+              'WELL' , --c.STATUS_TYPE,
+              c.SUBSEA_ELEV_REF_TYPE,
+              c.SURFACE_LATITUDE,
+              c.SURFACE_LONGITUDE,
+              c.surface_node_id,
+              c.TAX_CREDIT_CODE,
+              c.TD_STRAT_AGE,
+              c.TD_STRAT_NAME_SET_AGE,
+              c.TD_STRAT_NAME_SET_ID,
+              c.TD_STRAT_UNIT_ID,
+              c.WATER_ACOUSTIC_VEL,
+              c.WATER_ACOUSTIC_VEL_OUOM,
+              c.water_depth,
+              c.WATER_DEPTH_DATUM,
+              c.WATER_DEPTH_OUOM,
+              c.WELL_EVENT_NUM,
+              c.WELL_GOVERNMENT_ID,
+              c.WELL_INTERSECT_MD,
+              c.well_name,
+              c.WELL_NUM,
+              c.WELL_NUMERIC_ID,
+              c.whipstock_depth,
+              c.WHIPSTOCK_DEPTH_OUOM,
+              c.X_CURRENT_LICENSEE,
+              c.X_OFFSHORE_IND,
+              NULL,                 --ipl_pidstatus
+              NULL,                 --ipl_prstatus
+              NULL,                 --ipl_orstatus
+              c.X_onprod_date,
+              c.X_oninject_date,
+              NULL,                 --IPL_CONFIDENTIAL_STRAT_AGE
+              c.X_POOL,
+              NULL,                 --ipl_last_update
+              c.X_uwi_sort,
+              c.X_uwi_display,
+              c.X_TD_TVD,
+              c.X_PLUGBACK_TVD,
+              c.X_WHIPSTOCK_TVD,
+              NULL,                 --X_IPL_WATER_TVD
+              NULL,                 --w.ipl_alt_source
+              NULL,                 --w.ipl_xaction_code,
+              c.ROW_CHANGED_BY,
+              c.ROW_CHANGED_DATE,
+              'IHSE',		-- ROW_CREATED_BY	
+              c.ROW_CREATED_DATE,
+              null ,		-- IPL_BASIN
+              null ,		-- IPL_BLOCK
+              null ,		-- IPL_AREA
+              null ,		-- IPL_TWP
+              null ,		-- IPL_TRACT
+              null ,		-- IPL_LOT
+              null ,		-- IPL_CONC
+              c.uwi,                -- IPL_UWI_LOCAL
+              c.ROW_QUALITY ) ;
+                 
+            INSERT INTO uwi_upd_list (UWI, ipl_uwi_local , action_code ,   action_reason ,  upd_dt , upd_no)
+             values( v_uwi, c.UWI, 'INSERT' , ' Insert new wells from IHSDATA since last update', sysdate, null);               
+        else
+            SAVE_UPD_SUMMARY ('well_version', 'UWI not inserted :',  'IPL_UWI_LOCAL:' || v_uwi_local || ' AND uwi is :' || v_uwi, 'Need to check');   
+/*            select count(*) into v_count_temp from uwi_upd_list  where  ipl_uwi_local=v_uwi_local;
+               if v_count_temp=0 then
+                    v_count_not_ins:=v_count_not_ins+1;
+               end if;               
+*/        end if;
+        
+    end loop;
+    commit;
+    
+     select count(*) into v_count from uwi_upd_list WHERE action_code ='INSERT' ;
+     SAVE_UPD_SUMMARY ('well_version', 'Total UWI INSERTED:',to_char(v_count), '');
+     
+     --calculate number of insert, update and delete
+     select count(*) into v_count_temp from (
+     select ipl_uwi_local from uwi_upd_list WHERE action_code ='INSERT' minus
+     select ipl_uwi_local from uwi_upd_list WHERE action_code ='DELETE');
+     
+     SAVE_UPD_SUMMARY ('UWI', 'New Inserted UWI Count:',to_char(v_count_temp), '');
+     
+     select count(*) into v_count_temp from (
+     select ipl_uwi_local from uwi_upd_list WHERE action_code ='DELETE' and ipl_uwi_local in 
+     (select ipl_uwi_local from uwi_upd_list WHERE action_code ='INSERT'));
+     
+     SAVE_UPD_SUMMARY ('UWI', 'Updated UWI Count:',to_char(v_count_temp), '');
+     
+/*     select count(*) into v_count_temp from (
+     select ipl_uwi_local from uwi_upd_list WHERE action_code ='DELETE' and ipl_uwi_local not in 
+     (select ipl_uwi_local from uwi_upd_list WHERE action_code ='INSERT'));
+*/     
+     select count(*) into v_count from (
+     select ipl_uwi_local from uwi_upd_list WHERE action_code ='DELETE');
+     
+     select count(*) into v_count_temp from (
+     select ipl_uwi_local from uwi_upd_list WHERE action_code ='DELETE' and ipl_uwi_local  in 
+     (select ipl_uwi_local from uwi_upd_list WHERE action_code ='INSERT'));
+     
+          
+     SAVE_UPD_SUMMARY ('UWI', 'Deleted UWI Count:',to_char(v_count-v_count_temp), '');
+     
+     select count(*) into v_count from well_version WHERE source='300IPL';    
+     SAVE_UPD_SUMMARY ('well_version', 'Total row count after update ',to_char(v_count), '');
+     
+     select count(*) into v_count from WELL@ihsdata  WHERE primary_source='IHSE';    
+     SAVE_UPD_SUMMARY ('well_version', 'Total row count at IHSDATA',to_char(v_count), '');
+    
+EXCEPTION
+    WHEN others THEN
+    v_msg:=to_char(sqlcode) || '  -well_version- ' || substr(SQLERRM, 1, 200);
+    SAVE_UPD_SUMMARY ('well_version ', 'Update failed','failed on ' || v_uwi_local, v_msg);
+
+END;
+/
+CREATE OR REPLACE 
+PROCEDURE pid_upd_sp(pSource  varchar2  )   as
+
+    v_uwi varchar2(20);
+    CNT NUMBER;
+    v_uwi_local varchar2(20);
+    v_node_cnt  number:=0;
+    v_base_node_id varchar2(20);
+    v_surface_node_id varchar2(20);
+  Rcnt number;  -- pSource here is '450PID'  
+begin
+
+SAVE_UPD_SUMMARY ('PID Load from staging DB', 'Start','', '');
+SELECT COUNT(*) INTO CNT FROM WELL ;
+SAVE_UPD_SUMMARY ('roll up (450PID)', 'Well table count:',to_char(CNT), '');
+
+for c in (select a.uwi AS NEW_UWI, a.ipl_uwi_local , b.uwi AS OLD_UWI from well_version a , well_version@staging b 
+          where a.source=pSource and   a.ipl_uwi_local =b.ipl_uwi_local and a.uwi!=b.uwi) loop
+-- DO THE UWI UPDATE ON STAGING SIDE
+    UPD_UWI_SP@staging(C.OLD_UWI, C.NEW_UWI, pSource);
+end loop;
+
+SELECT COUNT(*) INTO CNT FROM WELL_VERSION WHERE SOURCE=pSource;
+SAVE_UPD_SUMMARY ('WELL_VERSION (450PID)', 'before update @PPDM37:',to_char(CNT), '');
+SELECT COUNT(*) INTO CNT FROM WELL_VERSION@staging ;
+SAVE_UPD_SUMMARY ('WELL_VERSION (450PID)', 'before update @staging:',to_char(CNT), '');
+
+
+--CLEAN UP
+delete from well_version where source=pSource;
+SAVE_UPD_SUMMARY ('PID Load from staging DB', 'delete well_version','', '');
+commit;
+
+delete from well_NODE_version where source=pSource;
+SAVE_UPD_SUMMARY ('PID Load from staging DB', 'delete well_NODE_version','', '');
+commit;
+
+delete from well_LICENSE where source=pSource;
+SAVE_UPD_SUMMARY ('PID Load from staging DB', 'delete well_LICENSE','', '');
+commit;
+
+delete from well_ALIAS where source=pSource and  ALIAS_TYPE <> 'UWI_PRIOR' ;
+SAVE_UPD_SUMMARY ('PID Load from staging DB', 'delete well_ALIAS','', '');
+commit;
+
+SAVE_UPD_SUMMARY ('WELL_VERSION (450PID)', 'delete 450PID finished','', '');
+
+
+INSERT INTO well_version
+      (      uwi
+           , SOURCE
+           , abandonment_date
+           , active_ind
+           , assigned_field
+           , base_node_id
+           , bottom_hole_latitude
+           , bottom_hole_longitude
+           , casing_flange_elev
+           , casing_flange_elev_ouom
+           , completion_date
+           , confidential_date
+           , confidential_depth
+           , confidential_depth_ouom
+           , confidential_type
+           , confid_strat_name_set_id
+           , confid_strat_unit_id
+           , country
+           , county
+           , current_class
+           , current_status
+           , current_status_date
+           , deepest_depth
+           , deepest_depth_ouom
+           , depth_datum
+           , depth_datum_elev
+           , depth_datum_elev_ouom
+           , derrick_floor_elev
+           , derrick_floor_elev_ouom
+           , difference_lat_msl
+           , discovery_ind
+           , district
+           , drill_td
+           , drill_td_ouom
+           , effective_date
+           , elev_ref_datum
+           , expiry_date
+           , faulted_ind
+           , final_drill_date
+           , final_td
+           , final_td_ouom
+           , geographic_region
+           , geologic_province
+           , ground_elev
+           , ground_elev_ouom
+           , ground_elev_type
+           , initial_class
+           , kb_elev
+           , kb_elev_ouom
+           , lease_name
+           , lease_num
+           , legal_survey_type
+           , location_type
+           , log_td
+           , log_td_ouom
+           , max_tvd
+           , max_tvd_ouom
+           , net_pay
+           , net_pay_ouom
+           , oldest_strat_age
+           , oldest_strat_name_set_age
+           , oldest_strat_name_set_id
+           , oldest_strat_unit_id
+           , OPERATOR
+           , parent_relationship_type
+           , parent_uwi
+           , platform_id
+           , platform_sf_type
+           , plot_name
+           , plot_symbol
+           , plugback_depth
+           , plugback_depth_ouom
+           , ppdm_guid
+           , profile_type
+           , province_state
+           , regulatory_agency
+           , remark
+           , rig_on_site_date
+           , rig_release_date
+           , rotary_table_elev
+           , source_document
+           , spud_date
+           , status_type
+           , subsea_elev_ref_type
+           , surface_latitude
+           , surface_longitude
+           , surface_node_id
+           , tax_credit_code
+           , td_strat_age
+           , td_strat_name_set_age
+           , td_strat_name_set_id
+           , td_strat_unit_id
+           , water_acoustic_vel
+           , water_acoustic_vel_ouom
+           , water_depth
+           , water_depth_datum
+           , water_depth_ouom
+           , well_event_num
+           , well_government_id
+           , well_intersect_md
+           , well_name
+           , well_num
+           , well_numeric_id
+           , whipstock_depth
+           , whipstock_depth_ouom
+           , ipl_licensee
+           , ipl_offshore_ind
+           , ipl_pidstatus
+           , ipl_prstatus
+           , ipl_orstatus
+           , ipl_onprod_date
+           , ipl_oninject_date
+           , ipl_confidential_strat_age
+           , ipl_pool
+           , ipl_last_update
+           , ipl_uwi_sort
+           , ipl_uwi_display
+           , ipl_td_tvd
+           , ipl_plugback_tvd
+           , ipl_whipstock_tvd
+           , ipl_water_tvd
+           , ipl_alt_source
+           , ipl_xaction_code
+           , row_changed_by
+           , row_changed_date
+           , row_created_by
+           , row_created_date
+           , ipl_basin
+           , ipl_block
+           , ipl_area
+           , ipl_twp
+           , ipl_tract
+           , ipl_lot
+           , ipl_conc
+           , ipl_uwi_local
+           , row_quality )            
+SELECT 
+            uwi
+           , SOURCE
+           , abandonment_date
+           , active_ind
+           , assigned_field
+           , base_node_id
+           , bottom_hole_latitude
+           , bottom_hole_longitude
+           , casing_flange_elev
+           , casing_flange_elev_ouom
+           , completion_date
+           , confidential_date
+           , confidential_depth
+           , confidential_depth_ouom
+           , confidential_type
+           , confid_strat_name_set_id
+           , confid_strat_unit_id
+           , country
+           , county
+           , current_class
+           , current_status
+           , current_status_date
+           , deepest_depth
+           , deepest_depth_ouom
+           , depth_datum
+           , depth_datum_elev
+           , depth_datum_elev_ouom
+           , derrick_floor_elev
+           , derrick_floor_elev_ouom
+           , difference_lat_msl
+           , discovery_ind
+           , district
+           , drill_td
+           , drill_td_ouom
+           , effective_date
+           , elev_ref_datum
+           , expiry_date
+           , faulted_ind
+           , final_drill_date
+           , final_td
+           , final_td_ouom
+           , geographic_region
+           , geologic_province
+           , ground_elev
+           , ground_elev_ouom
+           , ground_elev_type
+           , initial_class
+           , kb_elev
+           , kb_elev_ouom
+           , lease_name
+           , lease_num
+           , legal_survey_type
+           , location_type
+           , log_td
+           , log_td_ouom
+           , max_tvd
+           , max_tvd_ouom
+           , net_pay
+           , net_pay_ouom
+           , oldest_strat_age
+           , oldest_strat_name_set_age
+           , oldest_strat_name_set_id
+           , oldest_strat_unit_id
+           , OPERATOR
+           , parent_relationship_type
+           , parent_uwi
+           , platform_id
+           , platform_sf_type
+           , plot_name
+           , plot_symbol
+           , plugback_depth
+           , plugback_depth_ouom
+           , ppdm_guid
+           , profile_type
+           , province_state
+           , regulatory_agency
+           , remark
+           , rig_on_site_date
+           , rig_release_date
+           , rotary_table_elev
+           , source_document
+           , spud_date
+           , status_type
+           , subsea_elev_ref_type
+           , surface_latitude
+           , surface_longitude
+           , surface_node_id
+           , tax_credit_code
+           , td_strat_age
+           , td_strat_name_set_age
+           , td_strat_name_set_id
+           , td_strat_unit_id
+           , water_acoustic_vel
+           , water_acoustic_vel_ouom
+           , water_depth
+           , water_depth_datum
+           , water_depth_ouom
+           , well_event_num
+           , well_government_id
+           , well_intersect_md
+           , well_name
+           , well_num
+           , well_numeric_id
+           , whipstock_depth
+           , whipstock_depth_ouom
+           , ipl_licensee
+           , ipl_offshore_ind
+           , ipl_pidstatus
+           , ipl_prstatus
+           , ipl_orstatus
+           , ipl_onprod_date
+           , ipl_oninject_date
+           , ipl_confidential_strat_age
+           , ipl_pool
+           , ipl_last_update
+           , ipl_uwi_sort
+           , ipl_uwi_display
+           , ipl_td_tvd
+           , ipl_plugback_tvd
+           , ipl_whipstock_tvd
+           , ipl_water_tvd
+           , ipl_alt_source
+           , ipl_xaction_code
+           , row_changed_by
+           , row_changed_date
+           , row_created_by
+           , row_created_date
+           , ipl_basin
+           , ipl_block
+           , ipl_area
+           , ipl_twp
+           , ipl_tract
+           , ipl_lot
+           , ipl_conc
+           , ipl_uwi_local
+           , row_quality 
+FROM well_version@staging;
+SAVE_UPD_SUMMARY ('PID Load from staging DB', 'insert well_version from staging ','', '');
+commit;
+
+INSERT INTO well_NODE_version
+      ( node_id, 
+      source, 
+      node_obs_no, 
+      acquisition_id,
+       active_ind, 
+       country, 
+       county, 
+       easting, 
+       easting_ouom,
+       effective_date, 
+       elev, 
+       elev_ouom, 
+       ew_direction,
+       expiry_date, 
+       geog_coord_system_id, 
+       latitude,
+       legal_survey_type, 
+       location_qualifier, 
+       location_quality,
+       longitude, 
+       map_coord_system_id, 
+       md, 
+       md_ouom,
+       monument_id, 
+       monument_sf_type, 
+       node_position, 
+       northing,
+       northing_ouom, 
+       north_type, 
+       ns_direction, 
+       polar_azimuth,
+       polar_offset, 
+       polar_offset_ouom, 
+       ppdm_guid,
+       preferred_ind, 
+       province_state, 
+       remark, 
+       reported_tvd,
+       reported_tvd_ouom, 
+       version_type, 
+       x_offset, 
+       x_offset_ouom,
+       y_offset, 
+       y_offset_ouom, 
+       ipl_xaction_code,
+       row_changed_by, 
+       row_changed_date, 
+       row_created_by,
+       row_created_date, 
+       ipl_uwi, 
+       row_quality, 
+       ipl_uwi_local) 
+SELECT 
+      node_id, 
+      source, 
+      node_obs_no, 
+      acquisition_id,
+       active_ind, 
+       country, 
+       county, 
+       easting, 
+       easting_ouom,
+       effective_date, 
+       elev, 
+       elev_ouom, 
+       ew_direction,
+       expiry_date, 
+       geog_coord_system_id, 
+       latitude,
+       legal_survey_type, 
+       location_qualifier, 
+       location_quality,
+       longitude, 
+       map_coord_system_id, 
+       md, 
+       md_ouom,
+       monument_id, 
+       monument_sf_type, 
+       node_position, 
+       northing,
+       northing_ouom, 
+       north_type, 
+       ns_direction, 
+       polar_azimuth,
+       polar_offset, 
+       polar_offset_ouom, 
+       ppdm_guid,
+       preferred_ind, 
+       province_state, 
+       remark, 
+       reported_tvd,
+       reported_tvd_ouom, 
+       version_type, 
+       x_offset, 
+       x_offset_ouom,
+       y_offset, 
+       y_offset_ouom, 
+       ipl_xaction_code,
+       row_changed_by, 
+       row_changed_date, 
+       row_created_by,
+       row_created_date, 
+       ipl_uwi, 
+       row_quality, 
+       ipl_uwi_local
+FROM well_NODE_version@staging;
+
+SAVE_UPD_SUMMARY ('PID Load from staging DB', 'insert well_NODE_version from staging ','', '');
+commit;
+
+INSERT INTO well_LICENSE
+(
+        uwi, 
+        license_id, 
+        source, 
+        active_ind, 
+        agent,
+        application_id, 
+        authorized_strat_unit_id,
+        bidding_round_num, 
+        contractor, 
+        direction_to_loc,
+       direction_to_loc_ouom, 
+       distance_ref_point, 
+       distance_to_loc,
+       distance_to_loc_ouom, 
+       drill_rig_num, 
+       drill_slot_no,
+       drill_tool, 
+       effective_date, 
+       exception_granted,
+       exception_requested, 
+       expired_ind, 
+       expiry_date,
+       fees_paid_ind, 
+       licensee, 
+       licensee_contact_id,
+       license_date, 
+       license_num, 
+       no_of_wells,
+       offshore_completion_type, 
+       permit_reference_num,
+       permit_reissue_date, 
+       permit_type, 
+       platform_name,
+       ppdm_guid, 
+       projected_depth, 
+       projected_depth_ouom,
+       projected_strat_unit_id, 
+       projected_tvd, 
+       projected_tvd_ouom,
+       proposed_spud_date, 
+       purpose, 
+       rate_schedule_id,
+       regulation, 
+       regulatory_agency, 
+       regulatory_contact_id,
+       remark, 
+       rig_code, 
+       rig_substr_height,
+       rig_substr_height_ouom, 
+       rig_type, 
+       section_of_regulation,
+       strat_name_set_id, 
+       surveyor, 
+       target_objective_fluid,
+       ipl_projected_strat_age, 
+       ipl_alt_source, 
+       ipl_xaction_code,
+       row_changed_by, 
+       row_changed_date, 
+       row_created_by,
+       row_created_date, 
+       ipl_well_objective, 
+       row_quality,
+       ipl_uwi_local) 
+SELECT 
+        uwi, 
+        license_id, 
+        source, 
+        active_ind, 
+        agent,
+        application_id, 
+        authorized_strat_unit_id,
+        bidding_round_num, 
+        contractor, 
+        direction_to_loc,
+       direction_to_loc_ouom, 
+       distance_ref_point, 
+       distance_to_loc,
+       distance_to_loc_ouom, 
+       drill_rig_num, 
+       drill_slot_no,
+       drill_tool, 
+       effective_date, 
+       exception_granted,
+       exception_requested, 
+       expired_ind, 
+       expiry_date,
+       fees_paid_ind, 
+       licensee, 
+       licensee_contact_id,
+       license_date, 
+       license_num, 
+       no_of_wells,
+       offshore_completion_type, 
+       permit_reference_num,
+       permit_reissue_date, 
+       permit_type, 
+       platform_name,
+       ppdm_guid, 
+       projected_depth, 
+       projected_depth_ouom,
+       projected_strat_unit_id, 
+       projected_tvd, 
+       projected_tvd_ouom,
+       proposed_spud_date, 
+       purpose, 
+       rate_schedule_id,
+       regulation, 
+       regulatory_agency, 
+       regulatory_contact_id,
+       remark, 
+       rig_code, 
+       rig_substr_height,
+       rig_substr_height_ouom, 
+       rig_type, 
+       section_of_regulation,
+       strat_name_set_id, 
+       surveyor, 
+       target_objective_fluid,
+       ipl_projected_strat_age, 
+       ipl_alt_source, 
+       ipl_xaction_code,
+       row_changed_by, 
+       row_changed_date, 
+       row_created_by,
+       row_created_date, 
+       ipl_well_objective, 
+       row_quality,
+       ipl_uwi_local
+FROM well_LICENSE@staging;
+SAVE_UPD_SUMMARY ('PID Load from staging DB', 'insert well_LICENSE from staging ','', '');
+commit;
+
+INSERT INTO well_ALIAS
+    (  uwi, 
+       source, 
+       well_alias_id, 
+       active_ind,
+       alias_owner_ba_id, 
+       alias_type, 
+       application_id,
+       effective_date, 
+       expiry_date, 
+       location_type, 
+       ppdm_guid,
+       preferred_ind, 
+       reason_type, 
+       remark, 
+       well_alias,
+       ipl_alt_source, 
+       ipl_xaction_code, 
+       row_changed_by,
+       row_changed_date, 
+       row_created_by, 
+       row_created_date,
+       row_quality) 
+SELECT 
+       uwi, 
+       source, 
+       well_alias_id, 
+       active_ind,
+       alias_owner_ba_id, 
+       alias_type, 
+       application_id,
+       effective_date, 
+       expiry_date, 
+       location_type, 
+       ppdm_guid,
+       preferred_ind, 
+       reason_type, 
+       remark, 
+       well_alias,
+       ipl_alt_source, 
+       ipl_xaction_code, 
+       row_changed_by,
+       row_changed_date, 
+       row_created_by, 
+       row_created_date,
+       row_quality
+FROM well_ALIAS@staging  where  source=pSource;  -- need copy by source
+SAVE_UPD_SUMMARY ('PID Load from staging DB', 'insert well_ALIAS from staging ','', '');
+commit;
+
+SAVE_UPD_SUMMARY ('WELL_VERSION (450PID)', 'INSERT 450PID From staging finished:','', '');
+
+SELECT COUNT(*) INTO CNT FROM WELL_VERSION WHERE SOURCE=pSource;
+SAVE_UPD_SUMMARY ('WELL_VERSION (450PID)', 'After copying data from staging:',to_char(CNT), '');
+
+--roll ups
+-- ROLLUP DUPLICATE UWI WITH OTHER SOURCES
+for c in (select count(*), uwi from well_version where uwi in (select uwi from well_version where source=pSource)
+group by uwi having count(*)>1 ) loop
+
+    tlm_refresh.well_REFRESH(c.uwi);
+    select  base_node_id, surface_node_id into  v_base_node_id, v_surface_node_id
+    from well_version where uwi=C.UWI AND SOURCE=pSource;
+    
+    tlm_refresh.NODE_REFRESH(v_base_node_id);
+    tlm_refresh.NODE_REFRESH(v_surface_node_id);    
+        
+end loop;
+
+-- ROLL UP SINGLE UWIs...
+CNT:=0;
+for c in (select count(*), uwi from well_version where uwi in (select uwi from well_version where source=pSource)
+group by uwi having count(*)=1 ) loop
+    CNT:=CNT+1;
+    v_uwi:=c.uwi;
+    DELETE FROM WELL WHERE UWI=C.UWI;
+--    DELETE FROM WELL_NODE WHERE IPL_UWI=C.UWI;
+    DELETE FROM well_node
+       WHERE node_id IN (SELECT node_id
+                        FROM   well_node_version
+                        WHERE  ipl_uwi = c.uwi AND SOURCE = psource);
+
+    commit;
+    
+    insert into well
+    select uwi, abandonment_date, active_ind, assigned_field,
+       base_node_id, bottom_hole_latitude, bottom_hole_longitude,
+       casing_flange_elev, casing_flange_elev_ouom,
+       completion_date, confidential_date, confidential_depth,
+       confidential_depth_ouom, confidential_type,
+       confid_strat_name_set_id, confid_strat_unit_id, country,
+       county, current_class, current_status,
+       current_status_date, deepest_depth, deepest_depth_ouom,
+       depth_datum, depth_datum_elev, depth_datum_elev_ouom,
+       derrick_floor_elev, derrick_floor_elev_ouom,
+       difference_lat_msl, discovery_ind, district, drill_td,
+       drill_td_ouom, effective_date, elev_ref_datum,
+       expiry_date, faulted_ind, final_drill_date, final_td,
+       final_td_ouom, geographic_region, geologic_province,
+       ground_elev, ground_elev_ouom, ground_elev_type,
+       initial_class, kb_elev, kb_elev_ouom, lease_name,
+       lease_num, legal_survey_type, location_type, log_td,
+       log_td_ouom, max_tvd, max_tvd_ouom, net_pay,
+       net_pay_ouom, oldest_strat_age, oldest_strat_name_set_age,
+       oldest_strat_name_set_id, oldest_strat_unit_id, operator,
+       parent_relationship_type, parent_uwi, platform_id,
+       platform_sf_type, plot_name, plot_symbol, plugback_depth,
+       plugback_depth_ouom, ppdm_guid, source,
+       profile_type, province_state, regulatory_agency, remark,
+       rig_on_site_date, rig_release_date, rotary_table_elev,
+       source_document, spud_date, status_type,
+       subsea_elev_ref_type, surface_latitude, surface_longitude,
+       surface_node_id, tax_credit_code, td_strat_age,
+       td_strat_name_set_age, td_strat_name_set_id,
+       td_strat_unit_id, water_acoustic_vel,
+       water_acoustic_vel_ouom, water_depth, water_depth_datum,
+       water_depth_ouom, well_event_num, well_government_id,
+       well_intersect_md, well_name, well_num, well_numeric_id,
+       whipstock_depth, whipstock_depth_ouom, ipl_licensee,
+       ipl_offshore_ind, ipl_pidstatus, ipl_prstatus,
+       ipl_orstatus, ipl_onprod_date, ipl_oninject_date,
+       ipl_confidential_strat_age, ipl_pool, ipl_last_update,
+       ipl_uwi_sort, ipl_uwi_display, ipl_td_tvd,
+       ipl_plugback_tvd, ipl_whipstock_tvd, ipl_water_tvd,
+       ipl_alt_source, ipl_xaction_code, row_changed_by,
+       row_changed_date, row_created_by, row_created_date,
+       ipl_basin, ipl_block, ipl_area, ipl_twp, ipl_tract,
+       ipl_lot, ipl_conc, ipl_uwi_local, row_quality
+    from well_version where uwi=c.uwi  and source=pSource; 
+    --commit;
+    
+    --INSERT INTO well_node
+    
+    insert into well_node
+    select node_id, source, node_obs_no, acquisition_id,
+       active_ind, country, county, easting, easting_ouom,
+       effective_date, elev, elev_ouom, ew_direction,
+       expiry_date, geog_coord_system_id, latitude,
+       legal_survey_type, location_qualifier, location_quality,
+       longitude, map_coord_system_id, md, md_ouom,
+       monument_id, monument_sf_type, node_position, northing,
+       northing_ouom, north_type, ns_direction, polar_azimuth,
+       polar_offset, polar_offset_ouom, ppdm_guid,
+       preferred_ind, province_state, remark, reported_tvd,
+       reported_tvd_ouom, version_type, x_offset, x_offset_ouom,
+       y_offset, y_offset_ouom, ipl_xaction_code,
+       row_changed_by, row_changed_date, row_created_by,
+       row_created_date, ipl_uwi, row_quality, null
+    from well_node_version where ipl_uwi=c.uwi and source=pSource;   
+    
+    if cnt>100000 then
+        commit;
+        cnt:=0;
+    end if;
+    
+end loop;
+
+DELETE FROM WELL WHERE PRIMARY_SOURCE=pSource AND  UWI IN
+( select uwi from well  WHERE PRIMARY_SOURCE=pSource minus
+select uwi from well_version  WHERE SOURCE=pSource );
+commit;
+
+delete from well_node where node_id in
+( select node_id from WELL_node where source=pSource MINUS
+SELECT  node_id from WELL_node_VERSION where source=pSource );
+commit;
+
+/*
+-- MAY USE THE FOLLOWING CODE FOR NODE AND WELL DELETION
+for c in ( select node_id from WELL_node where source=pSource MINUS
+    SELECT  node_id from WELL_node_VERSION where source=pSource ) loop
+
+    select count(*) into Rcnt from well_node_version where node_id=c.node_id and source!=pSource;
+    if Rcnt=0 then
+        delete from well_node where node_id=c.node_id;
+    else
+        tlm_refresh.NODE_REFRESH(c.node_id);
+    end if;
+end loop;
+
+--SHOULD WE DO THE SAME THING FOR WELL
+for c in ( select uwi from well  WHERE PRIMARY_SOURCE=pSource minus
+    select uwi from well_version  WHERE SOURCE=pSource ) loop
+
+    select count(*) into Rcnt from well_version where uwi=c.uwi and source!=pSource;
+    if Rcnt=0 then
+        delete from well where uwi=c.uwi;
+    else
+        tlm_refresh.well_REFRESH(c.uwi);
+    end if;
+end loop;
+*/
+
+   UPDATE well_node 
+    SET coord_system_id = 
+      DECODE (geog_coord_system_id 
+            , 'WGS84', '4326'   -- new international 
+            , 'IHS83', '4326'   -- new ihs north american 
+            , 'NAD27', '4267'   -- old north american 
+            , 'IHS27', '4267'   -- old ihs north american 
+            , NULL 
+             ) 
+ WHERE coord_system_id IS NULL 
+   AND geog_coord_system_id IN ('WGS84', 'IHS83', 'NAD27', 'IHS27') ;
+   
+SELECT COUNT(*) INTO CNT FROM WELL ;
+SAVE_UPD_SUMMARY ('roll up (450PID)', 'After rollup:',to_char(CNT), '');
+  
+EXCEPTION
+    WHEN others THEN
+    rollback;
+    SAVE_UPD_SUMMARY ('PID_UPD_SP failed at ', 'UWI :' || v_uwi,  
+    'IPL_UWI_LOCAL:' || v_uwi_local , '');  
+             
+    -- delete following code later
+        dbms_output.put_line(to_char(sqlcode) || '  -node update - ' || substr(SQLERRM, 1, 200));
+        dbms_output.put_line( '  uwi:  ' || v_uwi);
+
+end PID_UPD_SP;
+/
+
+PROCEDURE probe_upd_sp(pSource  varchar2  )   as
+
+    v_uwi varchar2(20);
+    CNT NUMBER;
+    v_uwi_local varchar2(20);
+    v_node_cnt  number:=0;
+    v_base_node_id varchar2(20);
+    v_surface_node_id varchar2(20);
+    
+begin
+
+SAVE_UPD_SUMMARY ('PROBE Load from staging DB', 'Start','', '');
+SELECT COUNT(*) INTO CNT FROM WELL ;
+SAVE_UPD_SUMMARY ('roll up (500PRB)', 'Well table count:',to_char(CNT), '');
+
+for c in (select a.uwi AS NEW_UWI, a.ipl_uwi_local , b.uwi AS OLD_UWI from well_version a , well_version@PROBE_STAGING b 
+          where a.source=pSource and   a.ipl_uwi_local =b.ipl_uwi_local and a.uwi!=b.uwi) loop
+-- DO THE UWI UPDATE ON STAGING SIDE
+    UPD_UWI_SP@PROBE_STAGING(C.OLD_UWI, C.NEW_UWI, pSource);
+end loop;
+
+SELECT COUNT(*) INTO CNT FROM WELL_VERSION WHERE SOURCE=pSource;
+SAVE_UPD_SUMMARY ('WELL_VERSION (500PRB)', 'before update @PPDM37:',to_char(CNT), '');
+SELECT COUNT(*) INTO CNT FROM WELL_VERSION@PROBE_STAGING ;
+SAVE_UPD_SUMMARY ('WELL_VERSION (500PRB)', 'before update @PROBE_STAGING:',to_char(CNT), '');
+
+
+--CLEAN UP
+delete from well_version where source=pSource;
+SAVE_UPD_SUMMARY ('PROBE Load from staging DB', 'delete well_version','', '');
+commit;
+
+delete from well_NODE_version where source=pSource;
+SAVE_UPD_SUMMARY ('PROBE Load from staging DB', 'delete well_NODE_version','', '');
+commit;
+
+delete from well_LICENSE where source=pSource;
+SAVE_UPD_SUMMARY ('PROBE Load from staging DB', 'delete well_LICENSE','', '');
+commit;
+
+delete from well_ALIAS where source=pSource and  ALIAS_TYPE <> 'UWI_PRIOR' ;
+SAVE_UPD_SUMMARY ('PROBE Load from staging DB', 'delete well_ALIAS','', '');
+commit;
+
+SAVE_UPD_SUMMARY ('WELL_VERSION (500PRB)', 'delete 500PRB finished','', '');
+
+
+INSERT INTO well_version
+      (      uwi
+           , SOURCE
+           , abandonment_date
+           , active_ind
+           , assigned_field
+           , base_node_id
+           , bottom_hole_latitude
+           , bottom_hole_longitude
+           , casing_flange_elev
+           , casing_flange_elev_ouom
+           , completion_date
+           , confidential_date
+           , confidential_depth
+           , confidential_depth_ouom
+           , confidential_type
+           , confid_strat_name_set_id
+           , confid_strat_unit_id
+           , country
+           , county
+           , current_class
+           , current_status
+           , current_status_date
+           , deepest_depth
+           , deepest_depth_ouom
+           , depth_datum
+           , depth_datum_elev
+           , depth_datum_elev_ouom
+           , derrick_floor_elev
+           , derrick_floor_elev_ouom
+           , difference_lat_msl
+           , discovery_ind
+           , district
+           , drill_td
+           , drill_td_ouom
+           , effective_date
+           , elev_ref_datum
+           , expiry_date
+           , faulted_ind
+           , final_drill_date
+           , final_td
+           , final_td_ouom
+           , geographic_region
+           , geologic_province
+           , ground_elev
+           , ground_elev_ouom
+           , ground_elev_type
+           , initial_class
+           , kb_elev
+           , kb_elev_ouom
+           , lease_name
+           , lease_num
+           , legal_survey_type
+           , location_type
+           , log_td
+           , log_td_ouom
+           , max_tvd
+           , max_tvd_ouom
+           , net_pay
+           , net_pay_ouom
+           , oldest_strat_age
+           , oldest_strat_name_set_age
+           , oldest_strat_name_set_id
+           , oldest_strat_unit_id
+           , OPERATOR
+           , parent_relationship_type
+           , parent_uwi
+           , platform_id
+           , platform_sf_type
+           , plot_name
+           , plot_symbol
+           , plugback_depth
+           , plugback_depth_ouom
+           , ppdm_guid
+           , profile_type
+           , province_state
+           , regulatory_agency
+           , remark
+           , rig_on_site_date
+           , rig_release_date
+           , rotary_table_elev
+           , source_document
+           , spud_date
+           , status_type
+           , subsea_elev_ref_type
+           , surface_latitude
+           , surface_longitude
+           , surface_node_id
+           , tax_credit_code
+           , td_strat_age
+           , td_strat_name_set_age
+           , td_strat_name_set_id
+           , td_strat_unit_id
+           , water_acoustic_vel
+           , water_acoustic_vel_ouom
+           , water_depth
+           , water_depth_datum
+           , water_depth_ouom
+           , well_event_num
+           , well_government_id
+           , well_intersect_md
+           , well_name
+           , well_num
+           , well_numeric_id
+           , whipstock_depth
+           , whipstock_depth_ouom
+           , ipl_licensee
+           , ipl_offshore_ind
+           , ipl_pidstatus
+           , ipl_prstatus
+           , ipl_orstatus
+           , ipl_onprod_date
+           , ipl_oninject_date
+           , ipl_confidential_strat_age
+           , ipl_pool
+           , ipl_last_update
+           , ipl_uwi_sort
+           , ipl_uwi_display
+           , ipl_td_tvd
+           , ipl_plugback_tvd
+           , ipl_whipstock_tvd
+           , ipl_water_tvd
+           , ipl_alt_source
+           , ipl_xaction_code
+           , row_changed_by
+           , row_changed_date
+           , row_created_by
+           , row_created_date
+           , ipl_basin
+           , ipl_block
+           , ipl_area
+           , ipl_twp
+           , ipl_tract
+           , ipl_lot
+           , ipl_conc
+           , ipl_uwi_local
+           , row_quality )            
+SELECT 
+            uwi
+           , SOURCE
+           , abandonment_date
+           , active_ind
+           , assigned_field
+           , base_node_id
+           , bottom_hole_latitude
+           , bottom_hole_longitude
+           , casing_flange_elev
+           , casing_flange_elev_ouom
+           , completion_date
+           , confidential_date
+           , confidential_depth
+           , confidential_depth_ouom
+           , confidential_type
+           , confid_strat_name_set_id
+           , confid_strat_unit_id
+           , country
+           , county
+           , current_class
+           , current_status
+           , current_status_date
+           , deepest_depth
+           , deepest_depth_ouom
+           , depth_datum
+           , depth_datum_elev
+           , depth_datum_elev_ouom
+           , derrick_floor_elev
+           , derrick_floor_elev_ouom
+           , difference_lat_msl
+           , discovery_ind
+           , district
+           , drill_td
+           , drill_td_ouom
+           , effective_date
+           , elev_ref_datum
+           , expiry_date
+           , faulted_ind
+           , final_drill_date
+           , final_td
+           , final_td_ouom
+           , geographic_region
+           , geologic_province
+           , ground_elev
+           , ground_elev_ouom
+           , ground_elev_type
+           , initial_class
+           , kb_elev
+           , kb_elev_ouom
+           , lease_name
+           , lease_num
+           , legal_survey_type
+           , location_type
+           , log_td
+           , log_td_ouom
+           , max_tvd
+           , max_tvd_ouom
+           , net_pay
+           , net_pay_ouom
+           , oldest_strat_age
+           , oldest_strat_name_set_age
+           , oldest_strat_name_set_id
+           , oldest_strat_unit_id
+           , OPERATOR
+           , parent_relationship_type
+           , parent_uwi
+           , platform_id
+           , platform_sf_type
+           , plot_name
+           , plot_symbol
+           , plugback_depth
+           , plugback_depth_ouom
+           , ppdm_guid
+           , profile_type
+           , province_state
+           , regulatory_agency
+           , remark
+           , rig_on_site_date
+           , rig_release_date
+           , rotary_table_elev
+           , source_document
+           , spud_date
+           , status_type
+           , subsea_elev_ref_type
+           , surface_latitude
+           , surface_longitude
+           , surface_node_id
+           , tax_credit_code
+           , td_strat_age
+           , td_strat_name_set_age
+           , td_strat_name_set_id
+           , td_strat_unit_id
+           , water_acoustic_vel
+           , water_acoustic_vel_ouom
+           , water_depth
+           , water_depth_datum
+           , water_depth_ouom
+           , well_event_num
+           , well_government_id
+           , well_intersect_md
+           , well_name
+           , well_num
+           , well_numeric_id
+           , whipstock_depth
+           , whipstock_depth_ouom
+           , ipl_licensee
+           , ipl_offshore_ind
+           , ipl_pidstatus
+           , ipl_prstatus
+           , ipl_orstatus
+           , ipl_onprod_date
+           , ipl_oninject_date
+           , ipl_confidential_strat_age
+           , ipl_pool
+           , ipl_last_update
+           , ipl_uwi_sort
+           , ipl_uwi_display
+           , ipl_td_tvd
+           , ipl_plugback_tvd
+           , ipl_whipstock_tvd
+           , ipl_water_tvd
+           , ipl_alt_source
+           , ipl_xaction_code
+           , row_changed_by
+           , row_changed_date
+           , row_created_by
+           , row_created_date
+           , ipl_basin
+           , ipl_block
+           , ipl_area
+           , ipl_twp
+           , ipl_tract
+           , ipl_lot
+           , ipl_conc
+           , ipl_uwi_local
+           , row_quality 
+FROM well_version@PROBE_STAGING;
+SAVE_UPD_SUMMARY ('PROBE Load from staging DB', 'insert well_version from staging ','', '');
+commit;
+
+INSERT INTO well_NODE_version
+      ( node_id, 
+      source, 
+      node_obs_no, 
+      acquisition_id,
+       active_ind, 
+       country, 
+       county, 
+       easting, 
+       easting_ouom,
+       effective_date, 
+       elev, 
+       elev_ouom, 
+       ew_direction,
+       expiry_date, 
+       geog_coord_system_id, 
+       latitude,
+       legal_survey_type, 
+       location_qualifier, 
+       location_quality,
+       longitude, 
+       map_coord_system_id, 
+       md, 
+       md_ouom,
+       monument_id, 
+       monument_sf_type, 
+       node_position, 
+       northing,
+       northing_ouom, 
+       north_type, 
+       ns_direction, 
+       polar_azimuth,
+       polar_offset, 
+       polar_offset_ouom, 
+       ppdm_guid,
+       preferred_ind, 
+       province_state, 
+       remark, 
+       reported_tvd,
+       reported_tvd_ouom, 
+       version_type, 
+       x_offset, 
+       x_offset_ouom,
+       y_offset, 
+       y_offset_ouom, 
+       ipl_xaction_code,
+       row_changed_by, 
+       row_changed_date, 
+       row_created_by,
+       row_created_date, 
+       ipl_uwi, 
+       row_quality, 
+       ipl_uwi_local) 
+SELECT 
+      node_id, 
+      source, 
+      node_obs_no, 
+      acquisition_id,
+       active_ind, 
+       country, 
+       county, 
+       easting, 
+       easting_ouom,
+       effective_date, 
+       elev, 
+       elev_ouom, 
+       ew_direction,
+       expiry_date, 
+       geog_coord_system_id, 
+       latitude,
+       legal_survey_type, 
+       location_qualifier, 
+       location_quality,
+       longitude, 
+       map_coord_system_id, 
+       md, 
+       md_ouom,
+       monument_id, 
+       monument_sf_type, 
+       node_position, 
+       northing,
+       northing_ouom, 
+       north_type, 
+       ns_direction, 
+       polar_azimuth,
+       polar_offset, 
+       polar_offset_ouom, 
+       ppdm_guid,
+       preferred_ind, 
+       province_state, 
+       remark, 
+       reported_tvd,
+       reported_tvd_ouom, 
+       version_type, 
+       x_offset, 
+       x_offset_ouom,
+       y_offset, 
+       y_offset_ouom, 
+       ipl_xaction_code,
+       row_changed_by, 
+       row_changed_date, 
+       row_created_by,
+       row_created_date, 
+       ipl_uwi, 
+       row_quality, 
+       ipl_uwi_local
+FROM well_NODE_version@PROBE_STAGING;
+
+SAVE_UPD_SUMMARY ('PROBE Load from staging DB', 'insert well_NODE_version from staging ','', '');
+commit;
+
+INSERT INTO well_LICENSE
+(
+        uwi, 
+        license_id, 
+        source, 
+        active_ind, 
+        agent,
+        application_id, 
+        authorized_strat_unit_id,
+        bidding_round_num, 
+        contractor, 
+        direction_to_loc,
+       direction_to_loc_ouom, 
+       distance_ref_point, 
+       distance_to_loc,
+       distance_to_loc_ouom, 
+       drill_rig_num, 
+       drill_slot_no,
+       drill_tool, 
+       effective_date, 
+       exception_granted,
+       exception_requested, 
+       expired_ind, 
+       expiry_date,
+       fees_paid_ind, 
+       licensee, 
+       licensee_contact_id,
+       license_date, 
+       license_num, 
+       no_of_wells,
+       offshore_completion_type, 
+       permit_reference_num,
+       permit_reissue_date, 
+       permit_type, 
+       platform_name,
+       ppdm_guid, 
+       projected_depth, 
+       projected_depth_ouom,
+       projected_strat_unit_id, 
+       projected_tvd, 
+       projected_tvd_ouom,
+       proposed_spud_date, 
+       purpose, 
+       rate_schedule_id,
+       regulation, 
+       regulatory_agency, 
+       regulatory_contact_id,
+       remark, 
+       rig_code, 
+       rig_substr_height,
+       rig_substr_height_ouom, 
+       rig_type, 
+       section_of_regulation,
+       strat_name_set_id, 
+       surveyor, 
+       target_objective_fluid,
+       ipl_projected_strat_age, 
+       ipl_alt_source, 
+       ipl_xaction_code,
+       row_changed_by, 
+       row_changed_date, 
+       row_created_by,
+       row_created_date, 
+       ipl_well_objective, 
+       row_quality,
+       ipl_uwi_local) 
+SELECT 
+        uwi, 
+        license_id, 
+        source, 
+        active_ind, 
+        agent,
+        application_id, 
+        authorized_strat_unit_id,
+        bidding_round_num, 
+        contractor, 
+        direction_to_loc,
+       direction_to_loc_ouom, 
+       distance_ref_point, 
+       distance_to_loc,
+       distance_to_loc_ouom, 
+       drill_rig_num, 
+       drill_slot_no,
+       drill_tool, 
+       effective_date, 
+       exception_granted,
+       exception_requested, 
+       expired_ind, 
+       expiry_date,
+       fees_paid_ind, 
+       licensee, 
+       licensee_contact_id,
+       license_date, 
+       license_num, 
+       no_of_wells,
+       offshore_completion_type, 
+       permit_reference_num,
+       permit_reissue_date, 
+       permit_type, 
+       platform_name,
+       ppdm_guid, 
+       projected_depth, 
+       projected_depth_ouom,
+       projected_strat_unit_id, 
+       projected_tvd, 
+       projected_tvd_ouom,
+       proposed_spud_date, 
+       purpose, 
+       rate_schedule_id,
+       regulation, 
+       regulatory_agency, 
+       regulatory_contact_id,
+       remark, 
+       rig_code, 
+       rig_substr_height,
+       rig_substr_height_ouom, 
+       rig_type, 
+       section_of_regulation,
+       strat_name_set_id, 
+       surveyor, 
+       target_objective_fluid,
+       ipl_projected_strat_age, 
+       ipl_alt_source, 
+       ipl_xaction_code,
+       row_changed_by, 
+       row_changed_date, 
+       row_created_by,
+       row_created_date, 
+       ipl_well_objective, 
+       row_quality,
+       ipl_uwi_local
+FROM well_LICENSE@PROBE_STAGING;
+SAVE_UPD_SUMMARY ('PROBE Load from staging DB', 'insert well_LICENSE from staging ','', '');
+commit;
+
+INSERT INTO well_ALIAS
+    (  uwi, 
+       source, 
+       well_alias_id, 
+       active_ind,
+       alias_owner_ba_id, 
+       alias_type, 
+       application_id,
+       effective_date, 
+       expiry_date, 
+       location_type, 
+       ppdm_guid,
+       preferred_ind, 
+       reason_type, 
+       remark, 
+       well_alias,
+       ipl_alt_source, 
+       ipl_xaction_code, 
+       row_changed_by,
+       row_changed_date, 
+       row_created_by, 
+       row_created_date,
+       row_quality) 
+SELECT 
+       uwi, 
+       source, 
+       well_alias_id, 
+       active_ind,
+       alias_owner_ba_id, 
+       alias_type, 
+       application_id,
+       effective_date, 
+       expiry_date, 
+       location_type, 
+       ppdm_guid,
+       preferred_ind, 
+       reason_type, 
+       remark, 
+       well_alias,
+       ipl_alt_source, 
+       ipl_xaction_code, 
+       row_changed_by,
+       row_changed_date, 
+       row_created_by, 
+       row_created_date,
+       row_quality
+FROM well_ALIAS@PROBE_STAGING  where  source=pSource and  ALIAS_TYPE <> 'UWI_PRIOR';  -- need copy by source
+SAVE_UPD_SUMMARY ('PROBE Load from staging DB', 'insert well_ALIAS from staging ','', '');
+commit;
+
+SAVE_UPD_SUMMARY ('WELL_VERSION (500PRB)', 'INSERT 500PRB From staging finished:','', '');
+
+SELECT COUNT(*) INTO CNT FROM WELL_VERSION WHERE SOURCE=pSource;
+SAVE_UPD_SUMMARY ('WELL_VERSION (500PRB)', 'After copying data from staging:',to_char(CNT), '');
+
+--roll ups
+-- ROLLUP DUPLICATE UWI WITH OTHER SOURCES
+for c in (select count(*), uwi from well_version where uwi in (select uwi from well_version where source=pSource)
+group by uwi having count(*)>1 ) loop
+
+    tlm_refresh.well_REFRESH(c.uwi);
+    select  base_node_id, surface_node_id into  v_base_node_id, v_surface_node_id
+    from well_version where uwi=C.UWI AND SOURCE=pSource;
+    
+    tlm_refresh.NODE_REFRESH(v_base_node_id);
+    tlm_refresh.NODE_REFRESH(v_surface_node_id);    
+        
+end loop;
+
+-- ROLL UP SINGLE UWIs...
+CNT:=0;
+for c in (select count(*), uwi from well_version where uwi in (select uwi from well_version where source=pSource)
+group by uwi having count(*)=1 ) loop
+    CNT:=CNT+1;
+    v_uwi:=c.uwi;
+    DELETE FROM WELL WHERE UWI=C.UWI;
+--    DELETE FROM WELL_NODE WHERE IPL_UWI=C.UWI;
+    DELETE FROM well_node
+       WHERE node_id IN (SELECT node_id
+                        FROM   well_node_version
+                        WHERE  ipl_uwi = c.uwi AND SOURCE = psource);
+
+    commit;
+    
+    insert into well
+    select uwi, abandonment_date, active_ind, assigned_field,
+       base_node_id, bottom_hole_latitude, bottom_hole_longitude,
+       casing_flange_elev, casing_flange_elev_ouom,
+       completion_date, confidential_date, confidential_depth,
+       confidential_depth_ouom, confidential_type,
+       confid_strat_name_set_id, confid_strat_unit_id, country,
+       county, current_class, current_status,
+       current_status_date, deepest_depth, deepest_depth_ouom,
+       depth_datum, depth_datum_elev, depth_datum_elev_ouom,
+       derrick_floor_elev, derrick_floor_elev_ouom,
+       difference_lat_msl, discovery_ind, district, drill_td,
+       drill_td_ouom, effective_date, elev_ref_datum,
+       expiry_date, faulted_ind, final_drill_date, final_td,
+       final_td_ouom, geographic_region, geologic_province,
+       ground_elev, ground_elev_ouom, ground_elev_type,
+       initial_class, kb_elev, kb_elev_ouom, lease_name,
+       lease_num, legal_survey_type, location_type, log_td,
+       log_td_ouom, max_tvd, max_tvd_ouom, net_pay,
+       net_pay_ouom, oldest_strat_age, oldest_strat_name_set_age,
+       oldest_strat_name_set_id, oldest_strat_unit_id, operator,
+       parent_relationship_type, parent_uwi, platform_id,
+       platform_sf_type, plot_name, plot_symbol, plugback_depth,
+       plugback_depth_ouom, ppdm_guid, source,
+       profile_type, province_state, regulatory_agency, remark,
+       rig_on_site_date, rig_release_date, rotary_table_elev,
+       source_document, spud_date, status_type,
+       subsea_elev_ref_type, surface_latitude, surface_longitude,
+       surface_node_id, tax_credit_code, td_strat_age,
+       td_strat_name_set_age, td_strat_name_set_id,
+       td_strat_unit_id, water_acoustic_vel,
+       water_acoustic_vel_ouom, water_depth, water_depth_datum,
+       water_depth_ouom, well_event_num, well_government_id,
+       well_intersect_md, well_name, well_num, well_numeric_id,
+       whipstock_depth, whipstock_depth_ouom, ipl_licensee,
+       ipl_offshore_ind, ipl_pidstatus, ipl_prstatus,
+       ipl_orstatus, ipl_onprod_date, ipl_oninject_date,
+       ipl_confidential_strat_age, ipl_pool, ipl_last_update,
+       ipl_uwi_sort, ipl_uwi_display, ipl_td_tvd,
+       ipl_plugback_tvd, ipl_whipstock_tvd, ipl_water_tvd,
+       ipl_alt_source, ipl_xaction_code, row_changed_by,
+       row_changed_date, row_created_by, row_created_date,
+       ipl_basin, ipl_block, ipl_area, ipl_twp, ipl_tract,
+       ipl_lot, ipl_conc, ipl_uwi_local, row_quality
+    from well_version where uwi=c.uwi  and source=pSource; 
+    --commit;
+    
+    --INSERT INTO well_node
+    
+    insert into well_node
+    select node_id, source, node_obs_no, acquisition_id,
+       active_ind, country, county, easting, easting_ouom,
+       effective_date, elev, elev_ouom, ew_direction,
+       expiry_date, geog_coord_system_id, latitude,
+       legal_survey_type, location_qualifier, location_quality,
+       longitude, map_coord_system_id, md, md_ouom,
+       monument_id, monument_sf_type, node_position, northing,
+       northing_ouom, north_type, ns_direction, polar_azimuth,
+       polar_offset, polar_offset_ouom, ppdm_guid,
+       preferred_ind, province_state, remark, reported_tvd,
+       reported_tvd_ouom, version_type, x_offset, x_offset_ouom,
+       y_offset, y_offset_ouom, ipl_xaction_code,
+       row_changed_by, row_changed_date, row_created_by,
+       row_created_date, ipl_uwi, row_quality, null
+    from well_node_version where ipl_uwi=c.uwi and source=pSource;   
+    
+    if cnt>100000 then
+        commit;
+        cnt:=0;
+    end if;
+    
+end loop;
+
+DELETE FROM WELL WHERE PRIMARY_SOURCE=pSource AND  UWI IN
+( select uwi from well  WHERE PRIMARY_SOURCE=pSource minus
+select uwi from well_version  WHERE SOURCE=pSource );
+commit;
+
+delete from well_node where node_id in
+( select node_id from WELL_node where source=pSource MINUS
+SELECT  node_id from WELL_node_VERSION where source=pSource );
+commit;
+   UPDATE well_node 
+    SET coord_system_id = 
+      DECODE (geog_coord_system_id 
+            , 'WGS84', '4326'   -- new international 
+            , 'IHS83', '4326'   -- new ihs north american 
+            , 'NAD27', '4267'   -- old north american 
+            , 'IHS27', '4267'   -- old ihs north american 
+            , NULL 
+             ) 
+ WHERE coord_system_id IS NULL 
+   AND geog_coord_system_id IN ('WGS84', 'IHS83', 'NAD27', 'IHS27') ;
+   
+SELECT COUNT(*) INTO CNT FROM WELL ;
+SAVE_UPD_SUMMARY ('roll up (500PRB)', 'After rollup:',to_char(CNT), '');
+  
+EXCEPTION
+    WHEN others THEN
+    rollback;
+    SAVE_UPD_SUMMARY ('PROBE_UPD_SP failed at ', 'UWI :' || v_uwi,  
+    'IPL_UWI_LOCAL:' || v_uwi_local , '');  
+             
+    -- delete following code later
+        dbms_output.put_line(to_char(sqlcode) || '  -PROBE_UPD_SP - ' || substr(SQLERRM, 1, 200));
+        dbms_output.put_line( '  uwi:  ' || v_uwi);
+
+end PROBE_UPD_SP;
+
+
+CREATE OR REPLACE 
+PROCEDURE r_alias_type_ins()   IS
+
+BEGIN
+
+
+    
+    insert into r_alias_type select
+    ALIAS_TYPE                     ,
+    ABBREVIATION                   ,
+    ACTIVE_IND       ,             
+    EFFECTIVE_DATE   , 
+    EXPIRY_DATE      , 
+    LONG_NAME                      ,
+    null,		-- PPDM_GUID        , 
+    REMARK                         ,
+    SHORT_NAME                     ,
+    'IPL' SOURCE                         ,
+    ROW_CHANGED_BY                 ,
+    ROW_CHANGED_DATE               ,
+    ROW_CREATED_BY                 ,
+    ROW_CREATED_DATE               ,
+    null IPL_XACTION_CODE               ,
+    ROW_QUALITY       
+    from r_alias_type@ihsdata where ALIAS_TYPE not in ( select distinct ALIAS_TYPE from r_alias_type );
+    --    WHERE SOURCE='IHSE';
+    
+
+
+            INSERT INTO ppdm37_upd_log (table_nm, from_schema, upd_dt, upd_status, upd_msg )
+            VALUES ( 'r_alias_type'  , decode(P_IND, 0, 'PPDM36', 'NIMM_VLT') ,SYSDATE,  'Finished' , null   );
+commit;
+EXCEPTION
+    WHEN others THEN
+        dbms_output.put_line(to_char(sqlcode) || '  -r_alias_type- ' || substr(SQLERRM, 1, 200));
+        ROLLBACK ;
+        RAISE;
+END; -- Procedure
+/
+
+CREATE OR REPLACE 
+PROCEDURE r_country_ins(p_ind number)   IS
+
+BEGIN
+
+if P_ind=0 then --from ppdm36
+
+/*    delete from r_country  where SOURCE<>'IPL';
+    commit;
+*/
+    insert into r_country select
+    COUNTRY                        ,
+    ABBREVIATION                   ,
+    'Y',		-- ACTIVE_IND                 
+    sysdate,	-- EFFECTIVE_DATE    
+    null,		-- EXPIRY_DATE       
+    LONG_NAME                      ,
+    null,		-- PPDM_GUID         
+    REMARK                         ,
+    SHORT_NAME                     ,
+    SOURCE                         ,
+    IPL_XACTION_CODE               ,
+    ROW_CHANGED_BY                 ,
+    ROW_CHANGED_DATE               ,
+    ROW_CREATED_BY                 ,
+    ROW_CREATED_DATE               ,
+    null		-- ROW_QUALITY       
+    from ppdm36.r_country where COUNTRY not in ( select distinct COUNTRY from r_country ) ;-- nologging WHERE SOURCE<>'IPL';
+else
+
+/*    delete from r_country  where SOURCE='IHSE';
+    commit;
+*/    
+    insert into r_country select
+    COUNTRY                        ,
+    ABBREVIATION                   ,
+    ACTIVE_IND  ,               
+    EFFECTIVE_DATE    ,
+    EXPIRY_DATE       ,
+    LONG_NAME                      ,
+    PPDM_GUID         ,
+    REMARK                         ,
+    SHORT_NAME                     ,
+    'IPL' SOURCE                         ,
+    null IPL_XACTION_CODE               ,
+    ROW_CHANGED_BY                 ,
+    ROW_CHANGED_DATE               ,
+    ROW_CREATED_BY                 ,
+    ROW_CREATED_DATE               ,
+    ROW_QUALITY       
+    from r_country@ihsdata where COUNTRY not in ( select distinct COUNTRY from r_country ); --nologging    WHERE SOURCE='IHSE';
+    
+end if;
+            INSERT INTO ppdm37_upd_log (table_nm, from_schema, upd_dt, upd_status, upd_msg )
+            VALUES ( 'r_country'  , decode(P_IND, 0, 'PPDM36', 'NIMM_VLT') ,SYSDATE,  'Finished' , null   );
+
+
+EXCEPTION
+    WHEN others THEN
+        dbms_output.put_line(to_char(sqlcode) || '  -r_country- ' || substr(SQLERRM, 1, 200));
+        ROLLBACK ;
+        RAISE;
+END; -- Procedure
+/
+
+CREATE OR REPLACE 
+PROCEDURE r_county_ins()   IS
+cnt number;
+BEGIN
+
+
+
+    for c in ( select * from r_county@ihsdata ) loop
+    
+        select count(*) into cnt from R_COUNTY where COUNTRY=c.COUNTRY    and PROVINCE_STATE=c.PROVINCE_STATE
+                                                                          and COUNTY=c.COUNTY ;
+        
+        if cnt=0 then--insert
+            insert into R_COUNTY ( country, province_state, county, abbreviation,
+               active_ind, effective_date, expiry_date, long_name,
+               ppdm_guid, remark, short_name, source,
+               ipl_xaction_code, row_changed_by, row_changed_date,
+               row_created_by, row_created_date, row_quality ) 
+            values (    c.COUNTRY                        ,
+    c.PROVINCE_STATE                 ,
+    c.COUNTY                         ,
+    c.ABBREVIATION                   ,
+    c.ACTIVE_IND                     ,
+    c.EFFECTIVE_DATE                 ,
+    c.EXPIRY_DATE                    ,  
+    c.LONG_NAME                      ,
+    c.PPDM_GUID                      ,  
+    c.REMARK                         ,
+    c.SHORT_NAME                     ,
+    'IPL'            ,
+    null        ,
+    c.ROW_CHANGED_BY                 ,
+    c.ROW_CHANGED_DATE               ,
+    c.ROW_CREATED_BY                 ,
+    c.ROW_CREATED_DATE               ,
+    null	 );
+                              
+        end if;
+        
+    end loop;
+    
+
+
+            INSERT INTO ppdm37_upd_log (table_nm, from_schema, upd_dt, upd_status, upd_msg )
+            VALUES ( 'r_county'  , decode(P_IND, 0, 'PPDM36', 'NIMM_VLT') ,SYSDATE,  'Finished' , null   );
+
+EXCEPTION
+    WHEN others THEN
+        dbms_output.put_line(to_char(sqlcode) || '  -r_county- ' || substr(SQLERRM, 1, 200));
+        ROLLBACK ;
+        RAISE;
+END; -- Procedure
+/
+
+
+CREATE OR REPLACE 
+PROCEDURE r_geologic_province_ins()   IS
+BEGIN
+
+    insert into r_geologic_province select
+    GEOLOGIC_PROVINCE              ,
+    ABBREVIATION                   ,
+    ACTIVE_IND                     ,
+    EFFECTIVE_DATE                 ,
+    EXPIRY_DATE                    ,
+    LONG_NAME                      ,
+    PPDM_GUID                      ,      
+    REMARK                         ,
+    SHORT_NAME                     ,
+    'IPL' as SOURCE             ,
+    null as IPL_XACTION_CODE       ,
+    ROW_CHANGED_BY                 ,
+    ROW_CHANGED_DATE               ,
+    ROW_CREATED_BY                 ,
+    ROW_CREATED_DATE               ,
+    ROW_QUALITY       
+    from r_geologic_province@ihsdata where GEOLOGIC_PROVINCE not in ( select distinct GEOLOGIC_PROVINCE from r_geologic_province );
+    --nologging    WHERE SOURCE='IHSE';
+    
+
+
+EXCEPTION
+    WHEN others THEN
+        dbms_output.put_line(to_char(sqlcode) || '  -r_geologic_province- ' || substr(SQLERRM, 1, 200));
+        ROLLBACK ;
+        RAISE;
+END; -- Procedure
+/
+
+CREATE OR REPLACE 
+PROCEDURE r_plot_symbol_ins()
+   IS
+
+BEGIN
+
+
+    insert into r_plot_symbol  select
+        plot_symbol, abbreviation, active_ind, effective_date,
+       expiry_date, long_name, ppdm_guid, remark, short_name,
+       source, null, row_changed_by,
+       row_changed_date, row_created_by, row_created_date,  row_quality
+    from r_plot_symbol@ihsdata where plot_symbol not in ( select distinct plot_symbol from r_plot_symbol ) ;
+
+
+            INSERT INTO ppdm37_upd_log (table_nm, from_schema, upd_dt, upd_status, upd_msg )
+            VALUES ( 'r_plot_symbol'  , decode(P_IND, 0, 'PPDM36', 'NIMM_VLT') ,SYSDATE,  'Finished' , null   );
+
+EXCEPTION
+    WHEN others THEN
+        dbms_output.put_line(to_char(sqlcode) || '  -r_well_status- ' || substr(SQLERRM, 1, 200));
+        ROLLBACK ;
+        RAISE;
+END; -- Procedure
+/
+
+CREATE OR REPLACE 
+PROCEDURE r_province_state_ins()
+
+   IS
+cnt number;
+
+BEGIN
+
+
+    for c in ( select * from r_province_state@ihsdata ) loop
+    
+        select count(*) into cnt from r_province_state where COUNTRY=c.COUNTRY and PROVINCE_STATE=c.PROVINCE_STATE;
+        
+        if cnt=0 then--insert
+            insert into r_province_state ( country, province_state, abbreviation, active_ind,
+               effective_date, expiry_date, long_name, ppdm_guid,
+               remark, short_name, source, ipl_xaction_code,
+               row_changed_by, row_changed_date, row_created_by,
+               row_created_date, row_quality ) 
+            values (    c.COUNTRY                        ,
+                        c.PROVINCE_STATE                 ,
+                        c.ABBREVIATION                   ,
+                        c.ACTIVE_IND                     ,
+                        c.EFFECTIVE_DATE                 ,
+                        c.EXPIRY_DATE                    ,     
+                        c.LONG_NAME                      ,
+                        c.PPDM_GUID         ,
+                        c.REMARK  ,
+                        c.SHORT_NAME                     ,
+                        '300IPL'  ,
+                        null ,
+                        c.ROW_CHANGED_BY                 ,
+                        c.ROW_CHANGED_DATE               ,
+                        c.ROW_CREATED_BY                 ,
+                        c.ROW_CREATED_DATE               ,
+                        c.ROW_QUALITY        )	;	        
+        end if;
+        
+    end loop;
+    
+
+            INSERT INTO ppdm37_upd_log (table_nm, from_schema, upd_dt, upd_status, upd_msg )
+            VALUES ( 'r_province_state'  , decode(P_IND, 0, 'PPDM36', 'NIMM_VLT') ,SYSDATE,  'Finished' , null   );
+
+
+EXCEPTION
+    WHEN others THEN
+        dbms_output.put_line(to_char(sqlcode) || '  -r_province_state- ' || substr(SQLERRM, 1, 200));
+        ROLLBACK ;
+        RAISE;
+END; -- Procedure
+/
+
+
+
+CREATE OR REPLACE 
+PROCEDURE r_well_class_ins()
+
+   IS
+
+BEGIN
+
+ 
+  insert into r_well_class select
+    WELL_CLASS                     ,
+    ABBREVIATION                   ,
+    ACTIVE_IND                     ,  
+    EFFECTIVE_DATE                 ,
+    EXPIRY_DATE                    ,
+    LONG_NAME                      ,
+    PPDM_GUID                      ,
+    REMARK                         ,
+    SHORT_NAME                     ,
+    'IPL' as SOURCE             ,
+    ROW_CHANGED_BY                 ,
+    ROW_CHANGED_DATE               ,
+    ROW_CREATED_BY                 ,
+    ROW_CREATED_DATE               ,
+    null as IPL_XACTION_CODE       ,
+    null		-- ROW_QUALITY       
+    from r_well_class@ihsdata where WELL_CLASS not in ( select distinct WELL_CLASS from r_well_class ) ;
+
+
+INSERT INTO ppdm37_upd_log (table_nm, from_schema, upd_dt, upd_status, upd_msg )
+VALUES ( 'r_well_class'  , decode(P_IND, 0, 'PPDM36', 'NIMM_VLT') ,SYSDATE,  'Finished' , null   );
+
+
+EXCEPTION
+    WHEN others THEN
+        dbms_output.put_line(to_char(sqlcode) || '  -r_well_class- ' || substr(SQLERRM, 1, 200));
+        ROLLBACK ;
+        RAISE;
+END; -- Procedure
+/
+
+CREATE OR REPLACE 
+PROCEDURE r_well_status_ins(p_ind number)
+   IS
+
+BEGIN
+
+    insert into r_well_status select
+     'PIDSTATUS', --  STATUS_TYPE       ,             
+    STATUS                         ,
+    ABBREVIATION                   ,
+     ACTIVE_IND        ,
+    EFFECTIVE_DATE    ,
+    EXPIRY_DATE  ,
+    LONG_NAME                      ,
+    PPDM_GUID         ,
+    REMARK                         ,
+    SHORT_NAME                     ,
+    'IPL' as SOURCE                         ,
+    STATUS_GROUP                   ,
+    null as IPL_XACTION_CODE               ,
+    ROW_CHANGED_BY                 ,
+    ROW_CHANGED_DATE               ,
+    ROW_CREATED_BY                 ,
+    ROW_CREATED_DATE               ,
+    ROW_QUALITY       
+    from r_well_status@ihsdata where STATUS not in ( select distinct STATUS from r_well_status ) ;
+
+INSERT INTO ppdm37_upd_log (table_nm, from_schema, upd_dt, upd_status, upd_msg )
+VALUES ( 'r_well_status'  , decode(P_IND, 0, 'PPDM36', 'NIMM_VLT') ,SYSDATE,  'Finished' , null   );
+
+
+EXCEPTION
+    WHEN others THEN
+        dbms_output.put_line(to_char(sqlcode) || '  -r_well_status- ' || substr(SQLERRM, 1, 200));
+        ROLLBACK ;
+        RAISE;
+END; -- Procedure
+/
+FUNCTION IHSDATA_UWI_TO_TLM_UWI
+  ( PUWI IN VARCHAR2  , PNODEID IN  VARCHAR2 DEFAULT '', PSOURCE IN VARCHAR2 )  RETURN  VARCHAR2 IS
+  
+  V_UWI    VARCHAR2(20);
+  V_NODE   VARCHAR2(20);
+  CNTT     NUMBER;
+  V_CNT NUMBER;
+  
+BEGIN 
+    V_UWI:=null;
+    CNTT:=0;
+
+    IF PSOURCE='300IPL' THEN    
+        for c in ( select uwi from well where ipl_uwi_local=puwi order by primary_source )   loop
+            if CNTT=0 then
+                V_UWI:=c.uwi;
+                CNTT:=CNTT+1;
+            else
+                SAVE_UPD_SUMMARY ('IHSDATA_UWI_TO_TLM_UWI', 'Duplicate ipl_uwi_local on well table ',puwi, 'Need to check');
+
+                exit;        
+            end if;
+        end loop;
+        
+        if V_UWI is  null then
+            if PNODEID IS NOT NULL then
+                V_UWI:='5' || PNODEID;
+            ELSE
+                SELECT BASE_NODE_ID INTO V_NODE FROM WELL@ihsdata  WHERE UWI=PUWI and PRIMARY_source='IHSE';
+                V_UWI:='5' || V_NODE;  
+                return  V_UWI;
+            END IF;                     
+        END IF; 
+        
+    END IF;
+            
+    if V_UWI is null then
+        SAVE_UPD_SUMMARY ('IHSDATA_UWI_TO_TLM_UWI', 'has to return null ',PUWI, 'Need to check');
+        return null;
+    end if;
+    
+    RETURN V_UWI ;
+EXCEPTION
+    WHEN others THEN
+    dbms_output.put_line(to_char(sqlcode) || '  -in IHSDATA_UWI_TO_TLM_UWI - ' || PUWI || ' - is uwi - ' || substr(SQLERRM, 1, 200) || ' done');
+    --return  null;
+END;

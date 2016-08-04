@@ -1,0 +1,193 @@
+DROP VIEW PPDM.WELL_CORE_SAMPLE_DESC;
+
+/* Formatted on 4/2/2013 9:10:42 AM (QP5 v5.185.11230.41888) */
+CREATE OR REPLACE FORCE VIEW PPDM.WELL_CORE_SAMPLE_DESC
+(
+   UWI,
+   SOURCE,
+   CORE_ID,
+   ANALYSIS_OBS_NO,
+   SAMPLE_NUM,
+   SAMPLE_ANALYSIS_OBS_NO,
+   SAMPLE_DESC_OBS_NO,
+   ACTIVE_IND,
+   BASE_DEPTH,
+   BASE_DEPTH_OUOM,
+   DESCRIPTION,
+   DIP_ANGLE,
+   EFFECTIVE_DATE,
+   EXPIRY_DATE,
+   LITHOLOGY_DESC,
+   POROSITY_LENGTH,
+   POROSITY_LENGTH_OUOM,
+   POROSITY_QUALITY,
+   POROSITY_TYPE,
+   PPDM_GUID,
+   RECOVERED_AMOUNT,
+   RECOVERED_AMOUNT_OUOM,
+   REMARK,
+   SAMPLE_TYPE,
+   SHOW_LENGTH,
+   SHOW_LENGTH_OUOM,
+   SHOW_QUALITY,
+   SHOW_TYPE,
+   STRAT_NAME_SET_ID,
+   STRAT_UNIT_ID,
+   SWC_RECOVERY_TYPE,
+   TOP_DEPTH,
+   TOP_DEPTH_OUOM,
+   ROW_CHANGED_BY,
+   ROW_CHANGED_DATE,
+   ROW_CREATED_BY,
+   ROW_CREATED_DATE,
+   ROW_QUALITY,
+   PROVINCE_STATE,
+   STRAT_UNIT_AGE
+)
+AS
+   SELECT "UWI",
+          "SOURCE",
+          "CORE_ID",
+          "ANALYSIS_OBS_NO",
+          "SAMPLE_NUM",
+          "SAMPLE_ANALYSIS_OBS_NO",
+          "SAMPLE_DESC_OBS_NO",
+          "ACTIVE_IND",
+          "BASE_DEPTH",
+          "BASE_DEPTH_OUOM",
+          "DESCRIPTION",
+          "DIP_ANGLE",
+          "EFFECTIVE_DATE",
+          "EXPIRY_DATE",
+          "LITHOLOGY_DESC",
+          "POROSITY_LENGTH",
+          "POROSITY_LENGTH_OUOM",
+          "POROSITY_QUALITY",
+          "POROSITY_TYPE",
+          "PPDM_GUID",
+          "RECOVERED_AMOUNT",
+          "RECOVERED_AMOUNT_OUOM",
+          "REMARK",
+          "SAMPLE_TYPE",
+          "SHOW_LENGTH",
+          "SHOW_LENGTH_OUOM",
+          "SHOW_QUALITY",
+          "SHOW_TYPE",
+          "STRAT_NAME_SET_ID",
+          "STRAT_UNIT_ID",
+          "SWC_RECOVERY_TYPE",
+          "TOP_DEPTH",
+          "TOP_DEPTH_OUOM",
+          "ROW_CHANGED_BY",
+          "ROW_CHANGED_DATE",
+          "ROW_CREATED_BY",
+          "ROW_CREATED_DATE",
+          "ROW_QUALITY",
+          -- IHS Extensions
+          NULL AS "PROVINCE_STATE",
+          NULL AS "STRAT_UNIT_AGE"
+     FROM TLM_WELL_CORE_SAMPLE_DESC
+   UNION ALL
+   SELECT "UWI",
+          "SOURCE",
+          "CORE_ID",
+          "ANALYSIS_OBS_NO",
+          "SAMPLE_NUM",
+          "SAMPLE_ANALYSIS_OBS_NO",
+          "SAMPLE_DESC_OBS_NO",
+          "ACTIVE_IND",
+          "BASE_DEPTH",
+          "BASE_DEPTH_OUOM",
+          "DESCRIPTION",
+          "DIP_ANGLE",
+          "EFFECTIVE_DATE",
+          "EXPIRY_DATE",
+          "LITHOLOGY_DESC",
+          "POROSITY_LENGTH",
+          "POROSITY_LENGTH_OUOM",
+          "POROSITY_QUALITY",
+          "POROSITY_TYPE",
+          "PPDM_GUID",
+          "RECOVERED_AMOUNT",
+          "RECOVERED_AMOUNT_OUOM",
+          "REMARK",
+          "SAMPLE_TYPE",
+          "SHOW_LENGTH",
+          "SHOW_LENGTH_OUOM",
+          "SHOW_QUALITY",
+          "SHOW_TYPE",
+          "STRAT_NAME_SET_ID",
+          "STRAT_UNIT_ID",
+          "SWC_RECOVERY_TYPE",
+          "TOP_DEPTH",
+          "TOP_DEPTH_OUOM",
+          "ROW_CHANGED_BY",
+          "ROW_CHANGED_DATE",
+          "ROW_CREATED_BY",
+          "ROW_CREATED_DATE",
+          "ROW_QUALITY",
+          -- IHS Extensions
+          "PROVINCE_STATE",
+          "STRAT_UNIT_AGE"
+     FROM IHS_CDN_WELL_CORE_SAMPLE_DESC
+   UNION ALL
+   SELECT "UWI",
+          "SOURCE",
+          "CORE_ID",
+          "ANALYSIS_OBS_NO",
+          "SAMPLE_NUM",
+          "SAMPLE_ANALYSIS_OBS_NO",
+          "SAMPLE_DESC_OBS_NO",
+          "ACTIVE_IND",
+          "BASE_DEPTH",
+          "BASE_DEPTH_OUOM",
+          "DESCRIPTION",
+          "DIP_ANGLE",
+          "EFFECTIVE_DATE",
+          "EXPIRY_DATE",
+          "LITHOLOGY_DESC",
+          "POROSITY_LENGTH",
+          "POROSITY_LENGTH_OUOM",
+          "POROSITY_QUALITY",
+          "POROSITY_TYPE",
+          "PPDM_GUID",
+          "RECOVERED_AMOUNT",
+          "RECOVERED_AMOUNT_OUOM",
+          "REMARK",
+          "SAMPLE_TYPE",
+          "SHOW_LENGTH",
+          "SHOW_LENGTH_OUOM",
+          "SHOW_QUALITY",
+          "SHOW_TYPE",
+          "STRAT_NAME_SET_ID",
+          "STRAT_UNIT_ID",
+          "SWC_RECOVERY_TYPE",
+          "TOP_DEPTH",
+          "TOP_DEPTH_OUOM",
+          "ROW_CHANGED_BY",
+          "ROW_CHANGED_DATE",
+          "ROW_CREATED_BY",
+          "ROW_CREATED_DATE",
+          "ROW_QUALITY",
+          -- IHS Extensions
+          "PROVINCE_STATE",
+          "STRAT_UNIT_AGE"
+     FROM IHS_US_WELL_CORE_SAMPLE_DESC;
+
+
+DROP SYNONYM DATA_FINDER.WELL_CORE_SAMPLE_DESC;
+
+CREATE OR REPLACE SYNONYM DATA_FINDER.WELL_CORE_SAMPLE_DESC FOR PPDM.WELL_CORE_SAMPLE_DESC;
+
+
+DROP SYNONYM EDIOS_ADMIN.WELL_CORE_SAMPLE_DESC;
+
+CREATE OR REPLACE SYNONYM EDIOS_ADMIN.WELL_CORE_SAMPLE_DESC FOR PPDM.WELL_CORE_SAMPLE_DESC;
+
+
+DROP SYNONYM PPDM.WCRSD;
+
+CREATE OR REPLACE SYNONYM PPDM.WCRSD FOR PPDM.WELL_CORE_SAMPLE_DESC;
+
+
+GRANT SELECT ON PPDM.WELL_CORE_SAMPLE_DESC TO PPDM_RO;
